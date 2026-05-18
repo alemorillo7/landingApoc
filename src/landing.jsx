@@ -76,15 +76,50 @@ export default function Landing({ onStart }) {
 
           {/* VIDEO & QUALIFICATION SECTION */}
           <div className="lg:col-span-5 flex flex-col items-center">
-            <div className="w-full aspect-video bg-black rounded-3xl shadow-2xl overflow-hidden relative group cursor-pointer border-4 border-white/10">
-              {/* VIDEO PLACEHOLDER */}
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-tr from-[#435B47]/80 to-transparent">
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                  <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-[#435B47] border-b-[12px] border-b-transparent ml-1"></div>
-                </div>
+            {/* LIVE AUTOMATION MOCK TERMINAL */}
+            <div className="w-full bg-[#1e2a22] text-[#F5F7F6] rounded-3xl shadow-2xl p-6 border border-[#435B47]/30 relative overflow-hidden font-mono text-xs text-left">
+              {/* Window controls */}
+              <div className="flex gap-2 mb-6 pb-3 border-b border-[#435B47]/20">
+                <span className="w-3 h-3 rounded-full bg-[#ef4444]/80"></span>
+                <span className="w-3 h-3 rounded-full bg-[#f59e0b]/80"></span>
+                <span className="w-3 h-3 rounded-full bg-[#10b981]/80"></span>
+                <span className="ml-3 text-[10px] text-[#F5F7F6]/40 tracking-wider font-bold">APOC_OPERATIONS_FLOW</span>
               </div>
-              <div className="absolute bottom-6 left-6 right-6">
-                <p className="text-white text-sm font-bold uppercase tracking-widest opacity-80">Video: Cómo escalamos tu operación</p>
+              
+              {/* Steps */}
+              <div className="space-y-4">
+                <div className="flex items-start gap-3 p-3 bg-[#435B47]/20 rounded-2xl border border-[#435B47]/20">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#25D366]/20 text-[#25D366] font-bold text-[10px]">WA</span>
+                  <div>
+                    <p className="font-bold text-white">Lead de WhatsApp Recibido</p>
+                    <p className="text-[10px] text-[#F5F7F6]/60 mt-0.5">"Necesito automatizar nuestro flujo de ventas..."</p>
+                  </div>
+                  <span className="ml-auto text-[9px] bg-[#25D366]/10 text-[#25D366] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-[#25D366] rounded-full animate-ping"></span> Activo
+                  </span>
+                </div>
+
+                <div className="flex items-start gap-3 p-3 bg-[#435B47]/20 rounded-2xl border border-[#435B47]/20">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-red-500/20 text-red-400 font-bold text-[10px]">AI</span>
+                  <div>
+                    <p className="font-bold text-white">Clasificación IA APOC</p>
+                    <p className="text-[10px] text-[#F5F7F6]/60 mt-0.5">Interés: Diagnóstico. Calificación: Aprobado.</p>
+                  </div>
+                  <span className="ml-auto text-[9px] bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                    Analizado
+                  </span>
+                </div>
+
+                <div className="flex items-start gap-3 p-3 bg-[#435B47]/20 rounded-2xl border border-[#435B47]/20">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F5F7F6]/20 text-[#F5F7F6] font-bold text-[10px]">CRM</span>
+                  <div>
+                    <p className="font-bold text-white">Sincronización Automática</p>
+                    <p className="text-[10px] text-[#F5F7F6]/60 mt-0.5">Cita en Calendario agendada & alerta en Slack.</p>
+                  </div>
+                  <span className="ml-auto text-[9px] bg-[#F5F7F6]/10 text-white/90 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                    Listo
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -130,6 +165,111 @@ export default function Landing({ onStart }) {
         </div>
       </section>
 
+      {/* SERVICIOS SECTION */}
+      <section id="servicios" className="py-24 px-6 md:px-12 bg-[#F5F7F6] border-t border-[#435B47]/10 scroll-mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#435B47]/20 text-xs font-semibold mb-4 text-[#435B47]">
+              QUÉ HACEMOS
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 uppercase italic text-[#435B47]">
+              NUESTROS SERVICIOS
+            </h2>
+            <p className="text-lg opacity-80 font-light">
+              Diseñamos e implementamos soluciones a medida que automatizan tus tareas repetitivas y liberan el potencial de tu negocio.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-white p-8 rounded-3xl border border-[#435B47]/10 hover:shadow-xl transition-all group hover:-translate-y-1">
+              <div className="w-12 h-12 bg-[#435B47]/10 rounded-2xl flex items-center justify-center text-[#435B47] font-black text-sm mb-6 group-hover:bg-[#435B47] group-hover:text-white transition-all">
+                CRM
+              </div>
+              <h3 className="text-xl font-bold mb-4 text-[#435B47]">CRM & Ventas</h3>
+              <p className="text-sm opacity-80 leading-relaxed font-light">
+                Integramos tus campañas de marketing directamente con tu CRM (Hubspot, Pipedrive, etc.). Clasificación automática de leads y alertas en tiempo real.
+              </p>
+            </div>
+
+            <div className="bg-white p-8 rounded-3xl border border-[#435B47]/10 hover:shadow-xl transition-all group hover:-translate-y-1">
+              <div className="w-12 h-12 bg-[#435B47]/10 rounded-2xl flex items-center justify-center text-[#435B47] font-black text-sm mb-6 group-hover:bg-[#435B47] group-hover:text-white transition-all">
+                AI
+              </div>
+              <h3 className="text-xl font-bold mb-4 text-[#435B47]">Agentes de IA</h3>
+              <p className="text-sm opacity-80 leading-relaxed font-light">
+                Bots de atención inteligente en WhatsApp y Web. Califican leads calientes, responden consultas recurrentes y agendan llamadas autónomamente 24/7.
+              </p>
+            </div>
+
+            <div className="bg-white p-8 rounded-3xl border border-[#435B47]/10 hover:shadow-xl transition-all group hover:-translate-y-1">
+              <div className="w-12 h-12 bg-[#435B47]/10 rounded-2xl flex items-center justify-center text-[#435B47] font-black text-sm mb-6 group-hover:bg-[#435B47] group-hover:text-white transition-all">
+                API
+              </div>
+              <h3 className="text-xl font-bold mb-4 text-[#435B47]">Integración de Sistemas</h3>
+              <p className="text-sm opacity-80 leading-relaxed font-light">
+                Conectamos tus herramientas cotidianas (Slack, Sheets, ERP, WhatsApp) para que dejes de copiar y pegar datos manualmente entre pestañas.
+              </p>
+            </div>
+
+            <div className="bg-white p-8 rounded-3xl border border-[#435B47]/10 hover:shadow-xl transition-all group hover:-translate-y-1">
+              <div className="w-12 h-12 bg-[#435B47]/10 rounded-2xl flex items-center justify-center text-[#435B47] font-black text-sm mb-6 group-hover:bg-[#435B47] group-hover:text-white transition-all">
+                DB
+              </div>
+              <h3 className="text-xl font-bold mb-4 text-[#435B47]">Dashboards en Vivo</h3>
+              <p className="text-sm opacity-80 leading-relaxed font-light">
+                Visualización centralizada de tus métricas clave de negocio y ventas. Información en tiempo real para tomar decisiones estratégicas basadas en datos reales.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NUESTRO METODO SECTION */}
+      <section id="metodo" className="py-24 px-6 md:px-12 bg-white border-t border-[#435B47]/10 scroll-mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#435B47]/20 text-xs font-semibold mb-4 text-[#435B47]">
+              CÓMO TRABAJAMOS
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 uppercase italic text-[#435B47]">
+              NUESTROS PASOS
+            </h2>
+            <p className="text-lg opacity-80 font-light">
+              Un proceso ágil de 3 fases diseñado para automatizar tu negocio sin causar interrupciones en tu operación diaria.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-12 relative">
+            {/* Step 1 */}
+            <div className="relative flex flex-col p-8 bg-[#F5F7F6] rounded-3xl border border-[#435B47]/10">
+              <div className="text-5xl font-black text-[#435B47]/20 mb-4 font-mono">01</div>
+              <h3 className="text-2xl font-bold mb-4 text-[#435B47]">Diagnóstico & Diseño</h3>
+              <p className="text-sm opacity-80 leading-relaxed font-light">
+                Analizamos a fondo tus flujos de trabajo actuales y cuellos de botella. Creamos un plano de automatización a medida enfocado en el mayor retorno de inversión.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative flex flex-col p-8 bg-[#F5F7F6] rounded-3xl border border-[#435B47]/10">
+              <div className="text-5xl font-black text-[#435B47]/20 mb-4 font-mono">02</div>
+              <h3 className="text-2xl font-bold mb-4 text-[#435B47]">Desarrollo & Conexión</h3>
+              <p className="text-sm opacity-80 leading-relaxed font-light">
+                Construimos las integraciones, entrenamos a los agentes de Inteligencia Artificial y conectamos tus canales de comunicación de manera segura y transparente.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative flex flex-col p-8 bg-[#F5F7F6] rounded-3xl border border-[#435B47]/10">
+              <div className="text-5xl font-black text-[#435B47]/20 mb-4 font-mono">03</div>
+              <h3 className="text-2xl font-bold mb-4 text-[#435B47]">Lanzamiento & Soporte</h3>
+              <p className="text-sm opacity-80 leading-relaxed font-light">
+                Desplegamos las soluciones en producción, capacitamos a tu equipo y nos encargamos del monitoreo y la optimización continua para garantizar una estabilidad absoluta.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FINAL CTA */}
       <section className="py-32 px-6 md:px-12 bg-[#435B47] text-white text-center">
         <div className="max-w-3xl mx-auto">
@@ -145,9 +285,6 @@ export default function Landing({ onStart }) {
           >
             AGENDAR LLAMADA AHORA
           </button>
-          <p className="mt-8 text-sm opacity-50 font-semibold uppercase tracking-widest">
-            Proyectos de automatización desde USD 7.000
-          </p>
         </div>
       </section>
 
