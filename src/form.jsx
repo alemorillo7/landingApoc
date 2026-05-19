@@ -65,10 +65,41 @@ const steps = [
     }
 ];
 
+const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+const weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+
 const formatDateLabel = (dateStr) => {
     const d = new Date(dateStr + 'T12:00:00');
     const options = { weekday: 'short', day: 'numeric', month: 'short' };
     return d.toLocaleDateString('es-ES', options);
+};
+
+const getDaysInMonth = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    
+    let startDayOfWeek = firstDay.getDay(); // 0 for Sun, 1 for Mon, etc.
+    startDayOfWeek = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1; // convert to Monday-start
+
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    const days = [];
+    for (let i = 0; i < startDayOfWeek; i++) {
+        days.push(null);
+    }
+    for (let i = 1; i <= totalDays; i++) {
+        days.push(new Date(year, month, i));
+    }
+    return days;
+};
+
+const formatDateKey = (date) => {
+    if (!date) return "";
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
 };
 
 export default function Form({ onComplete }) {
@@ -80,6 +111,7 @@ export default function Form({ onComplete }) {
     const [loadingSlots, setLoadingSlots] = useState(false);
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
+    const [currentMonth, setCurrentMonth] = useState(new Date());
 
     const current = steps[step];
 
@@ -125,11 +157,21 @@ export default function Form({ onComplete }) {
         if (step > 0) setStep(step - 1);
     };
 
+    const nextMonth = () => {
+        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+    };
+
+    const prevMonth = () => {
+        const today = new Date();
+        if (currentMonth.getFullYear() === today.getFullYear() && currentMonth.getMonth() === today.getMonth()) return;
+        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
+    };
+
     const progress = ((step + 1) / steps.length) * 100;
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#435B47] p-6 selection:bg-white selection:text-[#435B47]">
-            <div className="bg-[#F5F7F6] p-10 md:p-16 rounded-3xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] max-w-2xl w-full relative overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center bg-[#435B47] p-4 md:p-6 selection:bg-white selection:text-[#435B47]">
+            <div className="bg-[#F5F7F6] p-6 md:p-12 rounded-3xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] max-w-3xl w-full relative overflow-hidden">
                 
                 {/* PROGRESS BAR */}
                 <div className="absolute top-0 left-0 w-full h-2 bg-black/5">
@@ -139,22 +181,22 @@ export default function Form({ onComplete }) {
                     ></div>
                 </div>
 
-                <div className="mb-12 relative">
+                <div className="mb-8 relative">
                    {step > 0 && (
                        <button 
                         onClick={prevStep}
-                        className="absolute -top-10 left-0 text-[#435B47]/40 hover:text-[#435B47] font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-1"
+                        className="absolute -top-8 left-0 text-[#435B47]/40 hover:text-[#435B47] font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-1 cursor-pointer"
                        >
                          ← Volver
                        </button>
                    )}
-                   <h3 className="text-[#435B47]/40 uppercase tracking-widest font-black text-xs mb-4">Paso {step + 1} de {steps.length}</h3>
-                   <h2 className="text-3xl md:text-4xl font-black text-[#435B47] leading-tight">
+                   <h3 className="text-[#435B47]/40 uppercase tracking-widest font-black text-xs mb-3">Paso {step + 1} de {steps.length}</h3>
+                   <h2 className="text-2xl md:text-3xl font-black text-[#435B47] leading-tight">
                         {current.question}
                     </h2>
                 </div>
 
-                <div className="mb-10">
+                <div className="mb-8">
                     {current.type === "text" && (
                         <input
                             type="text"
@@ -162,7 +204,7 @@ export default function Form({ onComplete }) {
                             value={data[current.field] || ""}
                             onChange={handleChange}
                             autoFocus
-                            className="w-full bg-transparent border-b-4 border-[#435B47] py-4 text-2xl font-bold focus:outline-none placeholder:opacity-20"
+                            className="w-full bg-transparent border-b-4 border-[#435B47] py-4 text-xl md:text-2xl font-bold focus:outline-none placeholder:opacity-20"
                         />
                     )}
 
@@ -173,7 +215,7 @@ export default function Form({ onComplete }) {
                             value={data[current.field] || ""}
                             onChange={handleChange}
                             autoFocus
-                            className="w-full bg-transparent border-b-4 border-[#435B47] py-4 text-2xl font-bold focus:outline-none placeholder:opacity-20"
+                            className="w-full bg-transparent border-b-4 border-[#435B47] py-4 text-xl md:text-2xl font-bold focus:outline-none placeholder:opacity-20"
                         />
                     )}
 
@@ -183,7 +225,7 @@ export default function Form({ onComplete }) {
                             value={data[current.field] || ""}
                             onChange={handleChange}
                             autoFocus
-                            className="w-full bg-transparent border-b-4 border-[#435B47] py-4 text-2xl font-bold focus:outline-none min-h-[120px] resize-none placeholder:opacity-20"
+                            className="w-full bg-transparent border-b-4 border-[#435B47] py-4 text-xl md:text-2xl font-bold focus:outline-none min-h-[120px] resize-none placeholder:opacity-20"
                         />
                     )}
 
@@ -196,7 +238,7 @@ export default function Form({ onComplete }) {
                                         setData({ ...data, [current.field]: opt });
                                         setTimeout(nextStep, 200);
                                     }}
-                                    className={`text-left p-5 rounded-xl border-2 transition-all font-bold text-lg ${
+                                    className={`text-left p-4 rounded-xl border-2 transition-all font-bold text-base md:text-lg cursor-pointer ${
                                         data[current.field] === opt 
                                         ? "bg-[#435B47] text-white border-[#435B47]" 
                                         : "bg-white border-[#435B47]/10 hover:border-[#435B47]"
@@ -239,77 +281,113 @@ export default function Form({ onComplete }) {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="space-y-6">
-                                    {/* SELECT DATE */}
-                                    <div>
-                                        <p className="text-xs font-black uppercase tracking-wider text-[#435B47]/50 mb-3">1. Selecciona un Día</p>
-                                        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#435B47]/20">
-                                            {Object.keys(slots)
-                                                .filter(dateStr => {
-                                                    // Only show days that have slots
-                                                    return slots[dateStr] && slots[dateStr].length > 0;
-                                                })
-                                                .slice(0, 10) // Show next 10 available days
-                                                .map(dateStr => {
-                                                    const isSelected = selectedDate === dateStr;
-                                                    return (
-                                                        <button
-                                                            key={dateStr}
-                                                            type="button"
-                                                            onClick={() => {
-                                                                setSelectedDate(dateStr);
-                                                                setSelectedTime(""); // reset selected time
-                                                                setData(d => ({ ...d, date: dateStr, time: "" }));
-                                                            }}
-                                                            className={`flex-shrink-0 px-4 py-3 rounded-xl border-2 font-bold text-sm transition-all cursor-pointer ${
-                                                                isSelected 
-                                                                ? "bg-[#435B47] text-white border-[#435B47] scale-102" 
-                                                                : "bg-white text-[#435B47] border-[#435B47]/10 hover:border-[#435B47]/40"
-                                                            }`}
-                                                        >
-                                                            {formatDateLabel(dateStr)}
-                                                        </button>
-                                                    );
-                                                })}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    {/* CALENDAR MONTH GRID */}
+                                    <div className="bg-white p-4 rounded-2xl border border-[#435B47]/10 shadow-sm">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <button 
+                                                type="button"
+                                                onClick={prevMonth}
+                                                className="p-1 px-3 text-[#435B47] hover:bg-[#435B47]/5 rounded-lg transition-colors cursor-pointer font-black"
+                                            >
+                                                &larr;
+                                            </button>
+                                            <h4 className="font-extrabold text-[#435B47] text-sm md:text-base capitalize">
+                                                {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                                            </h4>
+                                            <button 
+                                                type="button"
+                                                onClick={nextMonth}
+                                                className="p-1 px-3 text-[#435B47] hover:bg-[#435B47]/5 rounded-lg transition-colors cursor-pointer font-black"
+                                            >
+                                                &rarr;
+                                            </button>
+                                        </div>
+
+                                        {/* Weekdays Header */}
+                                        <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-black text-[#435B47]/40 uppercase mb-2">
+                                            {weekDays.map(d => <div key={d}>{d}</div>)}
+                                        </div>
+
+                                        {/* Days Grid */}
+                                        <div className="grid grid-cols-7 gap-1">
+                                            {getDaysInMonth(currentMonth).map((day, index) => {
+                                                if (!day) {
+                                                    return <div key={`empty-${index}`} className="aspect-square"></div>;
+                                                }
+                                                const dayKey = formatDateKey(day);
+                                                const hasSlots = slots[dayKey] && slots[dayKey].length > 0;
+                                                const isSelected = selectedDate === dayKey;
+                                                
+                                                return (
+                                                    <button
+                                                        key={dayKey}
+                                                        type="button"
+                                                        disabled={!hasSlots}
+                                                        onClick={() => {
+                                                            setSelectedDate(dayKey);
+                                                            setSelectedTime("");
+                                                            setData(d => ({ ...d, date: dayKey, time: "" }));
+                                                        }}
+                                                        className={`aspect-square w-full rounded-xl text-xs md:text-sm font-bold flex flex-col items-center justify-center relative transition-all ${
+                                                            isSelected
+                                                            ? "bg-[#435B47] text-white shadow-md shadow-[#435B47]/20 scale-105"
+                                                            : hasSlots
+                                                            ? "bg-[#435B47]/5 text-[#435B47] hover:bg-[#435B47]/15 cursor-pointer"
+                                                            : "text-black/10 cursor-not-allowed"
+                                                        }`}
+                                                    >
+                                                        <span>{day.getDate()}</span>
+                                                        {hasSlots && !isSelected && (
+                                                            <span className="w-1 h-1 rounded-full bg-[#435B47] absolute bottom-1"></span>
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
                                         </div>
                                     </div>
 
-                                    {/* SELECT TIME */}
-                                    {selectedDate ? (
-                                        <div>
-                                            <p className="text-xs font-black uppercase tracking-wider text-[#435B47]/50 mb-3">2. Selecciona un Horario</p>
-                                            {slots[selectedDate] && slots[selectedDate].length > 0 ? (
-                                                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-[180px] overflow-y-auto pr-1">
-                                                    {slots[selectedDate].map(timeStr => {
-                                                        const isSelected = selectedTime === timeStr;
-                                                        return (
-                                                            <button
-                                                                key={timeStr}
-                                                                type="button"
-                                                                onClick={() => {
-                                                                    setSelectedTime(timeStr);
-                                                                    setData(d => ({ ...d, time: timeStr }));
-                                                                }}
-                                                                className={`py-3 rounded-lg border-2 font-bold text-sm transition-all text-center cursor-pointer ${
-                                                                    isSelected 
-                                                                    ? "bg-[#435B47] text-white border-[#435B47]" 
-                                                                    : "bg-white text-[#435B47] border-[#435B47]/10 hover:border-[#435B47]/40"
-                                                                }`}
-                                                            >
-                                                                {timeStr}
-                                                            </button>
-                                                        );
-                                                    })}
-                                                </div>
+                                    {/* TIME SLOTS PANEL */}
+                                    <div className="bg-white/60 p-4 rounded-2xl border border-[#435B47]/5 min-h-[260px] flex flex-col justify-between">
+                                        <div className="w-full">
+                                            <p className="text-xs font-black uppercase tracking-wider text-[#435B47]/50 mb-3">
+                                                {selectedDate ? `Horarios para el ${formatDateLabel(selectedDate)}` : "Selecciona un día"}
+                                            </p>
+                                            
+                                            {selectedDate ? (
+                                                slots[selectedDate] && slots[selectedDate].length > 0 ? (
+                                                    <div className="grid grid-cols-2 gap-2 max-h-[190px] overflow-y-auto pr-1">
+                                                        {slots[selectedDate].map(timeStr => {
+                                                            const isSelected = selectedTime === timeStr;
+                                                            return (
+                                                                <button
+                                                                    key={timeStr}
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        setSelectedTime(timeStr);
+                                                                        setData(d => ({ ...d, time: timeStr }));
+                                                                    }}
+                                                                    className={`py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all text-center cursor-pointer ${
+                                                                        isSelected 
+                                                                        ? "bg-[#435B47] text-white border-[#435B47]" 
+                                                                        : "bg-white text-[#435B47] border-[#435B47]/10 hover:border-[#435B47]/40"
+                                                                    }`}
+                                                                >
+                                                                    {timeStr} hs
+                                                                </button>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-sm font-medium text-red-500">No hay horarios disponibles.</p>
+                                                )
                                             ) : (
-                                                <p className="text-sm font-medium text-red-500">No hay horarios disponibles para este día.</p>
+                                                <div className="text-center py-8">
+                                                    <p className="text-xs md:text-sm font-bold text-[#435B47]/60">Haz clic en un día destacado del calendario para ver las horas disponibles.</p>
+                                                </div>
                                             )}
                                         </div>
-                                    ) : (
-                                        <div className="text-center py-6 bg-white/40 border border-[#435B47]/5 rounded-2xl">
-                                            <p className="text-sm font-bold text-[#435B47]/60">Selecciona un día arriba para ver los horarios disponibles.</p>
-                                        </div>
-                                    )}
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -319,13 +397,13 @@ export default function Form({ onComplete }) {
                 {current.type !== "select" && (
                     <button
                         onClick={nextStep}
-                        className="bg-[#435B47] text-white px-10 py-5 rounded-2xl w-full text-xl font-black hover:scale-[1.02] transition-transform shadow-xl shadow-[#435B47]/20 cursor-pointer"
+                        className="bg-[#435B47] text-white px-10 py-5 rounded-2xl w-full text-lg md:text-xl font-black hover:scale-[1.02] transition-transform shadow-xl shadow-[#435B47]/20 cursor-pointer"
                     >
                         {step === steps.length - 1 ? "CONFIRMAR Y AGENDAR CITA →" : "CONTINUAR →"}
                     </button>
                 )}
 
-                <p className="text-xs mt-10 text-[#435B47]/40 font-bold uppercase tracking-tighter text-center">
+                <p className="text-xs mt-8 text-[#435B47]/40 font-bold uppercase tracking-tighter text-center">
                     Tus datos están seguros. Solo los usamos para preparar tu diagnóstico.
                 </p>
 
