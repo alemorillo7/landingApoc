@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const steps = [
     {
@@ -52,49 +52,66 @@ const steps = [
         placeholder: "nombre@empresa.com"
     },
     {
-        question: "¿Qué día te quedaría más cómodo?",
-        field: "availability_day",
-        type: "select",
-        options: [
-            "Lunes",
-            "Martes",
-            "Miércoles",
-            "Jueves",
-            "Viernes",
-            "Cualquier día de la semana"
-        ]
-    },
-    {
-        question: "¿En qué horario prefieres la reunión?",
-        field: "availability_time",
-        type: "select",
-        options: [
-            "Mañana (9:00 - 13:00)",
-            "Tarde (14:00 - 18:00)",
-            "Indiferente / Otro"
-        ]
-    },
-    {
         question: "Dejanos tu número de WhatsApp (opcional)",
         field: "phone",
         type: "text",
         placeholder: "+54 9 11 ...",
         optional: true
     },
+    {
+        question: "Elige el día y la hora para tu diagnóstico en vivo",
+        field: "appointment",
+        type: "calendar"
+    }
 ];
+
+const formatDateLabel = (dateStr) => {
+    const d = new Date(dateStr + 'T12:00:00');
+    const options = { weekday: 'short', day: 'numeric', month: 'short' };
+    return d.toLocaleDateString('es-ES', options);
+};
 
 export default function Form({ onComplete }) {
     const [step, setStep] = useState(0);
     const [data, setData] = useState({});
 
+    // Slots & Calendar states
+    const [slots, setSlots] = useState({});
+    const [loadingSlots, setLoadingSlots] = useState(false);
+    const [selectedDate, setSelectedDate] = useState("");
+    const [selectedTime, setSelectedTime] = useState("");
+
     const current = steps[step];
+
+    // Fetch slots when reaching the calendar step
+    useEffect(() => {
+        if (current && current.type === "calendar") {
+            const today = new Date().toISOString().split('T')[0];
+            setLoadingSlots(true);
+            fetch(`https://apoc-crm.vercel.app/api/calendar/slots?start_date=${today}`)
+                .then(res => res.json())
+                .then(resData => {
+                    if (resData.success && resData.data) {
+                        setSlots(resData.data.available_slots || {});
+                    }
+                })
+                .catch(err => console.error("Error fetching slots:", err))
+                .finally(() => setLoadingSlots(false));
+        }
+    }, [step]);
 
     const handleChange = (e) => {
         setData({ ...data, [current.field]: e.target.value });
     };
 
     const nextStep = () => {
-        if (!current.optional && !data[current.field] && current.type !== "select") return alert("Por favor, completa este campo.");
+        if (current.type === "calendar") {
+            if (!data.date || !data.time) return alert("Por favor, selecciona un día y un horario.");
+        } else {
+            if (!current.optional && !data[current.field] && current.type !== "select") {
+                return alert("Por favor, completa este campo.");
+            }
+        }
         
         if (step < steps.length - 1) {
             setStep(step + 1);
@@ -190,14 +207,121 @@ export default function Form({ onComplete }) {
                             ))}
                         </div>
                     )}
+
+                    {current.type === "calendar" && (
+                        <div>
+                            {loadingSlots ? (
+                                <div className="flex flex-col items-center justify-center py-12">
+                                    <div className="w-12 h-12 border-4 border-[#435B47] border-t-transparent rounded-full animate-spin mb-4"></div>
+                                    <p className="text-[#435B47] font-bold text-center">Buscando disponibilidad en tiempo real...</p>
+                                </div>
+                            ) : Object.keys(slots).length === 0 ? (
+                                <div className="text-center py-8">
+                                    <p className="text-red-500 font-bold mb-4">No hay turnos disponibles configurados.</p>
+                                    <button 
+                                        type="button"
+                                        onClick={() => {
+                                            const today = new Date().toISOString().split('T')[0];
+                                            setLoadingSlots(true);
+                                            fetch(`https://apoc-crm.vercel.app/api/calendar/slots?start_date=${today}`)
+                                                .then(res => res.json())
+                                                .then(resData => {
+                                                    if (resData.success && resData.data) {
+                                                        setSlots(resData.data.available_slots || {});
+                                                    }
+                                                })
+                                                .catch(err => console.error("Error:", err))
+                                                .finally(() => setLoadingSlots(false));
+                                        }}
+                                        className="bg-[#435B47] text-white px-6 py-3 rounded-xl font-bold cursor-pointer transition-all hover:opacity-90 active:scale-95"
+                                    >
+                                        Reintentar
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="space-y-6">
+                                    {/* SELECT DATE */}
+                                    <div>
+                                        <p className="text-xs font-black uppercase tracking-wider text-[#435B47]/50 mb-3">1. Selecciona un Día</p>
+                                        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#435B47]/20">
+                                            {Object.keys(slots)
+                                                .filter(dateStr => {
+                                                    // Only show days that have slots
+                                                    return slots[dateStr] && slots[dateStr].length > 0;
+                                                })
+                                                .slice(0, 10) // Show next 10 available days
+                                                .map(dateStr => {
+                                                    const isSelected = selectedDate === dateStr;
+                                                    return (
+                                                        <button
+                                                            key={dateStr}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setSelectedDate(dateStr);
+                                                                setSelectedTime(""); // reset selected time
+                                                                setData(d => ({ ...d, date: dateStr, time: "" }));
+                                                            }}
+                                                            className={`flex-shrink-0 px-4 py-3 rounded-xl border-2 font-bold text-sm transition-all cursor-pointer ${
+                                                                isSelected 
+                                                                ? "bg-[#435B47] text-white border-[#435B47] scale-102" 
+                                                                : "bg-white text-[#435B47] border-[#435B47]/10 hover:border-[#435B47]/40"
+                                                            }`}
+                                                        >
+                                                            {formatDateLabel(dateStr)}
+                                                        </button>
+                                                    );
+                                                })}
+                                        </div>
+                                    </div>
+
+                                    {/* SELECT TIME */}
+                                    {selectedDate ? (
+                                        <div>
+                                            <p className="text-xs font-black uppercase tracking-wider text-[#435B47]/50 mb-3">2. Selecciona un Horario</p>
+                                            {slots[selectedDate] && slots[selectedDate].length > 0 ? (
+                                                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-[180px] overflow-y-auto pr-1">
+                                                    {slots[selectedDate].map(timeStr => {
+                                                        const isSelected = selectedTime === timeStr;
+                                                        return (
+                                                            <button
+                                                                key={timeStr}
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    setSelectedTime(timeStr);
+                                                                    setData(d => ({ ...d, time: timeStr }));
+                                                                }}
+                                                                className={`py-3 rounded-lg border-2 font-bold text-sm transition-all text-center cursor-pointer ${
+                                                                    isSelected 
+                                                                    ? "bg-[#435B47] text-white border-[#435B47]" 
+                                                                    : "bg-white text-[#435B47] border-[#435B47]/10 hover:border-[#435B47]/40"
+                                                                }`}
+                                                            >
+                                                                {timeStr}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
+                                            ) : (
+                                                <p className="text-sm font-medium text-red-500">No hay horarios disponibles para este día.</p>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="text-center py-6 bg-white/40 border border-[#435B47]/5 rounded-2xl">
+                                            <p className="text-sm font-bold text-[#435B47]/60">Selecciona un día arriba para ver los horarios disponibles.</p>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {current.type !== "select" && (
                     <button
                         onClick={nextStep}
-                        className="bg-[#435B47] text-white px-10 py-5 rounded-2xl w-full text-xl font-black hover:scale-[1.02] transition-transform shadow-xl shadow-[#435B47]/20"
+                        className="bg-[#435B47] text-white px-10 py-5 rounded-2xl w-full text-xl font-black hover:scale-[1.02] transition-transform shadow-xl shadow-[#435B47]/20 cursor-pointer"
                     >
-                        CONTINUAR →
+                        {step === steps.length - 1 ? "CONFIRMAR Y AGENDAR CITA →" : "CONTINUAR →"}
                     </button>
                 )}
 

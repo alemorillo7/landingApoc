@@ -40,6 +40,37 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+
+      // Agendar cita automáticamente en el CRM de APOC
+      if (data.date && data.time) {
+        const [hoursStr, minutesStr] = data.time.split(':');
+        const hours = parseInt(hoursStr);
+        const minutes = parseInt(minutesStr);
+        let endH = minutes === 30 ? hours + 1 : hours;
+        let endM = minutes === 30 ? '00' : '30';
+        const end_time = `${endH.toString().padStart(2, '0')}:${endM}`;
+
+        await fetch('https://apoc-crm.vercel.app/api/calendar/schedule', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: `Diagnóstico APOC - ${data.industry || 'Cliente'}`,
+            date: data.date,
+            start_time: data.time,
+            end_time: end_time,
+            description: `Reunión de diagnóstico agendada automáticamente desde la Landing Page.
+            
+Detalles del Lead:
+• Rubro / Industria: ${data.industry || 'No especificado'}
+• Proceso Crítico: ${data.problem || 'No especificado'}
+• Urgencia: ${data.urgency || 'No especificada'}
+• Facturación: ${data.revenue || 'No especificada'}
+• Presupuesto: ${data.budget || 'No especificado'}
+• WhatsApp: ${data.phone || 'No especificado'}`,
+            guests: data.email
+          })
+        }).catch(err => console.error("Error agendando cita en CRM:", err));
+      }
   
       // Disparar evento Lead en Meta Pixel
       if (typeof window.fbq === 'function') {
