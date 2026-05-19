@@ -4,18 +4,41 @@ import Landing from './landing.jsx'
 import Form from './form.jsx'
 import './index.css'
 
-function Success() {
+function Success({ data }) {
+  let formattedDate = "";
+  if (data?.date) {
+    const d = new Date(data.date + 'T12:00:00');
+    const options = { weekday: 'long', day: 'numeric', month: 'long' };
+    formattedDate = d.toLocaleDateString('es-ES', options);
+  }
+
   return (
-    <div className="min-h-screen bg-[#435B47] flex flex-col items-center justify-center text-[#F5F7F6] p-6 text-center">
-      <div className="animate-fade-in">
-        <h1 className="text-5xl md:text-7xl font-black mb-8 uppercase italic tracking-tighter">¡Recibido!</h1>
-        <p className="text-2xl font-light mb-12 max-w-2xl opacity-80 leading-relaxed">
-          Estamos analizando tus respuestas. En menos de 24 horas te contactaremos para coordinar los siguientes pasos.
+    <div className="min-h-screen bg-[#435B47] flex flex-col items-center justify-center text-[#F5F7F6] p-6 text-center selection:bg-white selection:text-[#435B47]">
+      <div className="animate-fade-in max-w-2xl">
+        <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
+          <span className="text-4xl">🎉</span>
+        </div>
+        <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase italic tracking-tighter">¡Cita Confirmada!</h1>
+        <p className="text-xl md:text-2xl font-light mb-8 opacity-90 leading-relaxed">
+          Tu diagnóstico en vivo ha sido agendado con éxito.
         </p>
-        <div className="w-16 h-1 bg-white/20 mx-auto mb-12"></div>
+        
+        {data?.date && data?.time && (
+          <div className="bg-white/10 p-6 rounded-2xl border border-white/10 mb-8 max-w-md mx-auto">
+            <p className="text-xs uppercase tracking-widest font-black text-white/50 mb-2">Día y Horario Seleccionado</p>
+            <p className="text-xl md:text-2xl font-bold capitalize mb-1">{formattedDate}</p>
+            <p className="text-lg font-medium opacity-80">{data.time} hs</p>
+          </div>
+        )}
+
+        <p className="text-sm md:text-base font-bold opacity-60 mb-10 max-w-md mx-auto leading-relaxed">
+          Te enviamos la invitación por correo electrónico y nos pondremos en contacto vía WhatsApp para coordinar los accesos de la llamada. ¡Nos vemos en la reunión!
+        </p>
+        
+        <div className="w-16 h-1 bg-white/20 mx-auto mb-8"></div>
         <button
           onClick={() => window.location.reload()}
-          className="text-sm font-bold uppercase tracking-[0.3em] opacity-40 hover:opacity-100 transition-opacity"
+          className="text-xs font-black uppercase tracking-[0.3em] opacity-40 hover:opacity-100 transition-opacity cursor-pointer"
         >
           ← Volver al inicio
         </button>
