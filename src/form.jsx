@@ -52,11 +52,10 @@ const steps = [
         placeholder: "nombre@empresa.com"
     },
     {
-        question: "Dejanos tu número de WhatsApp (opcional)",
+        question: "Dejanos tu número de WhatsApp",
         field: "phone",
         type: "text",
-        placeholder: "+54 9 11 ...",
-        optional: true
+        placeholder: "+54 9 11 ..."
     },
     {
         question: "Elige el día y la hora para tu diagnóstico en vivo",
