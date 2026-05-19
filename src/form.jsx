@@ -67,6 +67,45 @@ const steps = [
 const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 const weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 
+const getArgentinaNow = () => {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Argentina/Buenos_Aires",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false
+    });
+    const parts = formatter.formatToParts(now);
+    const dateParts = {};
+    parts.forEach(({ type, value }) => {
+        dateParts[type] = value;
+    });
+    return new Date(
+        Number(dateParts.year),
+        Number(dateParts.month) - 1,
+        Number(dateParts.day),
+        Number(dateParts.hour),
+        Number(dateParts.minute),
+        Number(dateParts.second)
+    );
+};
+
+const isSlotTooEarly = (dayKey, timeStr) => {
+    if (!dayKey || !timeStr) return true;
+    const [year, month, day] = dayKey.split('-').map(Number);
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const slotDate = new Date(year, month - 1, day, hours, minutes, 0);
+    
+    const argNow = getArgentinaNow();
+    const minAllowedDate = new Date(argNow.getTime() + 2 * 60 * 60 * 1000); // Ahora + 2 horas
+    
+    return slotDate < minAllowedDate;
+};
+
 const formatDateLabel = (dateStr) => {
     const d = new Date(dateStr + 'T12:00:00');
     const options = { weekday: 'short', day: 'numeric', month: 'short' };
@@ -111,6 +150,11 @@ export default function Form({ onComplete }) {
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
     const [currentMonth, setCurrentMonth] = useState(new Date());
+
+    const getAvailableTimes = (dayKey) => {
+        if (!slots[dayKey]) return [];
+        return slots[dayKey].filter(timeStr => !isSlotTooEarly(dayKey, timeStr));
+    };
 
     const current = steps[step];
 
@@ -280,111 +324,125 @@ export default function Form({ onComplete }) {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                                    {/* CALENDAR MONTH GRID */}
-                                    <div className="bg-white p-4 rounded-2xl border border-[#435B47]/10 shadow-sm">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <button 
-                                                type="button"
-                                                onClick={prevMonth}
-                                                className="p-1 px-3 text-[#435B47] hover:bg-[#435B47]/5 rounded-lg transition-colors cursor-pointer font-black"
-                                            >
-                                                &larr;
-                                            </button>
-                                            <h4 className="font-extrabold text-[#435B47] text-sm md:text-base capitalize">
-                                                {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-                                            </h4>
-                                            <button 
-                                                type="button"
-                                                onClick={nextMonth}
-                                                className="p-1 px-3 text-[#435B47] hover:bg-[#435B47]/5 rounded-lg transition-colors cursor-pointer font-black"
-                                            >
-                                                &rarr;
-                                            </button>
-                                        </div>
-
-                                        {/* Weekdays Header */}
-                                        <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-black text-[#435B47]/40 uppercase mb-2">
-                                            {weekDays.map(d => <div key={d}>{d}</div>)}
-                                        </div>
-
-                                        {/* Days Grid */}
-                                        <div className="grid grid-cols-7 gap-1">
-                                            {getDaysInMonth(currentMonth).map((day, index) => {
-                                                if (!day) {
-                                                    return <div key={`empty-${index}`} className="aspect-square"></div>;
-                                                }
-                                                const dayKey = formatDateKey(day);
-                                                const hasSlots = slots[dayKey] && slots[dayKey].length > 0;
-                                                const isSelected = selectedDate === dayKey;
-                                                
-                                                return (
-                                                    <button
-                                                        key={dayKey}
-                                                        type="button"
-                                                        disabled={!hasSlots}
-                                                        onClick={() => {
-                                                            setSelectedDate(dayKey);
-                                                            setSelectedTime("");
-                                                            setData(d => ({ ...d, date: dayKey, time: "" }));
-                                                        }}
-                                                        className={`aspect-square w-full rounded-xl text-xs md:text-sm font-bold flex flex-col items-center justify-center relative transition-all ${
-                                                            isSelected
-                                                            ? "bg-[#435B47] text-white shadow-md shadow-[#435B47]/20 scale-105"
-                                                            : hasSlots
-                                                            ? "bg-[#435B47]/5 text-[#435B47] hover:bg-[#435B47]/15 cursor-pointer"
-                                                            : "text-black/10 cursor-not-allowed"
-                                                        }`}
-                                                    >
-                                                        <span>{day.getDate()}</span>
-                                                        {hasSlots && !isSelected && (
-                                                            <span className="w-1 h-1 rounded-full bg-[#435B47] absolute bottom-1"></span>
-                                                        )}
-                                                    </button>
-                                                );
-                                            })}
+                                <div>
+                                    {/* ALERTA DE ZONA HORARIA */}
+                                    <div className="bg-[#435B47]/5 border border-[#435B47]/15 rounded-2xl p-4 mb-6 flex items-center gap-3.5 shadow-sm text-left animate-fade-in">
+                                        <span className="text-2xl animate-bounce select-none">🇦🇷</span>
+                                        <div>
+                                            <h5 className="text-xs font-black text-[#435B47] uppercase tracking-wider mb-0.5">Zona Horaria: Argentina (GMT-3)</h5>
+                                            <p className="text-xs text-[#435B47]/75 font-semibold leading-normal">
+                                                Todos los horarios se muestran en hora de Argentina. Por favor, ten en cuenta la diferencia horaria si te encuentras en otro país.
+                                            </p>
                                         </div>
                                     </div>
 
-                                    {/* TIME SLOTS PANEL */}
-                                    <div className="bg-white/60 p-4 rounded-2xl border border-[#435B47]/5 min-h-[260px] flex flex-col justify-between">
-                                        <div className="w-full">
-                                            <p className="text-xs font-black uppercase tracking-wider text-[#435B47]/50 mb-3">
-                                                {selectedDate ? `Horarios para el ${formatDateLabel(selectedDate)}` : "Selecciona un día"}
-                                            </p>
-                                            
-                                            {selectedDate ? (
-                                                slots[selectedDate] && slots[selectedDate].length > 0 ? (
-                                                    <div className="grid grid-cols-2 gap-2 max-h-[190px] overflow-y-auto pr-1">
-                                                        {slots[selectedDate].map(timeStr => {
-                                                            const isSelected = selectedTime === timeStr;
-                                                            return (
-                                                                <button
-                                                                    key={timeStr}
-                                                                    type="button"
-                                                                    onClick={() => {
-                                                                        setSelectedTime(timeStr);
-                                                                        setData(d => ({ ...d, time: timeStr }));
-                                                                    }}
-                                                                    className={`py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all text-center cursor-pointer ${
-                                                                        isSelected 
-                                                                        ? "bg-[#435B47] text-white border-[#435B47]" 
-                                                                        : "bg-white text-[#435B47] border-[#435B47]/10 hover:border-[#435B47]/40"
-                                                                    }`}
-                                                                >
-                                                                    {timeStr} hs
-                                                                </button>
-                                                            );
-                                                        })}
-                                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                        {/* CALENDAR MONTH GRID */}
+                                        <div className="bg-white p-4 rounded-2xl border border-[#435B47]/10 shadow-sm">
+                                            <div className="flex items-center justify-between mb-4">
+                                                <button 
+                                                    type="button"
+                                                    onClick={prevMonth}
+                                                    className="p-1 px-3 text-[#435B47] hover:bg-[#435B47]/5 rounded-lg transition-colors cursor-pointer font-black"
+                                                >
+                                                    &larr;
+                                                </button>
+                                                <h4 className="font-extrabold text-[#435B47] text-sm md:text-base capitalize">
+                                                    {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                                                </h4>
+                                                <button 
+                                                    type="button"
+                                                    onClick={nextMonth}
+                                                    className="p-1 px-3 text-[#435B47] hover:bg-[#435B47]/5 rounded-lg transition-colors cursor-pointer font-black"
+                                                >
+                                                    &rarr;
+                                                </button>
+                                            </div>
+
+                                            {/* Weekdays Header */}
+                                            <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-black text-[#435B47]/40 uppercase mb-2">
+                                                {weekDays.map(d => <div key={d}>{d}</div>)}
+                                            </div>
+
+                                            {/* Days Grid */}
+                                            <div className="grid grid-cols-7 gap-1">
+                                                {getDaysInMonth(currentMonth).map((day, index) => {
+                                                    if (!day) {
+                                                        return <div key={`empty-${index}`} className="aspect-square"></div>;
+                                                    }
+                                                    const dayKey = formatDateKey(day);
+                                                    const daySlots = getAvailableTimes(dayKey);
+                                                    const hasSlots = daySlots.length > 0;
+                                                    const isSelected = selectedDate === dayKey;
+                                                    
+                                                    return (
+                                                        <button
+                                                            key={dayKey}
+                                                            type="button"
+                                                            disabled={!hasSlots}
+                                                            onClick={() => {
+                                                                setSelectedDate(dayKey);
+                                                                setSelectedTime("");
+                                                                setData(d => ({ ...d, date: dayKey, time: "" }));
+                                                            }}
+                                                            className={`aspect-square w-full rounded-xl text-xs md:text-sm font-bold flex flex-col items-center justify-center relative transition-all ${
+                                                                isSelected
+                                                                ? "bg-[#435B47] text-white shadow-md shadow-[#435B47]/20 scale-105"
+                                                                : hasSlots
+                                                                ? "bg-[#435B47]/5 text-[#435B47] hover:bg-[#435B47]/15 cursor-pointer"
+                                                                : "text-black/10 cursor-not-allowed"
+                                                            }`}
+                                                        >
+                                                            <span>{day.getDate()}</span>
+                                                            {hasSlots && !isSelected && (
+                                                                <span className="w-1 h-1 rounded-full bg-[#435B47] absolute bottom-1"></span>
+                                                            )}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+
+                                        {/* TIME SLOTS PANEL */}
+                                        <div className="bg-white/60 p-4 rounded-2xl border border-[#435B47]/5 min-h-[260px] flex flex-col justify-between">
+                                            <div className="w-full">
+                                                <p className="text-xs font-black uppercase tracking-wider text-[#435B47]/50 mb-3 text-left">
+                                                    {selectedDate ? `Horarios para el ${formatDateLabel(selectedDate)}` : "Selecciona un día"}
+                                                </p>
+                                                
+                                                {selectedDate ? (
+                                                    getAvailableTimes(selectedDate).length > 0 ? (
+                                                        <div className="grid grid-cols-2 gap-2 max-h-[190px] overflow-y-auto pr-1">
+                                                            {getAvailableTimes(selectedDate).map(timeStr => {
+                                                                const isSelected = selectedTime === timeStr;
+                                                                return (
+                                                                    <button
+                                                                        key={timeStr}
+                                                                        type="button"
+                                                                        onClick={() => {
+                                                                            setSelectedTime(timeStr);
+                                                                            setData(d => ({ ...d, time: timeStr }));
+                                                                        }}
+                                                                        className={`py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all text-center cursor-pointer ${
+                                                                            isSelected 
+                                                                            ? "bg-[#435B47] text-white border-[#435B47]" 
+                                                                            : "bg-white text-[#435B47] border-[#435B47]/10 hover:border-[#435B47]/40"
+                                                                        }`}
+                                                                    >
+                                                                        {timeStr} hs
+                                                                    </button>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-sm font-medium text-red-500 text-left">No hay horarios disponibles.</p>
+                                                    )
                                                 ) : (
-                                                    <p className="text-sm font-medium text-red-500">No hay horarios disponibles.</p>
-                                                )
-                                            ) : (
-                                                <div className="text-center py-8">
-                                                    <p className="text-xs md:text-sm font-bold text-[#435B47]/60">Haz clic en un día destacado del calendario para ver las horas disponibles.</p>
-                                                </div>
-                                            )}
+                                                    <div className="text-center py-8">
+                                                        <p className="text-xs md:text-sm font-bold text-[#435B47]/60">Haz clic en un día destacado del calendario para ver las horas disponibles.</p>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
