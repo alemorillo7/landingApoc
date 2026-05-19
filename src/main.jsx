@@ -41,6 +41,16 @@ function App() {
         body: JSON.stringify(data),
       });
   
+      // Disparar evento Lead en Meta Pixel
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Lead', {
+          content_name: data.email || 'landing_form',
+          content_category: data.industry || '',
+          value: 0,
+          currency: 'USD',
+        });
+      }
+
       setLeadData(data);
     } catch (error) {
       console.error("Error enviando lead:", error);
@@ -50,6 +60,17 @@ function App() {
       setSubmitting(false);
       setShowForm(false);
     }
+  };
+
+  const handleStartForm = () => {
+    // Disparar evento InitiateCheckout en Meta Pixel
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'InitiateCheckout', {
+        content_name: 'diagnostico_gratuito',
+        content_category: 'funnel_start'
+      });
+    }
+    setShowForm(true);
   };
 
   if (submitting) {
@@ -68,7 +89,7 @@ function App() {
       ) : showForm ? (
         <Form onComplete={handleSubmit} />
       ) : (
-        <Landing onStart={() => setShowForm(true)} />
+        <Landing onStart={handleStartForm} />
       )}
     </>
   );
