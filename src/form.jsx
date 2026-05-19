@@ -88,7 +88,7 @@ export default function Form({ onComplete }) {
         if (current && current.type === "calendar") {
             const today = new Date().toISOString().split('T')[0];
             setLoadingSlots(true);
-            fetch(`https://apoc-crm.vercel.app/api/calendar/slots?start_date=${today}`)
+            fetch(`https://apocrm-one.vercel.app/api/calendar/slots?start_date=${today}`)
                 .then(res => res.json())
                 .then(resData => {
                     if (resData.success && resData.data) {
@@ -223,7 +223,7 @@ export default function Form({ onComplete }) {
                                         onClick={() => {
                                             const today = new Date().toISOString().split('T')[0];
                                             setLoadingSlots(true);
-                                            fetch(`https://apoc-crm.vercel.app/api/calendar/slots?start_date=${today}`)
+                                            fetch(`https://apocrm-one.vercel.app/api/calendar/slots?start_date=${today}`)
                                                 .then(res => res.json())
                                                 .then(resData => {
                                                     if (resData.success && resData.data) {

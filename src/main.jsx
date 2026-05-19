@@ -50,7 +50,7 @@ function App() {
         let endM = minutes === 30 ? '00' : '30';
         const end_time = `${endH.toString().padStart(2, '0')}:${endM}`;
 
-        await fetch('https://apoc-crm.vercel.app/api/calendar/schedule', {
+        await fetch('https://apocrm-one.vercel.app/api/calendar/schedule', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
