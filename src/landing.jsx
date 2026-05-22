@@ -561,3 +561,5 @@ export default function Landing({ onStart }) {
     </div>
   );
 }
+
+// Trigger Vercel build
