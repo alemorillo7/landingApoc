@@ -213,33 +213,33 @@ export default function Form({ onComplete }) {
     const progress = ((step + 1) / steps.length) * 100;
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#435B47] p-4 md:p-6 selection:bg-white selection:text-[#435B47]">
-            <div className="bg-[#F5F7F6] p-6 md:p-12 rounded-3xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] max-w-3xl w-full relative overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.16),transparent_24%),linear-gradient(180deg,#070908_0%,#0b0f0c_100%)] p-3 md:p-6 selection:bg-[#8a9979] selection:text-[#0b0f0c]">
+            <div className="w-full max-w-3xl relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-4 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-2xl sm:p-5 md:rounded-[36px] md:p-12">
                 
                 {/* PROGRESS BAR */}
-                <div className="absolute top-0 left-0 w-full h-2 bg-black/5">
+                <div className="absolute top-0 left-0 w-full h-1.5 bg-white/5">
                     <div 
-                        className="h-full bg-[#435B47] transition-all duration-500 ease-out"
+                        className="h-full bg-[#738261] transition-all duration-500 ease-out"
                         style={{ width: `${progress}%` }}
                     ></div>
                 </div>
 
-                <div className="mb-8 relative">
+                <div className="mb-6 relative md:mb-8">
                    {step > 0 && (
                        <button 
                         onClick={prevStep}
-                        className="absolute -top-8 left-0 text-[#435B47]/40 hover:text-[#435B47] font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-1 cursor-pointer"
+                        className="mb-4 inline-flex items-center gap-1 text-[#829072] hover:text-[#dfe5d7] font-semibold text-[10px] uppercase tracking-[0.22em] transition-colors cursor-pointer md:absolute md:-top-8 md:left-0 md:mb-0 md:text-xs md:tracking-[0.24em]"
                        >
                          ← Volver
                        </button>
                    )}
-                   <h3 className="text-[#435B47]/40 uppercase tracking-widest font-black text-xs mb-3">Paso {step + 1} de {steps.length}</h3>
-                   <h2 className="text-2xl md:text-3xl font-black text-[#435B47] leading-tight">
+                   <h3 className="mb-3 text-[#91a082] uppercase tracking-[0.24em] font-semibold text-[10px] md:text-xs">Paso {step + 1} de {steps.length}</h3>
+                   <h2 className="text-[1.65rem] md:text-4xl font-semibold tracking-[-0.04em] text-[#f3f5ef] leading-tight">
                         {current.question}
                     </h2>
                 </div>
 
-                <div className="mb-8">
+                <div className="mb-6 md:mb-8">
                     {current.type === "text" && (
                         <input
                             type="text"
@@ -247,7 +247,7 @@ export default function Form({ onComplete }) {
                             value={data[current.field] || ""}
                             onChange={handleChange}
                             autoFocus
-                            className="w-full bg-transparent border-b-4 border-[#435B47] py-4 text-xl md:text-2xl font-bold focus:outline-none placeholder:opacity-20"
+                            className="w-full rounded-[22px] border border-white/10 bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] focus:border-[#7b8c69]/45 focus:bg-[#0f130f] md:px-5 md:py-4 md:text-2xl"
                         />
                     )}
 
@@ -258,7 +258,7 @@ export default function Form({ onComplete }) {
                             value={data[current.field] || ""}
                             onChange={handleChange}
                             autoFocus
-                            className="w-full bg-transparent border-b-4 border-[#435B47] py-4 text-xl md:text-2xl font-bold focus:outline-none placeholder:opacity-20"
+                            className="w-full rounded-[22px] border border-white/10 bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] focus:border-[#7b8c69]/45 focus:bg-[#0f130f] md:px-5 md:py-4 md:text-2xl"
                         />
                     )}
 
@@ -268,7 +268,7 @@ export default function Form({ onComplete }) {
                             value={data[current.field] || ""}
                             onChange={handleChange}
                             autoFocus
-                            className="w-full bg-transparent border-b-4 border-[#435B47] py-4 text-xl md:text-2xl font-bold focus:outline-none min-h-[120px] resize-none placeholder:opacity-20"
+                            className="w-full min-h-[120px] resize-none rounded-[22px] border border-white/10 bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] focus:border-[#7b8c69]/45 focus:bg-[#0f130f] md:min-h-[140px] md:px-5 md:py-4 md:text-2xl"
                         />
                     )}
 
@@ -281,10 +281,10 @@ export default function Form({ onComplete }) {
                                         setData({ ...data, [current.field]: opt });
                                         setTimeout(nextStep, 200);
                                     }}
-                                    className={`text-left p-4 rounded-xl border-2 transition-all font-bold text-base md:text-lg cursor-pointer ${
+                                    className={`text-left p-3.5 rounded-[20px] border transition-all font-semibold text-sm leading-6 md:p-4 md:text-lg cursor-pointer ${
                                         data[current.field] === opt 
-                                        ? "bg-[#435B47] text-white border-[#435B47]" 
-                                        : "bg-white border-[#435B47]/10 hover:border-[#435B47]"
+                                        ? "bg-[#6f7d61]/16 text-white border-[#7b8c69]/35" 
+                                        : "bg-white/4 text-[#d8dfcf] border-white/10 hover:border-white/16"
                                     }`}
                                 >
                                     {opt}
@@ -296,13 +296,13 @@ export default function Form({ onComplete }) {
                     {current.type === "calendar" && (
                         <div>
                             {loadingSlots ? (
-                                <div className="flex flex-col items-center justify-center py-12">
-                                    <div className="w-12 h-12 border-4 border-[#435B47] border-t-transparent rounded-full animate-spin mb-4"></div>
-                                    <p className="text-[#435B47] font-bold text-center">Buscando disponibilidad en tiempo real...</p>
+                                    <div className="flex flex-col items-center justify-center py-12">
+                                    <div className="w-12 h-12 border-4 border-[#7b8c69]/30 border-t-[#dce4d2] rounded-full animate-spin mb-4"></div>
+                                    <p className="text-[#d8dfcf] font-semibold text-center">Buscando disponibilidad en tiempo real...</p>
                                 </div>
                             ) : Object.keys(slots).length === 0 ? (
                                 <div className="text-center py-8">
-                                    <p className="text-red-500 font-bold mb-4">No hay turnos disponibles configurados.</p>
+                                    <p className="text-red-300 font-semibold mb-4">No hay turnos disponibles configurados.</p>
                                     <button 
                                         type="button"
                                         onClick={() => {
@@ -318,7 +318,7 @@ export default function Form({ onComplete }) {
                                                 .catch(err => console.error("Error:", err))
                                                 .finally(() => setLoadingSlots(false));
                                         }}
-                                        className="bg-[#435B47] text-white px-6 py-3 rounded-xl font-bold cursor-pointer transition-all hover:opacity-90 active:scale-95"
+                                        className="bg-[#6f7d61] text-white px-6 py-3 rounded-full font-semibold uppercase tracking-[0.18em] cursor-pointer transition-all hover:opacity-90 active:scale-95"
                                     >
                                         Reintentar
                                     </button>
@@ -326,41 +326,41 @@ export default function Form({ onComplete }) {
                             ) : (
                                 <div>
                                     {/* ALERTA DE ZONA HORARIA */}
-                                    <div className="bg-[#435B47]/5 border border-[#435B47]/15 rounded-2xl p-4 mb-6 flex items-center gap-3.5 shadow-sm text-left animate-fade-in">
+                                    <div className="bg-white/5 border border-white/10 rounded-[20px] p-3 mb-5 flex items-center gap-3 shadow-sm text-left animate-fade-in md:rounded-[24px] md:p-4 md:mb-6 md:gap-3.5">
                                         <span className="text-2xl animate-bounce select-none">🇦🇷</span>
                                         <div>
-                                            <h5 className="text-xs font-black text-[#435B47] uppercase tracking-wider mb-0.5">Zona Horaria: Argentina (GMT-3)</h5>
-                                            <p className="text-xs text-[#435B47]/75 font-semibold leading-normal">
+                                            <h5 className="text-[10px] font-semibold text-[#dce3d3] uppercase tracking-[0.2em] mb-0.5 md:text-xs md:tracking-[0.22em]">Zona Horaria: Argentina (GMT-3)</h5>
+                                            <p className="text-xs text-[#aeb7a6] font-medium leading-normal">
                                                 Todos los horarios se muestran en hora de Argentina. Por favor, ten en cuenta la diferencia horaria si te encuentras en otro país.
                                             </p>
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start">
                                         {/* CALENDAR MONTH GRID */}
-                                        <div className="bg-white p-4 rounded-2xl border border-[#435B47]/10 shadow-sm">
+                                        <div className="bg-black/18 p-3 rounded-[20px] border border-white/10 shadow-sm md:p-4 md:rounded-[24px]">
                                             <div className="flex items-center justify-between mb-4">
                                                 <button 
                                                     type="button"
                                                     onClick={prevMonth}
-                                                    className="p-1 px-3 text-[#435B47] hover:bg-[#435B47]/5 rounded-lg transition-colors cursor-pointer font-black"
+                                                    className="rounded-lg px-2.5 py-1 text-[#d7ddd0] hover:bg-white/6 transition-colors cursor-pointer font-semibold"
                                                 >
                                                     &larr;
                                                 </button>
-                                                <h4 className="font-extrabold text-[#435B47] text-sm md:text-base capitalize">
+                                                <h4 className="font-semibold text-[#f3f5ef] text-xs md:text-base capitalize">
                                                     {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                                                 </h4>
                                                 <button 
                                                     type="button"
                                                     onClick={nextMonth}
-                                                    className="p-1 px-3 text-[#435B47] hover:bg-[#435B47]/5 rounded-lg transition-colors cursor-pointer font-black"
+                                                    className="rounded-lg px-2.5 py-1 text-[#d7ddd0] hover:bg-white/6 transition-colors cursor-pointer font-semibold"
                                                 >
                                                     &rarr;
                                                 </button>
                                             </div>
 
                                             {/* Weekdays Header */}
-                                            <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-black text-[#435B47]/40 uppercase mb-2">
+                                            <div className="grid grid-cols-7 gap-1 text-center text-[9px] font-semibold text-[#7f8978] uppercase mb-2 md:text-[10px]">
                                                 {weekDays.map(d => <div key={d}>{d}</div>)}
                                             </div>
 
@@ -385,17 +385,17 @@ export default function Form({ onComplete }) {
                                                                 setSelectedTime("");
                                                                 setData(d => ({ ...d, date: dayKey, time: "" }));
                                                             }}
-                                                            className={`aspect-square w-full rounded-xl text-xs md:text-sm font-bold flex flex-col items-center justify-center relative transition-all ${
+                                                            className={`aspect-square w-full rounded-xl text-[10px] md:text-sm font-bold flex flex-col items-center justify-center relative transition-all ${
                                                                 isSelected
-                                                                ? "bg-[#435B47] text-white shadow-md shadow-[#435B47]/20 scale-105"
+                                                                ? "bg-[#6f7d61] text-white shadow-md shadow-[#435B47]/20 scale-105"
                                                                 : hasSlots
-                                                                ? "bg-[#435B47]/5 text-[#435B47] hover:bg-[#435B47]/15 cursor-pointer"
-                                                                : "text-black/10 cursor-not-allowed"
+                                                                ? "bg-white/6 text-[#d8dfcf] hover:bg-white/10 cursor-pointer"
+                                                                : "text-white/10 cursor-not-allowed"
                                                             }`}
                                                         >
                                                             <span>{day.getDate()}</span>
                                                             {hasSlots && !isSelected && (
-                                                                <span className="w-1 h-1 rounded-full bg-[#435B47] absolute bottom-1"></span>
+                                                                <span className="w-1 h-1 rounded-full bg-[#91a082] absolute bottom-1"></span>
                                                             )}
                                                         </button>
                                                     );
@@ -404,9 +404,9 @@ export default function Form({ onComplete }) {
                                         </div>
 
                                         {/* TIME SLOTS PANEL */}
-                                        <div className="bg-white/60 p-4 rounded-2xl border border-[#435B47]/5 min-h-[260px] flex flex-col justify-between">
+                                        <div className="bg-white/4 p-3 rounded-[20px] border border-white/10 min-h-[220px] flex flex-col justify-between md:p-4 md:rounded-[24px] md:min-h-[260px]">
                                             <div className="w-full">
-                                                <p className="text-xs font-black uppercase tracking-wider text-[#435B47]/50 mb-3 text-left">
+                                                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#8e9984] mb-3 text-left">
                                                     {selectedDate ? `Horarios para el ${formatDateLabel(selectedDate)}` : "Selecciona un día"}
                                                 </p>
                                                 
@@ -423,10 +423,10 @@ export default function Form({ onComplete }) {
                                                                             setSelectedTime(timeStr);
                                                                             setData(d => ({ ...d, time: timeStr }));
                                                                         }}
-                                                                        className={`py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all text-center cursor-pointer ${
+                                                                        className={`py-2.5 rounded-2xl border font-semibold text-[10px] md:py-3 md:text-sm transition-all text-center cursor-pointer ${
                                                                             isSelected 
-                                                                            ? "bg-[#435B47] text-white border-[#435B47]" 
-                                                                            : "bg-white text-[#435B47] border-[#435B47]/10 hover:border-[#435B47]/40"
+                                                                            ? "bg-[#6f7d61] text-white border-[#7b8c69]/35" 
+                                                                            : "bg-white/5 text-[#dce3d3] border-white/10 hover:border-white/16"
                                                                         }`}
                                                                     >
                                                                         {timeStr} hs
@@ -435,11 +435,11 @@ export default function Form({ onComplete }) {
                                                             })}
                                                         </div>
                                                     ) : (
-                                                        <p className="text-sm font-medium text-red-500 text-left">No hay horarios disponibles.</p>
+                                                        <p className="text-sm font-medium text-red-300 text-left">No hay horarios disponibles.</p>
                                                     )
                                                 ) : (
                                                     <div className="text-center py-8">
-                                                        <p className="text-xs md:text-sm font-bold text-[#435B47]/60">Haz clic en un día destacado del calendario para ver las horas disponibles.</p>
+                                                        <p className="text-xs md:text-sm font-semibold text-[#aab3a0]">Haz clic en un día destacado del calendario para ver las horas disponibles.</p>
                                                     </div>
                                                 )}
                                             </div>
@@ -454,14 +454,14 @@ export default function Form({ onComplete }) {
                 {current.type !== "select" && (
                     <button
                         onClick={nextStep}
-                        className="bg-[#435B47] text-white px-10 py-5 rounded-2xl w-full text-lg md:text-xl font-black hover:scale-[1.02] transition-transform shadow-xl shadow-[#435B47]/20 cursor-pointer"
+                        className="bg-[#6f7d61] text-white px-5 py-3 rounded-[20px] w-full text-[11px] md:px-10 md:py-5 md:rounded-full md:text-xl font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] hover:scale-[1.02] transition-transform shadow-xl shadow-[#435B47]/20 cursor-pointer"
                     >
                         {step === steps.length - 1 ? "CONFIRMAR Y AGENDAR CITA →" : "CONTINUAR →"}
                     </button>
                 )}
 
-                <p className="text-xs mt-8 text-[#435B47]/40 font-bold uppercase tracking-tighter text-center">
-                    Tus datos están seguros. Solo los usamos para preparar tu diagnóstico.
+                <p className="text-[10px] mt-6 md:mt-8 text-[#91a082] font-semibold uppercase tracking-[0.14em] md:tracking-[0.18em] text-center">
+                    Tus datos se usan solo para preparar la reunion y evaluar tu caso con criterio.
                 </p>
 
             </div>
