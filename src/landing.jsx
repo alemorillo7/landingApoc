@@ -8,19 +8,19 @@ import {
 } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
+  aiPlans,
   caseStudies,
-  challengeOptions,
   clientLogos,
   contactInfo,
   differentiators,
   expertise,
   featuredCaseStudies,
   featuredTestimonials,
+  heroVideo,
   heroStats,
   methodology,
   socialLinks,
   team,
-  testimonials,
   videoTestimonial,
 } from "./siteData.js";
 
@@ -183,10 +183,10 @@ function SocialIcon({ label }) {
 }
 
 export default function Landing({ onStart }) {
-  const [activeChallenge, setActiveChallenge] = useState(challengeOptions[0]);
   const [activeMethodStep, setActiveMethodStep] = useState(methodology[0]);
   const [enableHeroScene, setEnableHeroScene] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDesktopViewport, setIsDesktopViewport] = useState(false);
   const [calculatorInputs, setCalculatorInputs] = useState({
     people: 2,
     hoursPerWeek: 12,
@@ -227,6 +227,16 @@ export default function Landing({ onStart }) {
     return () => window.clearTimeout(timeoutId);
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const syncViewport = () => setIsDesktopViewport(mediaQuery.matches);
+
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
+
   const monthlyHoursLost =
     calculatorInputs.people * calculatorInputs.hoursPerWeek * 4.33;
   const hourlyCost = calculatorInputs.monthlyCost / 160;
@@ -248,6 +258,14 @@ export default function Landing({ onStart }) {
       [field]: Math.max(0, Number(value) || 0),
     }));
   };
+
+  const getPlanWhatsAppHref = (plan) => {
+    const message = `Hola APOC, me interesa el ${plan.name} (${plan.price}) de agentes de IA. Quiero recibir mas informacion y ver si aplica para mi negocio.`;
+    const separator = contactInfo.whatsappHref.includes("?") ? "&" : "?";
+    return `${contactInfo.whatsappHref}${separator}text=${encodeURIComponent(message)}`;
+  };
+
+  const heroVideoEmbedUrl = `https://www.youtube-nocookie.com/embed/${heroVideo.youtubeId}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1`;
 
   return (
     <div className="apoc-shell selection:bg-[#83926f] selection:text-[#0a0d0b]">
@@ -273,6 +291,7 @@ export default function Landing({ onStart }) {
 
           <div className="hidden items-center gap-8 text-xs uppercase tracking-[0.22em] text-[#9aa491] md:flex">
             <a href="#diferencial" className="transition hover:text-white">Por qué APOC</a>
+            <a href="#planes-agentes-ia" className="transition hover:text-white">Planes</a>
             <a href="#proyectos" className="transition hover:text-white">Proyectos</a>
             <a href="#equipo" className="transition hover:text-white">Equipo</a>
             <a href="#metodologia" className="transition hover:text-white">Metodologia</a>
@@ -312,6 +331,7 @@ export default function Landing({ onStart }) {
           >
             <div className="flex flex-col gap-5 text-xs uppercase tracking-[0.22em] text-[#9aa491]">
               <a href="#diferencial" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Por qué APOC</a>
+              <a href="#planes-agentes-ia" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Planes</a>
               <a href="#proyectos" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Proyectos</a>
               <a href="#equipo" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Equipo</a>
               <a href="#metodologia" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Metodologia</a>
@@ -343,7 +363,7 @@ export default function Landing({ onStart }) {
                 initial="hidden"
                 animate="visible"
                 transition={{ duration: 0.7, ease: "easeOut" }}
-                className="relative lg:col-span-7"
+                className="relative lg:col-span-8"
               >
                 <SectionTag>Solo tomamos 3 proyectos por mes</SectionTag>
 
@@ -358,29 +378,66 @@ export default function Landing({ onStart }) {
                   ))}
                 </div>
 
-                <h1 className="mt-7 max-w-5xl text-[2.95rem] font-semibold uppercase leading-[0.9] tracking-[-0.08em] text-[#f6f7f2] min-[360px]:text-[3.25rem] md:text-7xl xl:text-[6.8rem]">
-                  <span className="block">Automatizamos</span>
-                  <span className="block">operaciones y</span>
-                  <span className="block text-[#93aa83]">construimos</span>
-                  <span className="block">sistemas serios</span>
+                <h1 className="mt-7 max-w-5xl text-[2.45rem] font-semibold uppercase leading-[0.88] tracking-[-0.085em] text-[#f7f8f4] min-[360px]:text-[2.8rem] md:text-[5.2rem] xl:text-[5.7rem]">
+                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">No desarrollamos</span>
+                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">software rapido.</span>
+                  <span className="block bg-[linear-gradient(180deg,#cfe0bf_0%,#8ea47b_100%)] bg-clip-text text-transparent drop-shadow-[0_10px_36px_rgba(120,141,95,0.26)]">
+                    Desarrollamos
+                  </span>
+                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">software que no tengas que rehacer despues.</span>
                 </h1>
 
-                <p className="mt-6 max-w-3xl text-base leading-7 text-[#a9b2a0] md:text-xl md:leading-8">
+                <div className="mt-5 h-px w-20 bg-[linear-gradient(90deg,rgba(164,184,140,0.9),rgba(164,184,140,0))]" />
+
+                <p className="mt-5 max-w-[46rem] text-[15px] leading-7 text-[#c7d0bd] md:mt-6 md:text-[19px] md:leading-8">
                   Diseñamos agentes de IA, automatizaciones y software seguros, escalables y
                   estables para empresas que ya no pueden seguir resolviendo con Excel. Creamos un
                   sistema que realmente pueda sostener tu crecimiento.
                 </p>
 
-                <div className="mt-7 max-w-3xl rounded-[24px] border border-[#7d8d6a]/22 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(255,255,255,0.03))] p-4 backdrop-blur-xl md:p-5">
+                <div className="mt-6 lg:hidden">
+                  <div className="overflow-hidden rounded-[22px] border border-white/10 bg-[#0f1310]/88 p-2.5 shadow-[0_24px_64px_rgba(0,0,0,0.34)] backdrop-blur-2xl">
+                    <div className="overflow-hidden rounded-[16px] border border-white/10 bg-black">
+                      <div className="mx-auto aspect-[16/9] w-full max-w-[19rem]">
+                        <iframe
+                          className="h-full w-full"
+                          src={isDesktopViewport ? "about:blank" : heroVideoEmbedUrl}
+                          title={heroVideo.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-3 flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.22em] text-[#9aa78c]">
+                          {heroVideo.title}
+                        </p>
+                        <p className="mt-2 text-sm font-medium leading-6 text-[#f3f5ef]">
+                          {heroVideo.heading}
+                        </p>
+                      </div>
+                      <span className="rounded-full border border-[#6c7a5d]/35 bg-[#6c7a5d]/15 px-2.5 py-1 text-[9px] uppercase tracking-[0.2em] text-[#d3dbc9]">
+                        {heroVideo.badge}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-7 hidden max-w-3xl rounded-[24px] border border-[#7d8d6a]/22 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(255,255,255,0.03))] p-4 backdrop-blur-xl md:block md:p-5">
                   <p className="text-[10px] uppercase tracking-[0.22em] text-[#92a083]">
                     La diferencia esta despues
                   </p>
                   <p className="mt-3 text-base font-medium leading-7 text-[#eef2e8] md:text-lg md:leading-8">
-                    Hoy todos te prometen un sistema en 20 dias. El problema viene despues.
+                    Los errores, las vulnerabilidades y las malas decisiones tecnicas suelen aparecer meses despues de lanzar un sistema.
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-[#c6cec0] md:text-base md:leading-7">
+                    En APOC diseñamos soluciones seguras, escalables y preparadas para acompañar el crecimiento de tu empresa desde el primer dia.
                   </p>
                 </div>
 
-                <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                <div className="mt-8 hidden gap-3 sm:grid-cols-3 md:grid">
                   {[
                     "Menos carga manual y mas control operativo.",
                     "Integraciones, trazabilidad y estructura real.",
@@ -407,7 +464,7 @@ export default function Landing({ onStart }) {
                   </SecondaryButton>
                 </div>
 
-                <div className="mt-8 grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+                <div className="mt-8 hidden gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:grid">
                   <div className="rounded-[28px] border border-[#738261]/18 bg-white/5 p-5 text-sm leading-7 text-[#c4ccb9] backdrop-blur-2xl">
                     <p className="font-medium uppercase tracking-[0.22em] text-[#8f9c82]">
                       Que hacemos
@@ -476,7 +533,7 @@ export default function Landing({ onStart }) {
                 initial="hidden"
                 animate="visible"
                 transition={{ duration: 0.8, delay: 0.15 }}
-                className="relative lg:col-span-5"
+                className="relative hidden lg:col-span-4 lg:block"
               >
                 <div className="absolute -left-16 top-10 h-36 w-36 rounded-full bg-[#667659]/20 blur-3xl" />
                 <div className="absolute -bottom-12 right-0 h-44 w-44 rounded-full bg-[#869c72]/18 blur-3xl" />
@@ -503,13 +560,13 @@ export default function Landing({ onStart }) {
                         </span>
                       </div>
 
-                      <div className="rounded-[24px] border border-white/10 bg-black/35 p-3 sm:p-4">
+                      <div className="rounded-[22px] border border-white/10 bg-black/35 p-3">
                         <div className="overflow-hidden rounded-[18px] border border-white/10 bg-black">
-                          <div className="aspect-video w-full">
+                          <div className="mx-auto aspect-[16/9] w-full max-w-[21rem]">
                             <iframe
                               className="h-full w-full"
-                              src={`https://www.youtube-nocookie.com/embed/${videoTestimonial.youtubeId}?rel=0&modestbranding=1&playsinline=1`}
-                              title={videoTestimonial.title}
+                              src={isDesktopViewport ? heroVideoEmbedUrl : "about:blank"}
+                              title={heroVideo.title}
                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                               referrerPolicy="strict-origin-when-cross-origin"
                               allowFullScreen
@@ -520,22 +577,21 @@ export default function Landing({ onStart }) {
                         <div className="mt-4 flex items-start justify-between gap-4">
                           <div>
                             <p className="text-[10px] uppercase tracking-[0.22em] text-[#8c9880]">
-                              Testimonio real
+                              {heroVideo.title}
                             </p>
                             <p className="mt-2 text-base font-medium text-[#f2f4ee] sm:text-lg">
-                              Clientes con resultado visible, no promesas vacias.
+                              {heroVideo.heading}
                             </p>
+                            {heroVideo.description ? (
+                              <p className="mt-3 max-w-xl text-sm leading-6 text-[#b7c0af]">
+                                {heroVideo.description}
+                              </p>
+                            ) : null}
                           </div>
                           <span className="rounded-full border border-[#6c7a5d]/35 bg-[#6c7a5d]/15 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[#d3dbc9]">
-                            video
+                            {heroVideo.badge}
                           </span>
                         </div>
-
-                        {videoTestimonial.caption ? (
-                          <p className="mt-3 text-sm leading-6 text-[#b7c0af]">
-                            {videoTestimonial.caption}
-                          </p>
-                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -663,6 +719,82 @@ export default function Landing({ onStart }) {
                 <span className="sm:hidden">Quiero construir bien</span>
                 <span className="hidden sm:inline">Quiero construir bien desde el inicio</span>
               </PrimaryButton>
+            </div>
+          </div>
+        </section>
+
+        <section id="planes-agentes-ia" className="px-4 py-16 md:px-10 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <SectionHeading
+              eyebrow="Planes"
+              title="Planes de agentes de IA para distintos momentos de tu operacion."
+              description="Estos planes aplican exclusivamente a agentes de IA. Otros proyectos de automatizacion o desarrollo de software se cotizan segun alcance, integraciones y objetivos de negocio."
+            />
+
+            <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
+              {aiPlans.map((plan, index) => (
+                <motion.div
+                  key={plan.name}
+                  variants={reveal}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ delay: index * 0.08 }}
+                  className={`relative flex h-full overflow-hidden rounded-[28px] border p-5 md:rounded-[34px] md:p-7 ${
+                    plan.highlighted
+                      ? "border-[#7d8d6a]/28 bg-[linear-gradient(180deg,rgba(111,126,96,0.16),rgba(255,255,255,0.05))] shadow-[0_40px_100px_rgba(53,61,44,0.18)]"
+                      : "glass-card"
+                  }`}
+                >
+                  <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-[#738261]/10 blur-3xl" />
+                  <div className="relative flex h-full w-full flex-col">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.24em] text-[#95a285]">
+                          Agentes de IA
+                        </p>
+                        <h3 className="mt-4 text-2xl font-semibold tracking-[-0.05em] text-[#f5f6f2] md:text-3xl">
+                          {plan.name}
+                        </h3>
+                      </div>
+                      {plan.highlighted ? (
+                        <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/16 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#edf1e8]">
+                          recomendado
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <p className="mt-4 text-lg font-medium text-[#eef2e8] md:text-xl">
+                      {plan.price}
+                    </p>
+                    <p className="mt-4 text-sm leading-7 text-[#c8d0c0] md:text-base md:leading-8">
+                      {plan.description}
+                    </p>
+
+                    <div className="mt-6 flex-1 space-y-3">
+                      {plan.features.map((feature) => (
+                        <div key={feature} className="flex gap-3">
+                          <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#81906f]" />
+                          <p className="text-sm leading-6 text-[#dbe1d5] md:text-[15px] md:leading-7">
+                            {feature}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-8 pt-2">
+                      <a
+                        href={getPlanWhatsAppHref(plan)}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="magnetic-button inline-flex w-full items-center justify-center rounded-full border border-[#758464]/30 bg-[#6d7c5e] px-4 py-3 text-[10px] font-semibold uppercase leading-tight tracking-[0.08em] text-center text-[#f7f8f3] shadow-[0_20px_60px_rgba(82,96,66,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#7b8a6a] sm:px-7 sm:py-4 sm:text-[13px] sm:tracking-[0.2em]"
+                      >
+                        Quiero este plan por WhatsApp
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -1170,57 +1302,6 @@ export default function Landing({ onStart }) {
               >
                 Explorar todos los casos
               </Link>
-            </div>
-          </div>
-        </section>
-
-        <section id="problema-actual" className="px-4 py-16 md:px-10 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid gap-6 lg:gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-              <SectionHeading
-                eyebrow="Tu problema actual"
-                title="Elegi el cuello de botella que hoy te frena."
-                description="La idea es que el usuario se vea reflejado rapidamente, entienda que APOC comprende el problema de fondo y visualice una salida concreta."
-              />
-
-              <div className="space-y-6">
-                <div className="grid gap-2 md:grid-cols-2">
-                  {challengeOptions.map((item) => {
-                    const isActive = activeChallenge.label === item.label;
-                    return (
-                      <button
-                        key={item.label}
-                        onClick={() => setActiveChallenge(item)}
-                        className={`rounded-[20px] border px-4 py-4 text-left text-sm transition md:rounded-[24px] md:px-5 md:py-5 ${
-                          isActive
-                            ? "border-[#7d8d6b]/35 bg-[#121711] text-white"
-                            : "border-white/8 bg-white/4 text-[#c1c8b8] hover:border-white/14"
-                        }`}
-                      >
-                        {item.label}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeChallenge.label}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -16 }}
-                    transition={{ duration: 0.28 }}
-                    className="rounded-[28px] border border-[#7f926b]/18 bg-[linear-gradient(180deg,rgba(111,126,96,0.14),rgba(255,255,255,0.05))] p-5 md:rounded-[34px] md:p-8"
-                  >
-                    <p className="text-xs uppercase tracking-[0.24em] text-[#95a285]">Respuesta APOC</p>
-                    <h3 className="mt-4 text-2xl font-semibold tracking-[-0.05em] text-[#f5f6f2] md:text-3xl">{activeChallenge.label}</h3>
-                    <p className="mt-4 max-w-2xl text-sm leading-7 text-[#d3dacb] md:mt-5 md:text-base md:leading-8">{activeChallenge.solution}</p>
-                    <div className="mt-8">
-                      <PrimaryButton onClick={onStart}>Quiero esto para mi negocio</PrimaryButton>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
             </div>
           </div>
         </section>

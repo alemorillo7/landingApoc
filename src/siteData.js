@@ -412,6 +412,15 @@ export const videoTestimonial = {
   caption: "",
 };
 
+export const heroVideo = {
+  title: "Vista general",
+  youtubeId: "6V-Wt7evlxA",
+  badge: "apoc automation",
+  heading: "Soluciones pensadas para durar, integrarse bien y sostener el crecimiento.",
+  description:
+    "Este video resume el tipo de criterio con el que diseñamos agentes de IA, automatizaciones y software a medida para operaciones reales.",
+};
+
 export const testimonials = [
   {
     company: "Taller Lucero",
@@ -502,6 +511,48 @@ export const challengeOptions = [
   {
     label: "Mi equipo pierde productividad",
     solution: "Alineamos roles, interfaces y herramientas para que el equipo trabaje con menos ruido y mas control.",
+  },
+];
+
+export const aiPlans = [
+  {
+    name: "Plan Basico",
+    price: "desde USD 200",
+    description:
+      "Un agente de IA que atiende a tus clientes de forma automatica, las 24 horas.",
+    features: [
+      "Disponible en WhatsApp o en tu sitio web, a eleccion",
+      "Mantiene conversaciones naturales y con contexto",
+      "Responde consultas frecuentes de tu negocio",
+      "Deriva a tu equipo cuando hace falta atencion personalizada",
+    ],
+  },
+  {
+    name: "Plan Estandar",
+    price: "desde USD 300",
+    description:
+      "Incluye todo lo del plan Basico, sumando funciones orientadas a la gestion comercial.",
+    features: [
+      "Disponible en hasta 2 canales de atencion",
+      "Identifica y prioriza contactos con mayor potencial de venta",
+      "Coordina turnos y reuniones de forma automatica",
+      "Registra la informacion en tu CRM o base de datos",
+      "Notifica a tu equipo ante contactos relevantes en tiempo real",
+    ],
+    highlighted: true,
+  },
+  {
+    name: "Plan Personalizado",
+    price: "desde USD 800 + USD 150/mes",
+    description:
+      "Un agente de IA diseñado a medida para las necesidades particulares de tu negocio.",
+    features: [
+      "Configuracion adaptada a tus canales y procesos internos",
+      "Integracion con ventas, pagos, calendario, CRM y otros sistemas",
+      "Gestiona conversaciones complejas y de multiples pasos",
+      "Conserva historial e informacion entre conversaciones",
+      "Incluye mantenimiento, soporte y mejoras continuas mensuales",
+    ],
   },
 ];
 
