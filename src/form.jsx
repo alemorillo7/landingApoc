@@ -2,16 +2,39 @@ import React, { useState, useEffect } from "react";
 
 const steps = [
     {
-        question: "¿A qué se dedica tu empresa?",
-        field: "industry",
+        question: "Nombre y apellido",
+        field: "name",
         type: "text",
-        placeholder: "Ej: Agencia de marketing, Constructora..."
+        placeholder: "Ej: Juan Pérez"
     },
     {
-        question: "¿Cuál es el proceso manual que más tiempo les quita hoy?",
-        field: "problem",
+        question: "Dejanos tu número de WhatsApp",
+        field: "phone",
+        type: "text",
+        placeholder: "+54 9 11 ..."
+    },
+    {
+        question: "Dejanos tu correo empresarial",
+        field: "email",
+        type: "email",
+        placeholder: "nombre@empresa.com"
+    },
+    {
+        question: "Nombre de tu empresa y a qué se dedica",
+        field: "industry",
         type: "textarea",
-        placeholder: "Describe brevemente tu mayor cuello de botella..."
+        placeholder: "Ej: Somos una agencia de marketing digital..."
+    },
+    {
+        question: "¿Cuánto estás dispuesto a invertir en tu software o plataforma?",
+        field: "budget",
+        type: "select",
+        options: [
+            "Entre USD 5.000 y 10.000",
+            "Entre USD 10.000 y 15.000",
+            "Entre USD 15.000 y 30.000",
+            "Más de USD 30.000",
+        ],
     },
     {
         question: "¿Qué tan urgente es resolver esto?",
@@ -22,40 +45,6 @@ const steps = [
             "Prioridad para los próximos 1-3 meses",
             "Solo explorando opciones por ahora",
         ],
-    },
-    {
-        question: "¿Nivel de facturación mensual aproximado?",
-        field: "revenue",
-        type: "select",
-        options: [
-            "Más de USD 20.000/mes",
-            "Entre USD 10.000 y 20.000/mes",
-            "Entre USD 3.000 y 10.000/mes",
-            "Menos de USD 3.000/mes",
-        ],
-    },
-    {
-        question: "¿Cuál sería el presupuesto estimado para este proyecto?",
-        field: "budget",
-        type: "select",
-        options: [
-            "Más de USD 15.000",
-            "USD 7.000 - 15.000",
-            "USD 3.000 - 7.000",
-            "Menos de USD 3.000",
-        ],
-    },
-    {
-        question: "Dejanos tu email corporativo para enviarte el diagnóstico previo",
-        field: "email",
-        type: "email",
-        placeholder: "nombre@empresa.com"
-    },
-    {
-        question: "Dejanos tu número de WhatsApp",
-        field: "phone",
-        type: "text",
-        placeholder: "+54 9 11 ..."
     },
     {
         question: "Elige el día y la hora para tu diagnóstico en vivo",
