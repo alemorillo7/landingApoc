@@ -1,8 +1,8 @@
 export const heroStats = [
   {
-    value: "16+",
+    value: "32",
     label: "proyectos",
-    detail: "Casos desarrollados en los últimos 4 meses.",
+    detail: "Casos desarrollados en el ÚLTIMO año.",
   },
   {
     value: "6",
