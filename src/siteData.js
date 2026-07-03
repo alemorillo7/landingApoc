@@ -63,7 +63,7 @@ export const caseStudies = [
     result:
       "Se eliminó el proceso manual en papel, los presupuestos se generan en segundos y el dueño ahora tiene acceso remoto con trazabilidad completa de cada trabajo.",
     metrics: ["0 papel", "Presupuestos en segundos", "Acceso remoto", "Trazabilidad total"],
-    technologies: ["Next.js", "Netlify", "Base de datos en la nube", "Sistema de roles"],
+    technologies: ["Next.js", "Base de datos en la nube", "Sistema de roles"],
     videoId: "i93Yyv8REjg",
     feedback:
       "Antes del sistema era todo muy manual, la verdad que nos ahorra muchísimo tiempo y podemos salir a hacer presupuestos en la calle. Es mucho más práctico y me aumento la capacidad de producción.",
@@ -257,7 +257,7 @@ export const caseStudies = [
     impact:
       "360 Global Medical OS consolidó una base mucho más profesional para coordinar clientes, proveedores y decisiones comerciales en una operación internacional.",
     metrics: ["Operacion 360", "Cotizacion con IA", "Trazabilidad end-to-end", "Excel reemplazado"],
-    technologies: ["Next.js", "Netlify", "Airtable", "n8n", "OpenAI GPT-4", "Email API"],
+    technologies: ["Next.js", "Airtable", "n8n", "OpenAI GPT-4", "Email API"],
     clientSummary:
       "Brokerage farmaceutico internacional con muchas variables operativas y necesidad de centralizar una operación compleja.",
   },
