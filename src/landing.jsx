@@ -299,10 +299,10 @@ export default function Landing({ onStart }) {
           </div>
 
           <div className="flex items-center gap-2 md:gap-0">
-            <PrimaryButton onClick={onStart} className="max-w-[5.1rem] shrink-0 rounded-[1.15rem] px-2.5 py-1.5 text-[8px] leading-none tracking-[0.04em] shadow-none sm:max-w-[9.5rem] sm:px-4 sm:py-2.5 sm:text-[10px] sm:tracking-[0.12em] md:max-w-none md:rounded-full md:px-5 md:py-3 md:text-[11px] md:tracking-[0.16em]">
+            <PrimaryButton onClick={onStart} className="shrink-0 rounded-[1.15rem] px-4 py-2 !text-[9px] leading-none tracking-[0.04em] shadow-none sm:max-w-[9.5rem] sm:px-4 sm:py-2.5 sm:text-[10px] sm:tracking-[0.12em] md:max-w-none md:rounded-full md:px-5 md:py-3 md:text-[11px] md:tracking-[0.16em]">
               <span className="sm:hidden">Agendar</span>
               <span className="hidden sm:inline md:hidden">Agenda gratis</span>
-              <span className="hidden md:inline">Agenda tu llamada gratis</span>
+              <span className="hidden md:inline">Agendá tu llamada gratis</span>
             </PrimaryButton>
             <button 
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#f2f4ee] md:hidden"
@@ -843,7 +843,7 @@ export default function Landing({ onStart }) {
                     <div className="mt-6 rounded-[24px] border border-white/8 bg-black/20 p-4 md:mt-8 md:rounded-[28px] md:p-5">
                       <div className="grid grid-cols-2 gap-3">
                         {study.metrics.map((metric) => (
-                          <div key={metric} className="flex items-center justify-center text-center rounded-2xl bg-white/5 px-3 py-3 text-xs text-[#dbe1d5] md:px-4 md:py-4 md:text-sm">
+                          <div key={metric} className="rounded-2xl bg-white/5 px-3 py-3 text-xs text-[#dbe1d5] md:px-4 md:py-4 md:text-sm">
                             {metric}
                           </div>
                         ))}

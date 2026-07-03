@@ -202,7 +202,7 @@ export const caseStudies = [
       "Implementamos el bot DANI para calificación de leads y agendamiento de demos, integrado con GoHighLevel, PostgreSQL y flujos de seguimiento automático.",
     result:
       "La calificación pasó a ejecutarse automáticamente con criterios definidos, bajó el tiempo de respuesta comercial y crecieron las demos agendadas.",
-    metrics: ["Más demos agendadas", "Leads calificados", "GoHighLevel", "Seguimiento automatizado"],
+    metrics: ["Mas demos agendadas", "Leads calificados", "GoHighLevel", "Seguimiento automatizado"],
     technologies: ["n8n", "GoHighLevel", "PostgreSQL", "WhatsApp API", "OpenAI"],
     clientSummary:
       "Empresa PropTech mexicana que necesitaba acelerar conversión comercial sin perder calidad en el filtrado.",

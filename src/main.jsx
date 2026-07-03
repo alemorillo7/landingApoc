@@ -431,7 +431,7 @@ function CaseStudyPage({ onStart }) {
                     {caseStudy.metrics.map((metric) => (
                       <div
                         key={metric}
-                        className="flex items-center justify-center text-center rounded-2xl bg-white/5 px-4 py-3 text-xs text-[#ecf0e7] md:text-sm"
+                        className="rounded-2xl border border-white/8 bg-white/4 px-4 py-3 text-sm text-[#ecf0e7]"
                       >
                         {metric}
                       </div>
@@ -554,7 +554,7 @@ function PortfolioPage({ onStart }) {
                     </div>
                     <div className="mt-6 grid grid-cols-2 gap-3">
                       {study.metrics.map((metric) => (
-                        <div key={metric} className="flex items-center justify-center text-center rounded-2xl bg-white/5 px-3 py-3 text-xs text-[#dbe1d5] md:px-4 md:py-4 md:text-sm">
+                        <div key={metric} className="rounded-2xl bg-white/5 px-3 py-3 text-xs text-[#dbe1d5] md:px-4 md:py-4 md:text-sm">
                           {metric}
                         </div>
                       ))}
