@@ -260,7 +260,7 @@ export default function Landing({ onStart }) {
   };
 
   const getPlanWhatsAppHref = (plan) => {
-    const message = `Hola APOC, me interesa el ${plan.name} (${plan.price}) de agentes de IA. Quiero recibir mas informacion y ver si aplica para mi negocio.`;
+    const message = `Hola APOC, me interesa el ${plan.name} (${plan.price}) de agentes de IA. Quiero recibir más información y ver si aplica para mi negocio.`;
     const separator = contactInfo.whatsappHref.includes("?") ? "&" : "?";
     return `${contactInfo.whatsappHref}${separator}text=${encodeURIComponent(message)}`;
   };
@@ -285,7 +285,7 @@ export default function Landing({ onStart }) {
             </div>
             <div className="min-w-0">
               <p className="text-[10px] uppercase tracking-[0.28em] text-[#95a286] md:text-xs md:tracking-[0.35em]">APOC AUTOMATION</p>
-              <p className="hidden text-[11px] leading-tight text-[#c6cdbe] min-[360px]:block md:text-sm">Software, IA y automatizacion</p>
+              <p className="hidden text-[11px] leading-tight text-[#c6cdbe] min-[360px]:block md:text-sm">Software, IA y automatización</p>
             </div>
           </a>
 
@@ -368,7 +368,7 @@ export default function Landing({ onStart }) {
                 <SectionTag>Solo tomamos 3 proyectos por mes</SectionTag>
 
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {["Automatizacion", "Agentes IA", "Software a medida"].map((item) => (
+                  {["Automatización", "Agentes IA", "Software a medida"].map((item) => (
                     <span
                       key={item}
                       className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#cdd5c4]"
@@ -380,11 +380,11 @@ export default function Landing({ onStart }) {
 
                 <h1 className="mt-7 max-w-5xl text-[2.45rem] font-semibold uppercase leading-[0.88] tracking-[-0.085em] text-[#f7f8f4] min-[360px]:text-[2.8rem] md:text-[5.2rem] xl:text-[5.7rem]">
                   <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">No desarrollamos</span>
-                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">software rapido.</span>
+                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">software rápido.</span>
                   <span className="block bg-[linear-gradient(180deg,#cfe0bf_0%,#8ea47b_100%)] bg-clip-text text-transparent drop-shadow-[0_10px_36px_rgba(120,141,95,0.26)]">
                     Desarrollamos
                   </span>
-                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">software que no tengas que rehacer despues.</span>
+                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">software que no tengas que rehacer después.</span>
                 </h1>
 
                 <div className="mt-5 h-px w-20 bg-[linear-gradient(90deg,rgba(164,184,140,0.9),rgba(164,184,140,0))]" />
@@ -427,21 +427,21 @@ export default function Landing({ onStart }) {
 
                 <div className="mt-7 hidden max-w-3xl rounded-[24px] border border-[#7d8d6a]/22 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(255,255,255,0.03))] p-4 backdrop-blur-xl md:block md:p-5">
                   <p className="text-[10px] uppercase tracking-[0.22em] text-[#92a083]">
-                    La diferencia esta despues
+                    La diferencia esta después
                   </p>
                   <p className="mt-3 text-base font-medium leading-7 text-[#eef2e8] md:text-lg md:leading-8">
-                    Los errores, las vulnerabilidades y las malas decisiones tecnicas suelen aparecer meses despues de lanzar un sistema.
+                    Los errores, las vulnerabilidades y las malas decisiones tecnicas suelen aparecer meses después de lanzar un sistema.
                   </p>
                   <p className="mt-3 text-sm leading-6 text-[#c6cec0] md:text-base md:leading-7">
-                    En APOC diseñamos soluciones seguras, escalables y preparadas para acompañar el crecimiento de tu empresa desde el primer dia.
+                    En APOC diseñamos soluciones seguras, escalables y preparadas para acompañar el crecimiento de tu empresa desde el primer día.
                   </p>
                 </div>
 
                 <div className="mt-8 hidden gap-3 sm:grid-cols-3 md:grid">
                   {[
-                    "Menos carga manual y mas control operativo.",
+                    "Menos carga manual y más control operativo.",
                     "Integraciones, trazabilidad y estructura real.",
-                    "Implementacion con criterio tecnico y foco comercial.",
+                    "Implementación con criterio técnico y foco comercial.",
                   ].map((item) => (
                     <div
                       key={item}
@@ -454,7 +454,7 @@ export default function Landing({ onStart }) {
 
                 <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                   <PrimaryButton onClick={onStart} className="w-full sm:w-auto">
-                    Agendar diagnostico
+                    Agendar diagnóstico
                   </PrimaryButton>
                   <SecondaryButton href="#testimonios" className="w-full sm:w-auto">
                     Ver resultado real
@@ -471,11 +471,11 @@ export default function Landing({ onStart }) {
                     </p>
                     <p className="mt-3 text-base font-medium leading-7 text-[#eef1e8]">
                       Diseñamos e implementamos sistemas que reemplazan tareas manuales, mejoran
-                      atencion, ordenan operacion y escalan mejor con el negocio.
+                      atención, ordenan operación y escalan mejor con el negocio.
                     </p>
                     <p className="mt-3">
                       Desde el primer discovery definimos arquitectura, integraciones, testing y
-                      puesta en marcha para que el proyecto no dependa de parches ni improvisacion.
+                      puesta en marcha para que el proyecto no dependa de parches ni improvisación.
                     </p>
                   </div>
 
@@ -487,7 +487,7 @@ export default function Landing({ onStart }) {
                       {[
                         "Reciben muchas consultas y respuestas repetitivas.",
                         "Tienen procesos internos lentos o desordenados.",
-                        "Necesitan un sistema propio, no otra solucion generica.",
+                        "Necesitan un sistema propio, no otra solución generica.",
                       ].map((item) => (
                         <div key={item} className="flex gap-3">
                           <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#81906f]" />
@@ -615,18 +615,18 @@ export default function Landing({ onStart }) {
                       {[
                         {
                           num: "01",
-                          title: "Diagnostico",
+                          title: "Diagnóstico",
                           text: "Detectamos cuello de botella, impacto y prioridad real.",
                         },
                         {
                           num: "02",
                           title: "Arquitectura e integraciones",
-                          text: "Definimos estructura, herramientas y alcance tecnico.",
+                          text: "Definimos estructura, herramientas y alcance técnico.",
                         },
                         {
                           num: "03",
-                          title: "Testing, QA y personalizacion",
-                          text: "Validamos calidad y adaptamos el sistema a tu operacion.",
+                          title: "Testing, QA y personalización",
+                          text: "Validamos calidad y adaptamos el sistema a tu operación.",
                         },
                         {
                           num: "04",
@@ -690,8 +690,8 @@ export default function Landing({ onStart }) {
           <div className="mx-auto max-w-7xl">
             <SectionHeading
               eyebrow="Por qué en APOC"
-              title="Construimos sistemas pensados para durar y crecer con tu operacion."
-              description="Nos posicionamos desde arquitectura, seguridad, seguimiento y criterio tecnico. La idea no es solo desarrollar, sino construir una base confiable para el negocio."
+              title="Construimos sistemas pensados para durar y crecer con tu operación."
+              description="Nos posicionamos desde arquitectura, seguridad, seguimiento y criterio técnico. La idea no es solo desarrollar, sino construir una base confiable para el negocio."
               align="center"
             />
 
@@ -727,8 +727,8 @@ export default function Landing({ onStart }) {
           <div className="mx-auto max-w-7xl">
             <SectionHeading
               eyebrow="Planes"
-              title="Planes de agentes de IA para distintos momentos de tu operacion."
-              description="Estos planes aplican exclusivamente a agentes de IA. Otros proyectos de automatizacion o desarrollo de software se cotizan segun alcance, integraciones y objetivos de negocio."
+              title="Planes de agentes de IA para distintos momentos de tu operación."
+              description="Estos planes aplican exclusivamente a agentes de IA. Otros proyectos de automatización o desarrollo de software se cotizan segun alcance, integraciones y objetivos de negocio."
             />
 
             <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
@@ -802,9 +802,9 @@ export default function Landing({ onStart }) {
         <section id="proyectos" className="px-4 py-16 md:px-10 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionHeading
-              eyebrow="Casos de exito"
-              title="Seleccionamos los casos mas fuertes para mostrar resultado, criterio y nivel de ejecucion."
-              description={`Estos ${featuredCaseStudies.length} casos resumen el tipo de proyectos que mejor representan a APOC Automation. El portfolio completo ya supera los ${caseStudies.length} desarrollos recientes no terciarizados.`}
+              eyebrow="Casos de éxito"
+              title="Seleccionamos los casos más fuertes para mostrar resultado, criterio y nivel de ejecución."
+              description={`Estos ${featuredCaseStudies.length} casos resumen el tipo de proyectos que mejor representan a APOC Automation. El portfolio completo ya supera los ${caseStudies.length} desarrollos recientes no tercerizados.`}
             />
 
             <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
@@ -843,7 +843,7 @@ export default function Landing({ onStart }) {
                     <div className="mt-6 rounded-[24px] border border-white/8 bg-black/20 p-4 md:mt-8 md:rounded-[28px] md:p-5">
                       <div className="grid grid-cols-2 gap-3">
                         {study.metrics.map((metric) => (
-                          <div key={metric} className="rounded-2xl bg-white/5 px-3 py-3 text-xs text-[#dbe1d5] md:px-4 md:py-4 md:text-sm">
+                          <div key={metric} className="flex items-center justify-center text-center rounded-2xl bg-white/5 px-3 py-3 text-xs text-[#dbe1d5] md:px-4 md:py-4 md:text-sm">
                             {metric}
                           </div>
                         ))}
@@ -865,7 +865,7 @@ export default function Landing({ onStart }) {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-start">
               <PrimaryButton onClick={onStart}>Comenzar mi proyecto</PrimaryButton>
               <Link
-                to="/casos-de-exito"
+                to="/casos-de-éxito"
                 className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/4 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#d7ddd0] backdrop-blur-xl transition hover:border-[#6d7c5e]/40 hover:text-white md:px-7 md:py-4 md:text-[13px] md:tracking-[0.2em]"
               >
                 Ver portfolio completo
@@ -879,7 +879,7 @@ export default function Landing({ onStart }) {
             <SectionHeading
               eyebrow="Quienes somos"
               title="Cada proyecto avanza con referentes de area y un equipo coordinado."
-              description="APOC funciona como una software factory con criterio de ingenieria: roles claros, ownership tecnico, seguimiento constante y un proceso profesional de punta a punta."
+              description="APOC funciona como una software factory con criterio de ingenieria: roles claros, ownership técnico, seguimiento constante y un proceso profesional de punta a punta."
             />
 
             <div className="mt-10 grid gap-4 lg:mt-14 lg:gap-6 lg:grid-cols-[1.2fr_0.8fr]">
@@ -919,8 +919,8 @@ export default function Landing({ onStart }) {
                   <p className="text-xs uppercase tracking-[0.24em] text-[#92a083]">Timeline</p>
                   <div className="mt-6 space-y-5">
                     {[
-                      "Briefing ejecutivo y diagnostico",
-                      "Blueprint funcional y tecnico",
+                      "Briefing ejecutivo y diagnóstico",
+                      "Blueprint funcional y técnico",
                       "Sprints con demos cortas",
                       "Release controlado y soporte premium",
                     ].map((item, index) => (
@@ -948,14 +948,14 @@ export default function Landing({ onStart }) {
                   </div>
                   <p className="mt-6 text-sm leading-7 text-[#aab3a0]">
                     Nuestro enfoque combina arquitectura, delivery y negocio. Eso permite construir
-                    sistemas con mejor adopcion interna y menos deuda tecnica futura.
+                    sistemas con mejor adopción interna y menos deuda técnica futura.
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="mt-8">
-              <PrimaryButton onClick={onStart}>Reservar reunion estrategica</PrimaryButton>
+              <PrimaryButton onClick={onStart}>Reservar reunión estratégica</PrimaryButton>
             </div>
           </div>
         </section>
@@ -965,7 +965,7 @@ export default function Landing({ onStart }) {
             <SectionHeading
               eyebrow="Metodologia"
               title="Roadmap transparente para reducir riesgo y aumentar confianza."
-              description="El cliente entiende que recibe en cada etapa, cuando ve avances y como se controla la calidad antes de pasar a produccion."
+              description="El cliente entiende que recibe en cada etapa, cuando ve avances y como se controla la calidad antes de pasar a producción."
             />
 
             <div className="mt-10 grid gap-5 lg:mt-14 lg:gap-8 lg:grid-cols-[0.85fr_1.15fr]">
@@ -1021,7 +1021,7 @@ export default function Landing({ onStart }) {
                 </div>
 
                 <div className="mt-8">
-                  <PrimaryButton onClick={onStart}>Agendar reunion de discovery</PrimaryButton>
+                  <PrimaryButton onClick={onStart}>Agendar reunión de discovery</PrimaryButton>
                 </div>
               </motion.div>
             </div>
@@ -1034,7 +1034,7 @@ export default function Landing({ onStart }) {
               <SectionHeading
                 eyebrow="Calculadora de ahorro"
                 title="Calcula cuanto te cuesta seguir resolviendo procesos manuales."
-                description="Completa estos datos y obten una estimacion simple del costo operativo que hoy se va en tareas repetitivas. No es humo: es una cuenta rapida para dimensionar oportunidad."
+                description="Completa estos datos y obtén una estimación simple del costo operativo que hoy se va en tareas repetitivas. No es humo: es una cuenta rápida para dimensionar oportunidad."
               />
 
               <motion.div
@@ -1096,7 +1096,7 @@ export default function Landing({ onStart }) {
                       onChange={(event) => handleCalculatorChange("automatablePercent", event.target.value)}
                       className="mt-5 w-full accent-[#7b8a6a] sm:mt-6"
                     />
-                    <p className="mt-3 text-sm leading-6 text-[#aab3a0]">Estimacion de cuanto de ese proceso se podria automatizar.</p>
+                    <p className="mt-3 text-sm leading-6 text-[#aab3a0]">Estimacion de cuanto de ese proceso se podría automatizar.</p>
                   </label>
                 </div>
 
@@ -1120,17 +1120,17 @@ export default function Landing({ onStart }) {
                   </div>
 
                   <div className="rounded-[24px] border border-[#7d8d6a]/20 bg-[linear-gradient(180deg,rgba(111,126,96,0.14),rgba(255,255,255,0.04))] p-4 sm:p-5">
-                    <p className="text-xs uppercase tracking-[0.22em] text-[#93a084]">Ahorro estimado con automatizacion</p>
+                    <p className="text-xs uppercase tracking-[0.22em] text-[#93a084]">Ahorro estimado con automatización</p>
                     <p className="mt-4 text-[1.9rem] font-semibold tracking-[-0.05em] text-[#f6f7f2] md:text-4xl">
                       {formatCurrency(estimatedMonthlySaving)}
                       <span className="ml-2 text-base font-medium text-[#bfc7b5]">/ mes</span>
                     </p>
                     <p className="mt-3 text-base leading-7 text-[#d9dfd2]">
-                      Proyeccion anual:
+                      Proyección anual:
                       <span className="ml-2 font-semibold text-[#f6f7f2]">{formatCurrency(estimatedAnnualSaving)}</span>
                     </p>
                     <p className="mt-5 text-sm leading-7 text-[#b3bba9]">
-                      Esta es una estimacion orientativa basada en costo operativo y porcentaje de automatizacion. En la reunion lo aterrizamos a tu caso real, procesos y equipo.
+                      Esta es una estimación orientativa basada en costo operativo y porcentaje de automatización. En la reunión lo aterrizamos a tu caso real, procesos y equipo.
                     </p>
                     <div className="mt-6 flex flex-col gap-2.5 sm:flex-row">
                       <PrimaryButton onClick={onStart} className="w-full rounded-[1.1rem] px-3 py-2.5 text-[8px] tracking-[0.02em] sm:w-auto sm:rounded-[1.2rem] sm:px-5 sm:py-3.5 sm:text-[10px] sm:tracking-[0.1em]">
@@ -1297,7 +1297,7 @@ export default function Landing({ onStart }) {
                 <span className="hidden sm:inline">Quiero un proyecto con este nivel de soporte</span>
               </PrimaryButton>
               <Link
-                to="/casos-de-exito"
+                to="/casos-de-éxito"
                 className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/4 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#d7ddd0] backdrop-blur-xl transition hover:border-[#6d7c5e]/40 hover:text-white md:px-7 md:py-4 md:text-[13px] md:tracking-[0.2em]"
               >
                 Explorar todos los casos
@@ -1317,11 +1317,11 @@ export default function Landing({ onStart }) {
                     Tomamos proyectos limitados cada mes.
                   </h2>
                   <p className="mt-5 max-w-xl text-base leading-7 text-[#abb4a2] md:mt-6 md:text-lg md:leading-8">
-                    Reserva una reunion estrategica si buscas construir en serio, con seguridad,
+                    Reserva una reunión estratégica si buscas construir en serio, con seguridad,
                     arquitectura y seguimiento premium.
                   </p>
                   <div className="mt-6 rounded-[24px] border border-[#7a8968]/20 bg-white/5 p-4 text-sm leading-7 text-[#d7ddd0] md:mt-8 md:rounded-[28px] md:p-5">
-                    <p>Trabajamos con empresas que necesitan una base tecnica confiable para crecer sin fragilidad.</p>
+                    <p>Trabajamos con empresas que necesitan una base técnica confiable para crecer sin fragilidad.</p>
                     <p className="mt-2 text-[#f2f4ee]">Ultimos cupos disponibles esta semana.</p>
                   </div>
                 </div>
@@ -1330,7 +1330,7 @@ export default function Landing({ onStart }) {
                   <div className="glass-card rounded-[24px] p-4 md:rounded-[30px] md:p-6">
                     <p className="text-xs uppercase tracking-[0.24em] text-[#93a084]">Agenda</p>
                     <div className="mt-5 rounded-2xl border border-white/8 bg-black/20 px-4 py-4 text-sm leading-7 text-[#d7ddd0]">
-                      El calendario se actualiza en tiempo real segun disponibilidad. Agenda la reunion estrategica y elige el horario que mejor te sirva.
+                      El calendario se actualiza en tiempo real segun disponibilidad. Agenda la reunión estratégica y elige el horario que mejor te sirva.
                     </div>
                   </div>
 
@@ -1383,7 +1383,7 @@ export default function Landing({ onStart }) {
                       Agendar tu consulta gratuita
                     </PrimaryButton>
                     <Link
-                      to="/casos-de-exito"
+                      to="/casos-de-éxito"
                       className="inline-flex flex-1 items-center justify-center rounded-full border border-white/12 bg-white/4 px-4 py-2.5 text-[10px] font-semibold uppercase leading-tight tracking-[0.08em] text-center text-[#d7ddd0] backdrop-blur-xl transition-all duration-300 hover:border-[#6d7c5e]/40 hover:text-white sm:px-7 sm:py-4 sm:text-[13px] sm:tracking-[0.2em]"
                     >
                       Ver portfolio completo
@@ -1412,7 +1412,7 @@ export default function Landing({ onStart }) {
               </div>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-7 text-[#9da694] md:mt-5 md:text-base md:leading-8">
-              Automatizacion inteligente y desarrollo de software para empresas de habla hispana que quieren escalar.
+              Automatización inteligente y desarrollo de software para empresas de habla hispana que quieren escalar.
             </p>
             <div className="mt-5 flex flex-wrap gap-4 md:mt-6 md:gap-6">
               {socialLinks.map((item) => (
@@ -1433,11 +1433,11 @@ export default function Landing({ onStart }) {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-[#dfe5d8]">Servicios</p>
             <div className="mt-4 space-y-2 text-sm text-[#9da694] md:mt-5 md:space-y-3 md:text-base">
-              <a href="#diferencial" className="block transition hover:text-white">Automatizacion n8n</a>
+              <a href="#diferencial" className="block transition hover:text-white">Automatización n8n</a>
               <a href="#diferencial" className="block transition hover:text-white">Agentes IA</a>
-              <Link to="/casos-de-exito" className="block transition hover:text-white">Desarrollo software</Link>
-              <Link to="/casos-de-exito" className="block transition hover:text-white">Marketing automation</Link>
-              <Link to="/casos-de-exito" className="block transition hover:text-white">Hardware + software</Link>
+              <Link to="/casos-de-éxito" className="block transition hover:text-white">Desarrollo software</Link>
+              <Link to="/casos-de-éxito" className="block transition hover:text-white">Marketing automation</Link>
+              <Link to="/casos-de-éxito" className="block transition hover:text-white">Hardware + software</Link>
             </div>
           </div>
 
@@ -1445,7 +1445,7 @@ export default function Landing({ onStart }) {
             <p className="text-xs uppercase tracking-[0.24em] text-[#dfe5d8]">Empresa</p>
             <div className="mt-4 space-y-2 text-sm text-[#9da694] md:mt-5 md:space-y-3 md:text-base">
               <a href="#equipo" className="block transition hover:text-white">Quienes somos</a>
-              <Link to="/casos-de-exito" className="block transition hover:text-white">Casos de exito</Link>
+              <Link to="/casos-de-éxito" className="block transition hover:text-white">Casos de éxito</Link>
               <a href="#contacto" className="block transition hover:text-white">Agendar una llamada</a>
               <a href="#metodologia" className="block transition hover:text-white">Metodologia</a>
             </div>
@@ -1464,7 +1464,7 @@ export default function Landing({ onStart }) {
         </div>
         <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-4 border-t border-white/8 pt-8 text-sm text-[#7c8574] md:flex-row md:items-center md:justify-between">
           <span>© 2025 Apoc Automation. Todos los derechos reservados.</span>
-          <span>Hecho con dedicacion en Argentina</span>
+          <span>Hecho con dedicación en Argentina</span>
         </div>
       </footer>
 

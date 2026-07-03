@@ -450,7 +450,7 @@ export default function Form({ onComplete }) {
                 )}
 
                 <p className="text-[10px] mt-6 md:mt-8 text-[#91a082] font-semibold uppercase tracking-[0.14em] md:tracking-[0.18em] text-center">
-                    Tus datos se usan solo para preparar la reunion y evaluar tu caso con criterio.
+                    Tus datos se usan solo para preparar la reunión y evaluar tu caso con criterio.
                 </p>
 
             </div>

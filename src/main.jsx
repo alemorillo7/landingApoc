@@ -235,7 +235,7 @@ function LoadingScreen() {
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.18),transparent_24%),linear-gradient(180deg,#070908_0%,#0b0f0c_100%)] flex flex-col items-center justify-center text-[#F5F7F6] p-6 text-center">
       <div className="mb-8 h-16 w-16 rounded-full border-4 border-[#7b8b69]/35 border-t-[#dbe3d1] animate-spin"></div>
       <h2 className="text-xl font-semibold tracking-[0.14em] uppercase text-[#dfe5d8] md:text-2xl md:tracking-[0.18em]">
-        Preparando tu reunion estrategica...
+        Preparando tu reunión estratégica...
       </h2>
     </div>
   );
@@ -258,7 +258,7 @@ function Success({ data }) {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: "APOC Automation",
-    url: `${seoConfig.baseUrl}/reunion-confirmada`,
+    url: `${seoConfig.baseUrl}/reunión-confirmada`,
     areaServed: "Latam",
     telephone: contactInfo.phone,
   };
@@ -267,8 +267,8 @@ function Success({ data }) {
     <>
       <Seo
         title="Reunion confirmada | APOC Automation"
-        description="Tu reunion estrategica con APOC Automation ya fue confirmada. Revisaremos contexto, oportunidad y siguientes pasos con foco tecnico y de negocio."
-        pathname="/reunion-confirmada"
+        description="Tu reunión estratégica con APOC Automation ya fue confirmada. Revisaremos contexto, oportunidad y siguientes pasos con foco técnico y de negocio."
+        pathname="/reunión-confirmada"
         schema={schema}
       />
       <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.18),transparent_24%),linear-gradient(180deg,#070908_0%,#0b0f0c_100%)] flex flex-col items-center justify-center text-[#F5F7F6] p-4 md:p-6 text-center selection:bg-[#8a9979] selection:text-[#0b0f0c]">
@@ -281,7 +281,7 @@ function Success({ data }) {
             Reunion confirmada.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-[#b7c0ae] md:mt-6 md:text-xl md:leading-8">
-            Tu reunion estrategica con APOC Automation ya quedo reservada. Vamos a revisar contexto, oportunidad y siguientes pasos con foco tecnico y de negocio.
+            Tu reunión estratégica con APOC Automation ya quedo reservada. Vamos a revisar contexto, oportunidad y siguientes pasos con foco técnico y de negocio.
           </p>
 
           {data?.date && data?.time && (
@@ -293,7 +293,7 @@ function Success({ data }) {
           )}
 
           <p className="mx-auto mt-6 max-w-lg text-sm leading-7 text-[#9eaa94] md:mt-8 md:text-base">
-            Te enviamos la invitacion por correo electronico y nos pondremos en contacto por WhatsApp para coordinar la reunion. Si tu caso califica, avanzamos con discovery y definicion de alcance.
+            Te enviamos la invitación por correo electrónico y nos pondremos en contacto por WhatsApp para coordinar la reunión. Si tu caso califica, avanzamos con discovery y definición de alcance.
           </p>
 
           <div className="mx-auto mb-6 mt-8 h-px w-20 bg-white/10 md:mb-8 md:mt-10"></div>
@@ -317,8 +317,8 @@ function CaseStudyPage({ onStart }) {
     return <Navigate to="/" replace />;
   }
 
-  const title = `${caseStudy.client} | Caso de exito APOC Automation`;
-  const description = `${caseStudy.client}: ${caseStudy.problem} Solucion: ${caseStudy.solution}`;
+  const title = `${caseStudy.client} | Caso de éxito APOC Automation`;
+  const description = `${caseStudy.client}: ${caseStudy.problem} Solución: ${caseStudy.solution}`;
   const pathname = `/proyectos/${caseStudy.id}`;
   const schema = {
     "@context": "https://schema.org",
@@ -335,7 +335,7 @@ function CaseStudyPage({ onStart }) {
     ? "6. Feedback real"
     : caseStudy.impact
       ? "6. Impacto del proyecto"
-      : "6. Sintesis ejecutiva";
+      : "6. Síntesis ejecutiva";
   const detailText =
     caseStudy.feedback ||
     caseStudy.impact ||
@@ -362,12 +362,12 @@ function CaseStudyPage({ onStart }) {
                 onClick={onStart}
                 className="magnetic-button inline-flex items-center justify-center rounded-full border border-[#758464]/30 bg-[#6d7c5e] px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#f7f8f3] transition hover:bg-[#7b8a6a]"
               >
-                Agendar reunion
+                Agendar reunión
               </button>
             </div>
 
             <div className="glass-card rounded-[40px] p-8 md:p-10">
-              <p className="text-xs uppercase tracking-[0.24em] text-[#95a085]">Caso de exito</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-[#95a085]">Caso de éxito</p>
               <h1 className="mt-5 text-4xl font-semibold tracking-[-0.05em] text-[#f5f6f2] md:text-6xl">
                 {caseStudy.client}
               </h1>
@@ -400,7 +400,7 @@ function CaseStudyPage({ onStart }) {
 
               <div className="mt-10 grid gap-5 md:grid-cols-2">
                 <div className="rounded-[28px] border border-white/8 bg-black/18 p-6">
-                  <p className="text-xs uppercase tracking-[0.22em] text-[#91a082]">1. Quien es el cliente</p>
+                  <p className="text-xs uppercase tracking-[0.22em] text-[#91a082]">1. Quién es el cliente</p>
                   <p className="mt-4 text-base leading-8 text-[#d7ddd0]">{caseStudy.clientSummary}</p>
                 </div>
                 <div className="rounded-[28px] border border-white/8 bg-black/18 p-6">
@@ -408,11 +408,11 @@ function CaseStudyPage({ onStart }) {
                   <p className="mt-4 text-base leading-8 text-[#d7ddd0]">{caseStudy.problem}</p>
                 </div>
                 <div className="rounded-[28px] border border-white/8 bg-black/18 p-6">
-                  <p className="text-xs uppercase tracking-[0.22em] text-[#91a082]">3. Que se desarrollo</p>
+                  <p className="text-xs uppercase tracking-[0.22em] text-[#91a082]">3. Qué se desarrolló</p>
                   <p className="mt-4 text-base leading-8 text-[#d7ddd0]">{caseStudy.solution}</p>
                 </div>
                 <div className="rounded-[28px] border border-white/8 bg-black/18 p-6">
-                  <p className="text-xs uppercase tracking-[0.22em] text-[#91a082]">4. Tecnologias usadas</p>
+                  <p className="text-xs uppercase tracking-[0.22em] text-[#91a082]">4. Tecnologías usadas</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {caseStudy.technologies.map((tech) => (
                       <span
@@ -431,7 +431,7 @@ function CaseStudyPage({ onStart }) {
                     {caseStudy.metrics.map((metric) => (
                       <div
                         key={metric}
-                        className="rounded-2xl border border-white/8 bg-white/4 px-4 py-3 text-sm text-[#ecf0e7]"
+                        className="flex items-center justify-center text-center rounded-2xl bg-white/5 px-4 py-3 text-xs text-[#ecf0e7] md:text-sm"
                       >
                         {metric}
                       </div>
@@ -447,17 +447,17 @@ function CaseStudyPage({ onStart }) {
               <div className="mt-8 rounded-[30px] border border-[#7d8d6a]/20 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(255,255,255,0.04))] p-7">
                 <p className="text-xs uppercase tracking-[0.22em] text-[#96a287]">7. CTA</p>
                 <h2 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-[#f6f7f3]">
-                  Comenza tu proyecto
+                  Comenzá tu proyecto
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-8 text-[#d5dccd]">
-                  Si necesitas un sistema serio, mantenible y preparado para crecer, el siguiente paso es una reunion estrategica para evaluar alcance, riesgo y oportunidad.
+                  Si necesitas un sistema serio, mantenible y preparado para crecer, el siguiente paso es una reunión estratégica para evaluar alcance, riesgo y oportunidad.
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                   <button
                     onClick={onStart}
                     className="magnetic-button inline-flex items-center justify-center rounded-full border border-[#758464]/30 bg-[#6d7c5e] px-7 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#f7f8f3] transition hover:bg-[#7b8a6a]"
                   >
-                    Comenza tu proyecto
+                    Comenzá tu proyecto
                   </button>
                   <Link
                     to="/"
@@ -476,10 +476,10 @@ function CaseStudyPage({ onStart }) {
 }
 
 function PortfolioPage({ onStart }) {
-  const title = "Casos de exito | APOC Automation";
+  const title = "Casos de éxito | APOC Automation";
   const description =
-    "Portfolio completo de APOC Automation con proyectos reales de automatizacion, agentes IA y software a medida para multiples industrias y paises.";
-  const pathname = "/casos-de-exito";
+    "Portfolio completo de APOC Automation con proyectos reales de automatizacion, agentes IA y software a medida para múltiples industrias y paises.";
+  const pathname = "/casos-de-éxito";
   const schema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -509,17 +509,17 @@ function PortfolioPage({ onStart }) {
                 onClick={onStart}
                 className="magnetic-button inline-flex items-center justify-center rounded-full border border-[#758464]/30 bg-[#6d7c5e] px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#f7f8f3] transition hover:bg-[#7b8a6a]"
               >
-                Agendar reunion
+                Agendar reunión
               </button>
             </div>
 
             <div className="max-w-4xl">
               <p className="text-xs uppercase tracking-[0.24em] text-[#95a085]">Portfolio completo</p>
               <h1 className="mt-5 text-4xl font-semibold tracking-[-0.05em] text-[#f5f6f2] md:text-6xl">
-                Casos de exito reales en automatizacion, agentes IA y software a medida.
+                Casos de éxito reales en automatizacion, agentes IA y software a medida.
               </h1>
               <p className="mt-6 text-base leading-8 text-[#aab3a1] md:text-lg">
-                Esta vista concentra todos los proyectos no terciarizados cargados hasta ahora, con los casos destacados primero y el resto del portfolio ordenado despues.
+                Esta vista concentra todos los proyectos no tercerizados cargados hasta ahora, con los casos destacados primero y el resto del portfolio ordenado después.
               </p>
             </div>
 
@@ -554,7 +554,7 @@ function PortfolioPage({ onStart }) {
                     </div>
                     <div className="mt-6 grid grid-cols-2 gap-3">
                       {study.metrics.map((metric) => (
-                        <div key={metric} className="rounded-2xl bg-white/5 px-3 py-3 text-xs text-[#dbe1d5] md:px-4 md:py-4 md:text-sm">
+                        <div key={metric} className="flex items-center justify-center text-center rounded-2xl bg-white/5 px-3 py-3 text-xs text-[#dbe1d5] md:px-4 md:py-4 md:text-sm">
                           {metric}
                         </div>
                       ))}
@@ -636,17 +636,17 @@ function AppRoutes() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            title: `Diagnostico APOC - ${data.industry || "Cliente"}`,
+            title: `Diagnóstico APOC - ${data.industry || "Cliente"}`,
             date: data.date,
             start_time: data.time,
             end_time: endTime,
-            description: `Reunion de diagnostico agendada automaticamente desde la landing page.
+            description: `Reunion de diagnóstico agendada automáticamente desde la landing page.
 
 Detalles del lead:
 - Rubro / Industria: ${data.industry || "No especificado"}
 - Proceso critico: ${data.problem || "No especificado"}
 - Urgencia: ${data.urgency || "No especificada"}
-- Facturacion: ${data.revenue || "No especificada"}
+- Facturación: ${data.revenue || "No especificada"}
 - Presupuesto: ${data.budget || "No especificado"}
 - WhatsApp: ${data.phone || "No especificado"}`,
             guests: data.email,
@@ -664,11 +664,11 @@ Detalles del lead:
       }
 
       setLeadData(data);
-      navigate("/reunion-confirmada");
+      navigate("/reunión-confirmada");
     } catch (error) {
       console.error("Error enviando lead:", error);
       setLeadData(data);
-      navigate("/reunion-confirmada");
+      navigate("/reunión-confirmada");
     } finally {
       setSubmitting(false);
     }
@@ -688,8 +688,8 @@ Detalles del lead:
           element={
             <>
               <Seo
-                title="Agenda una reunion estrategica | APOC Automation"
-                description="Reserva una reunion estrategica con APOC para evaluar arquitectura, seguridad, automatizacion y oportunidad de negocio."
+                title="Agenda una reunión estratégica | APOC Automation"
+                description="Reserva una reunión estratégica con APOC para evaluar arquitectura, seguridad, automatizacion y oportunidad de negocio."
                 pathname="/agenda"
                 schema={null}
               />
@@ -697,10 +697,10 @@ Detalles del lead:
             </>
           }
         />
-        <Route path="/casos-de-exito" element={<PortfolioPage onStart={handleStartForm} />} />
+        <Route path="/casos-de-éxito" element={<PortfolioPage onStart={handleStartForm} />} />
         <Route path="/proyectos/:id" element={<CaseStudyPage onStart={handleStartForm} />} />
         <Route
-          path="/reunion-confirmada"
+          path="/reunión-confirmada"
           element={leadData ? <Success data={leadData} /> : <Navigate to="/" replace />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
