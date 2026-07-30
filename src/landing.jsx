@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import {
   caseStudies,
   clientLogos,
-  commercialCompare,
   commercialOptions,
   contactInfo,
   differentiators,
@@ -732,7 +731,7 @@ export default function Landing({ onStart }) {
               description="Podés financiar tu software propio, comprar un proyecto cerrado o incorporar a APOC como departamento de tecnología continuo. El modelo se adapta a tu etapa y a tus objetivos."
             />
 
-            <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
+            <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
               {commercialOptions.map((option, index) => (
                 <motion.article
                   key={option.id}
@@ -741,42 +740,57 @@ export default function Landing({ onStart }) {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ delay: index * 0.08 }}
-                  className={`relative flex h-full overflow-hidden rounded-[28px] border p-5 md:rounded-[34px] md:p-7 ${
-                    option.highlighted
-                      ? "border-[#86966f]/45 bg-[linear-gradient(180deg,rgba(128,145,109,0.24),rgba(255,255,255,0.06))] shadow-[0_40px_120px_rgba(64,76,52,0.3)] ring-1 ring-[#7d8d6a]/20 before:absolute before:left-1/2 before:top-0 before:h-40 before:w-[70%] before:-translate-x-1/2 before:rounded-full before:bg-[#6f7d61]/25 before:blur-3xl"
-                      : "glass-card"
-                  }`}
+                  className="group relative flex h-full overflow-hidden rounded-[30px] border border-[#9baa87]/20 bg-[linear-gradient(155deg,rgba(132,149,111,0.15)_0%,rgba(15,19,16,0.96)_34%,rgba(7,9,8,0.98)_100%)] p-[1px] shadow-[0_28px_90px_rgba(0,0,0,0.34)] transition duration-500 hover:-translate-y-1 hover:border-[#a9ba93]/40 hover:shadow-[0_34px_110px_rgba(65,77,53,0.22)] md:rounded-[36px]"
                 >
-                  <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-[#738261]/10 blur-3xl" />
-                  <div className="relative flex h-full w-full flex-col">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.24em] text-[#95a285]">
-                          {option.model}
-                        </p>
-                        <h3 className="mt-4 text-2xl font-semibold tracking-[-0.05em] text-[#f5f6f2] md:text-3xl">
-                          {option.name}
-                        </h3>
-                      </div>
-                      {option.highlighted ? (
-                        <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/16 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#edf1e8]">
-                          recomendado
-                        </span>
-                      ) : null}
+                  <div className="pointer-events-none absolute -right-14 -top-16 h-52 w-52 rounded-full bg-[#92a67a]/10 blur-3xl transition duration-500 group-hover:bg-[#92a67a]/16" />
+                  <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(190,208,167,0.7),transparent)]" />
+
+                  <div className="relative flex h-full w-full flex-col rounded-[29px] bg-[linear-gradient(180deg,rgba(17,21,18,0.88),rgba(8,10,9,0.96))] p-5 md:rounded-[35px] md:p-7">
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-full border border-[#91a27c]/25 bg-[#849570]/10 px-3 text-[11px] font-semibold tracking-[0.18em] text-[#dfe8d6]">
+                        0{index + 1}
+                      </span>
+                      <p className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9ba990]">
+                        {option.model}
+                      </p>
                     </div>
 
-                    <p className="mt-4 text-lg font-medium leading-8 text-[#eef2e8] md:text-xl">
+                    <h3 className="mt-7 text-[1.9rem] font-semibold tracking-[-0.055em] text-[#f5f7f1] md:text-[2.15rem]">
+                      {option.name}
+                    </h3>
+                    <p className="mt-3 min-h-[4rem] text-lg font-medium leading-7 text-[#e4eadf]">
                       {option.tagline}
                     </p>
-                    <p className="mt-4 text-sm leading-7 text-[#c8d0c0] md:text-base md:leading-8">
+                    <p className="mt-4 min-h-[5.25rem] text-sm leading-7 text-[#aeb9a5] md:text-[15px]">
                       {option.summary}
                     </p>
 
-                    <div className="mt-6 flex-1 space-y-3">
+                    <div className="mt-6 grid grid-cols-2 overflow-hidden rounded-[20px] border border-white/8 bg-black/20">
+                      <div className="border-r border-white/8 p-4">
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#87947e]">
+                          Modalidad de pago
+                        </p>
+                        <p className="mt-2 text-sm font-medium leading-5 text-[#edf1e8]">
+                          {option.payment}
+                        </p>
+                      </div>
+                      <div className="p-4">
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#87947e]">
+                          Propiedad
+                        </p>
+                        <p className="mt-2 text-sm font-medium leading-5 text-[#edf1e8]">
+                          {option.ownership}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-7 flex-1 space-y-3.5 border-t border-white/8 pt-7">
                       {option.items.map((item) => (
                         <div key={item} className="flex gap-3">
-                          <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#81906f]" />
-                          <p className="text-sm leading-6 text-[#dbe1d5] md:text-[15px] md:leading-7">
+                          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#91a27c]/25 bg-[#849570]/10 text-[10px] text-[#cbd8bf]">
+                            ✓
+                          </span>
+                          <p className="text-sm leading-6 text-[#d5dccf] md:text-[15px]">
                             {item}
                           </p>
                         </div>
@@ -821,48 +835,14 @@ export default function Landing({ onStart }) {
                       </div>
                     ) : null}
 
-                    <div className="mt-6">
-                      <details className="group rounded-[22px] border border-white/10 bg-black/20 p-4 md:rounded-[26px] md:p-5">
-                        <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
-                          <p className="text-[11px] uppercase tracking-[0.22em] text-[#a3af96]">
-                            Condición de incumplimiento
-                          </p>
-                          <span className="text-lg text-[#a3af96] transition group-open:rotate-45">
-                            +
-                          </span>
-                        </summary>
-                        <p className="mt-4 text-sm leading-7 text-[#c5cebb] md:text-[15px] md:leading-8">
-                          {option.defaultCondition}
-                        </p>
-                      </details>
-                    </div>
-
                     <div className="mt-8 pt-2">
                       <a
                         href={getOptionWhatsAppHref(option)}
                         target="_blank"
                         rel="noreferrer"
-                        className={`magnetic-button inline-flex w-full items-center justify-center rounded-full border px-4 py-3 text-[10px] font-semibold uppercase leading-tight tracking-[0.08em] text-center transition-all duration-300 hover:-translate-y-0.5 sm:px-7 sm:py-4 sm:text-[13px] sm:tracking-[0.2em] ${
-                          option.highlighted
-                            ? "border-[#758464]/35 bg-[#7a8a67] text-[#f7f8f3] shadow-[0_20px_70px_rgba(82,96,66,0.45)] hover:bg-[#889a73]"
-                            : "border-[#758464]/30 bg-[#6d7c5e] text-[#f7f8f3] shadow-[0_20px_60px_rgba(82,96,66,0.25)] hover:bg-[#7b8a6a]"
-                        }`}
+                        className="magnetic-button inline-flex w-full items-center justify-center rounded-full border border-[#9aaa84]/35 bg-[linear-gradient(180deg,#829270,#6d7c5e)] px-4 py-3 text-center text-[10px] font-semibold uppercase leading-tight tracking-[0.08em] text-[#f7f8f3] shadow-[0_18px_50px_rgba(82,96,66,0.3)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#b0c09c]/50 hover:bg-[linear-gradient(180deg,#91a17e,#788969)] sm:px-7 sm:py-4 sm:text-[12px] sm:tracking-[0.18em]"
                       >
-                        {option.highlighted ? (
-                          <>
-                            <span className="sm:hidden">Quiero APOC Flex</span>
-                            <span className="hidden sm:inline">
-                              Quiero avanzar con APOC Flex
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <span className="sm:hidden">Consultar por WhatsApp</span>
-                            <span className="hidden sm:inline">
-                              Quiero esta opción por WhatsApp
-                            </span>
-                          </>
-                        )}
+                        Quiero avanzar con APOC
                       </a>
                     </div>
                   </div>

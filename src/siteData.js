@@ -517,7 +517,7 @@ export const challengeOptions = [
 export const commercialOptions = [
   {
     id: "apoc-flex",
-    name: "APOC FLEX",
+    name: "APOC Flex",
     tagline: "Desarrollá hoy. Pagá en el tiempo. El sistema termina siendo tuyo.",
     model: "Financiación para software propio",
     summary:
@@ -551,13 +551,10 @@ export const commercialOptions = [
       "Backups",
       "Capacitación",
     ],
-    defaultCondition:
-      "Si el cliente acumula cuotas vencidas y no regulariza la deuda dentro de los 90 días desde el primer incumplimiento, APOC podrá suspender el desarrollo, el acceso al sistema y el soporte. El proyecto quedará dado de baja hasta la cancelación de la deuda o la resolución contractual prevista.",
-    highlighted: true,
   },
   {
     id: "desarrollo-tradicional",
-    name: "Desarrollo Tradicional",
+    name: "Desarrollo tradicional",
     tagline: "Comprás el proyecto.",
     model: "Proyecto cerrado por hitos",
     summary:
@@ -578,12 +575,10 @@ export const commercialOptions = [
       "Código fuente al finalizar",
       "Mantenimiento opcional",
     ],
-    defaultCondition:
-      "El incumplimiento de un hito de pago habilita a APOC a suspender el desarrollo hasta la regularización. Los plazos de entrega se reprogramarán según la fecha efectiva de pago.",
   },
   {
     id: "partner-tecnologico",
-    name: "Partner Tecnológico",
+    name: "Partner tecnológico",
     tagline: "No contratás un software. Incorporás un departamento de tecnología.",
     model: "Evolución continua mensual",
     summary:
@@ -604,8 +599,6 @@ export const commercialOptions = [
       "Soporte acorde al plan",
       "Evolución continua",
     ],
-    defaultCondition:
-      "La falta de pago faculta a APOC a suspender las horas asignadas, el soporte y los nuevos desarrollos hasta regularizar la cuenta. Los desarrollos ya entregados continúan bajo las condiciones del contrato vigente.",
   },
 ];
 
