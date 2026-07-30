@@ -630,8 +630,8 @@ export const commercialCompare = [
 ];
 
 export const contactInfo = {
-  whatsapp: "+54 9 351 809-0477",
-  whatsappHref: "https://wa.me/5493518090477",
+  whatsapp: "+54 9 351 357-7327",
+  whatsappHref: "https://wa.me/5493513577327",
   phone: "+54 9 3572 526971",
   phoneHref: "tel:5493572526971",
   instagramHref: "https://www.instagram.com/apoc.automation/",
