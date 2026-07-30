@@ -8,9 +8,10 @@ import {
 } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  aiPlans,
   caseStudies,
   clientLogos,
+  commercialCompare,
+  commercialOptions,
   contactInfo,
   differentiators,
   expertise,
@@ -259,8 +260,8 @@ export default function Landing({ onStart }) {
     }));
   };
 
-  const getPlanWhatsAppHref = (plan) => {
-    const message = `Hola APOC, me interesa el ${plan.name} (${plan.price}) de agentes de IA. Quiero recibir más información y ver si aplica para mi negocio.`;
+  const getOptionWhatsAppHref = (option) => {
+    const message = `Hola APOC, me interesa la opción ${option.name} (${option.model}). Quiero recibir más información y entender si aplica para mi proyecto.`;
     const separator = contactInfo.whatsappHref.includes("?") ? "&" : "?";
     return `${contactInfo.whatsappHref}${separator}text=${encodeURIComponent(message)}`;
   };
@@ -726,23 +727,23 @@ export default function Landing({ onStart }) {
         <section id="planes-agentes-ia" className="px-4 py-16 md:px-10 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionHeading
-              eyebrow="Planes"
-              title="Planes de agentes de IA para distintos momentos de tu operación."
-              description="Estos planes aplican exclusivamente a agentes de IA. Otros proyectos de automatización o desarrollo de software se cotizan segun alcance, integraciones y objetivos de negocio."
+              eyebrow="Cómo trabajamos"
+              title="Tres formas de contratar APOC, según dónde esté tu empresa."
+              description="Podés financiar tu software propio, comprar un proyecto cerrado o incorporar a APOC como departamento de tecnología continuo. El modelo se adapta a tu etapa y a tus objetivos."
             />
 
             <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
-              {aiPlans.map((plan, index) => (
-                <motion.div
-                  key={plan.name}
+              {commercialOptions.map((option, index) => (
+                <motion.article
+                  key={option.id}
                   variants={reveal}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ delay: index * 0.08 }}
                   className={`relative flex h-full overflow-hidden rounded-[28px] border p-5 md:rounded-[34px] md:p-7 ${
-                    plan.highlighted
-                      ? "border-[#7d8d6a]/28 bg-[linear-gradient(180deg,rgba(111,126,96,0.16),rgba(255,255,255,0.05))] shadow-[0_40px_100px_rgba(53,61,44,0.18)]"
+                    option.highlighted
+                      ? "border-[#86966f]/45 bg-[linear-gradient(180deg,rgba(128,145,109,0.24),rgba(255,255,255,0.06))] shadow-[0_40px_120px_rgba(64,76,52,0.3)] ring-1 ring-[#7d8d6a]/20 before:absolute before:left-1/2 before:top-0 before:h-40 before:w-[70%] before:-translate-x-1/2 before:rounded-full before:bg-[#6f7d61]/25 before:blur-3xl"
                       : "glass-card"
                   }`}
                 >
@@ -751,49 +752,121 @@ export default function Landing({ onStart }) {
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <p className="text-xs uppercase tracking-[0.24em] text-[#95a285]">
-                          Agentes de IA
+                          {option.model}
                         </p>
                         <h3 className="mt-4 text-2xl font-semibold tracking-[-0.05em] text-[#f5f6f2] md:text-3xl">
-                          {plan.name}
+                          {option.name}
                         </h3>
                       </div>
-                      {plan.highlighted ? (
+                      {option.highlighted ? (
                         <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/16 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#edf1e8]">
                           recomendado
                         </span>
                       ) : null}
                     </div>
 
-                    <p className="mt-4 text-lg font-medium text-[#eef2e8] md:text-xl">
-                      {plan.price}
+                    <p className="mt-4 text-lg font-medium leading-8 text-[#eef2e8] md:text-xl">
+                      {option.tagline}
                     </p>
                     <p className="mt-4 text-sm leading-7 text-[#c8d0c0] md:text-base md:leading-8">
-                      {plan.description}
+                      {option.summary}
                     </p>
 
                     <div className="mt-6 flex-1 space-y-3">
-                      {plan.features.map((feature) => (
-                        <div key={feature} className="flex gap-3">
+                      {option.items.map((item) => (
+                        <div key={item} className="flex gap-3">
                           <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#81906f]" />
                           <p className="text-sm leading-6 text-[#dbe1d5] md:text-[15px] md:leading-7">
-                            {feature}
+                            {item}
                           </p>
                         </div>
                       ))}
                     </div>
 
+                    {option.terms?.length ? (
+                      <div className="mt-7 rounded-[22px] border border-[#7a8a67]/25 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(255,255,255,0.03))] p-4 md:rounded-[26px] md:p-5">
+                        <p className="text-[10px] uppercase tracking-[0.24em] text-[#909d83]">
+                          Plazos sugeridos
+                        </p>
+                        <div className="mt-4 grid gap-3 md:grid-cols-3">
+                          {option.terms.map((term) => (
+                            <div
+                              key={term.value}
+                              className="flex items-center justify-center rounded-[16px] border border-white/8 bg-black/25 p-3 md:rounded-[18px] md:p-4"
+                            >
+                              <p className="text-sm font-semibold tracking-[-0.02em] text-[#eef2e8] md:text-lg">
+                                {term.value}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {option.includes?.length ? (
+                      <div className="mt-6">
+                        <p className="text-[10px] uppercase tracking-[0.24em] text-[#909d83]">
+                          Incluye
+                        </p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {option.includes.map((item) => (
+                            <span
+                              key={item}
+                              className="rounded-full border border-white/10 bg-white/4 px-3 py-1.5 text-[11px] font-medium text-[#dce3d3]"
+                            >
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+
+                    <div className="mt-6">
+                      <details className="group rounded-[22px] border border-white/10 bg-black/20 p-4 md:rounded-[26px] md:p-5">
+                        <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                          <p className="text-[11px] uppercase tracking-[0.22em] text-[#a3af96]">
+                            Condición de incumplimiento
+                          </p>
+                          <span className="text-lg text-[#a3af96] transition group-open:rotate-45">
+                            +
+                          </span>
+                        </summary>
+                        <p className="mt-4 text-sm leading-7 text-[#c5cebb] md:text-[15px] md:leading-8">
+                          {option.defaultCondition}
+                        </p>
+                      </details>
+                    </div>
+
                     <div className="mt-8 pt-2">
                       <a
-                        href={getPlanWhatsAppHref(plan)}
+                        href={getOptionWhatsAppHref(option)}
                         target="_blank"
                         rel="noreferrer"
-                        className="magnetic-button inline-flex w-full items-center justify-center rounded-full border border-[#758464]/30 bg-[#6d7c5e] px-4 py-3 text-[10px] font-semibold uppercase leading-tight tracking-[0.08em] text-center text-[#f7f8f3] shadow-[0_20px_60px_rgba(82,96,66,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#7b8a6a] sm:px-7 sm:py-4 sm:text-[13px] sm:tracking-[0.2em]"
+                        className={`magnetic-button inline-flex w-full items-center justify-center rounded-full border px-4 py-3 text-[10px] font-semibold uppercase leading-tight tracking-[0.08em] text-center transition-all duration-300 hover:-translate-y-0.5 sm:px-7 sm:py-4 sm:text-[13px] sm:tracking-[0.2em] ${
+                          option.highlighted
+                            ? "border-[#758464]/35 bg-[#7a8a67] text-[#f7f8f3] shadow-[0_20px_70px_rgba(82,96,66,0.45)] hover:bg-[#889a73]"
+                            : "border-[#758464]/30 bg-[#6d7c5e] text-[#f7f8f3] shadow-[0_20px_60px_rgba(82,96,66,0.25)] hover:bg-[#7b8a6a]"
+                        }`}
                       >
-                        Quiero este plan por WhatsApp
+                        {option.highlighted ? (
+                          <>
+                            <span className="sm:hidden">Quiero APOC Flex</span>
+                            <span className="hidden sm:inline">
+                              Quiero avanzar con APOC Flex
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="sm:hidden">Consultar por WhatsApp</span>
+                            <span className="hidden sm:inline">
+                              Quiero esta opción por WhatsApp
+                            </span>
+                          </>
+                        )}
                       </a>
                     </div>
                   </div>
-                </motion.div>
+                </motion.article>
               ))}
             </div>
           </div>

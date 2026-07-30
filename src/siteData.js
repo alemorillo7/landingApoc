@@ -514,45 +514,125 @@ export const challengeOptions = [
   },
 ];
 
-export const aiPlans = [
+export const commercialOptions = [
   {
-    name: "Plan Básico",
-    price: "desde USD 200",
-    description:
-      "Un agente de IA que atiende a tus clientes de forma automática, las 24 horas.",
-    features: [
-      "Disponible en WhatsApp o en tu sitio web, a elección",
-      "Mantiene conversaciones naturales y con contexto",
-      "Responde consultas frecuentes de tu negocio",
-      "Deriva a tu equipo cuando hace falta atención personalizada",
+    id: "apoc-flex",
+    name: "APOC FLEX",
+    tagline: "Desarrollá hoy. Pagá en el tiempo. El sistema termina siendo tuyo.",
+    model: "Financiación para software propio",
+    summary:
+      "Ideal si querés construir un sistema propio, pero prefieres pagar en cuotas sin frenar el desarrollo.",
+    payment: "20% anticipo + cuotas",
+    ownership: "Al finalizar el contrato",
+    items: [
+      "Anticipo del 20% para iniciar el proyecto.",
+      "El 80% restante se financia según el plan acordado.",
+      "El desarrollo comienza inmediatamente.",
+      "Aunque el proyecto finalice antes, las cuotas continúan hasta finalizar el contrato.",
+      "Al cancelar el 100% del contrato, el cliente recibe el código fuente y la titularidad acordada del software.",
     ],
-  },
-  {
-    name: "Plan Estándar",
-    price: "desde USD 300",
-    description:
-      "Incluye todo lo del plan Básico, sumando funciones orientadas a la gestion comercial.",
-    features: [
-      "Disponible en hasta 2 canales de atención",
-      "Identifica y prioriza contactos con mayor potencial de venta",
-      "Coordina turnos y reuniones de forma automática",
-      "Registra la información en tu CRM o base de datos",
-      "Notifica a tu equipo ante contactos relevantes en tiempo real",
+    terms: [
+      {
+        value: "12 meses",
+      },
+      {
+        value: "18 meses",
+      },
+      {
+        value: "24 meses",
+      },
     ],
+    includes: [
+      "Desarrollo",
+      "Implementación",
+      "Soporte",
+      "Corrección de errores",
+      "Hosting (si corresponde)",
+      "Backups",
+      "Capacitación",
+    ],
+    defaultCondition:
+      "Si el cliente acumula cuotas vencidas y no regulariza la deuda dentro de los 90 días desde el primer incumplimiento, APOC podrá suspender el desarrollo, el acceso al sistema y el soporte. El proyecto quedará dado de baja hasta la cancelación de la deuda o la resolución contractual prevista.",
     highlighted: true,
   },
   {
-    name: "Plan Personalizado",
-    price: "desde USD 800 + USD 150/mes",
-    description:
-      "Un agente de IA diseñado a medida para las necesidades particulares de tu negocio.",
-    features: [
-      "Configuracion adaptada a tus canales y procesos internos",
-      "Integración con ventas, pagos, calendario, CRM y otros sistemas",
-      "Gestiona conversaciones complejas y de múltiples pasos",
-      "Conserva historial e información entre conversaciones",
-      "Incluye mantenimiento, soporte y mejoras continuas mensuales",
+    id: "desarrollo-tradicional",
+    name: "Desarrollo Tradicional",
+    tagline: "Comprás el proyecto.",
+    model: "Proyecto cerrado por hitos",
+    summary:
+      "Ideal si querés adquirir un software completo, con pago por entregables definidos y código fuente al finalizar.",
+    payment: "Por hitos",
+    ownership: "Al finalizar el proyecto",
+    items: [
+      "Pago por hitos acordados.",
+      "Entrega del sistema terminado.",
+      "Entrega del código fuente al finalizar.",
+      "Mantenimiento opcional.",
     ],
+    terms: [],
+    includes: [
+      "Desarrollo",
+      "Implementación",
+      "Entregables por hito",
+      "Código fuente al finalizar",
+      "Mantenimiento opcional",
+    ],
+    defaultCondition:
+      "El incumplimiento de un hito de pago habilita a APOC a suspender el desarrollo hasta la regularización. Los plazos de entrega se reprogramarán según la fecha efectiva de pago.",
+  },
+  {
+    id: "partner-tecnologico",
+    name: "Partner Tecnológico",
+    tagline: "No contratás un software. Incorporás un departamento de tecnología.",
+    model: "Evolución continua mensual",
+    summary:
+      "Ideal si tu empresa necesita evolución permanente y una estructura de tecnología al servicio del negocio.",
+    payment: "Mensual",
+    ownership: "Según el contrato vigente",
+    items: [
+      "Servicio mensual de evolución continua.",
+      "Desarrollo de nuevas funcionalidades según prioridades del negocio.",
+      "Puede incluir ERP, CRM, IA, automatizaciones, dashboards, apps, sitios web, integraciones y consultoría.",
+    ],
+    terms: [],
+    includes: [
+      "Planificación mensual",
+      "Nuevos desarrollos",
+      "Integraciones",
+      "Consultoría",
+      "Soporte acorde al plan",
+      "Evolución continua",
+    ],
+    defaultCondition:
+      "La falta de pago faculta a APOC a suspender las horas asignadas, el soporte y los nuevos desarrollos hasta regularizar la cuenta. Los desarrollos ya entregados continúan bajo las condiciones del contrato vigente.",
+  },
+];
+
+export const commercialCompare = [
+  {
+    key: "Modelo",
+    flex: "APOC Flex",
+    traditional: "Tradicional",
+    partner: "Partner",
+  },
+  {
+    key: "Ideal para",
+    flex: "Financiar un software propio",
+    traditional: "Comprar un proyecto",
+    partner: "Evolución permanente",
+  },
+  {
+    key: "Propiedad",
+    flex: "Al finalizar el contrato",
+    traditional: "Al finalizar el proyecto",
+    partner: "Según contrato",
+  },
+  {
+    key: "Pago",
+    flex: "20% + cuotas",
+    traditional: "Por hitos",
+    partner: "Mensual",
   },
 ];
 
