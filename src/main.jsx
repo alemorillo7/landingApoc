@@ -224,8 +224,26 @@ function ScrollToTop() {
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [location.pathname]);
+    const scrollToLocation = () => {
+      if (!location.hash) {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        return;
+      }
+
+      const targetId = decodeURIComponent(location.hash.slice(1));
+      document.getElementById(targetId)?.scrollIntoView({ behavior: "instant", block: "start" });
+    };
+
+    const frame = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(scrollToLocation);
+    });
+    const retryTimer = window.setTimeout(scrollToLocation, 350);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(retryTimer);
+    };
+  }, [location.hash, location.pathname]);
 
   return null;
 }

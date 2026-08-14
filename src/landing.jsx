@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -6,6 +6,9 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom";
 import {
   caseStudies,
@@ -26,10 +29,19 @@ import {
 
 const HeroScene = lazy(() => import("./HeroScene.jsx"));
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 const reveal = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
 };
+
+const cinematicProjectIds = ["realt-ia", "ramayo-propiedades", "rc-autopartes"];
+const cinematicProjectPositions = [
+  "left-1/2 top-[40%] z-30 w-[82%] -translate-x-1/2 lg:top-[27%] lg:w-[52%]",
+  "-left-[25%] top-[47%] z-20 w-[72%] -rotate-[10deg] lg:-left-[3%] lg:top-[31%] lg:w-[40%] lg:-rotate-[7deg]",
+  "-right-[25%] top-[49%] z-10 w-[70%] rotate-[10deg] lg:-right-[3%] lg:top-[33%] lg:w-[39%] lg:rotate-[7deg]",
+];
 
 function SectionTag({ children }) {
   return (
@@ -193,6 +205,9 @@ export default function Landing({ onStart }) {
     monthlyCost: 1200,
     automatablePercent: 60,
   });
+  const plansSectionRef = useRef(null);
+  const projectsSceneRef = useRef(null);
+  const methodologySectionRef = useRef(null);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -225,6 +240,279 @@ export default function Landing({ onStart }) {
     }, 180);
 
     return () => window.clearTimeout(timeoutId);
+  }, []);
+
+  useGSAP(
+    () => {
+      const cards = gsap.utils.toArray(".gsap-plan-card");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reducedMotion) {
+        gsap.set([".gsap-plans-heading", cards], { clearProps: "all" });
+        return;
+      }
+
+      const timeline = gsap.timeline({
+        defaults: { ease: "power3.out" },
+        scrollTrigger: {
+          trigger: plansSectionRef.current,
+          start: "top 72%",
+          once: true,
+        },
+      });
+      const floatingCards = gsap.to(cards, {
+        y: (index) => (index === 1 ? -13 : -8),
+        duration: 2.2,
+        stagger: 0.18,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        paused: true,
+      });
+      const ambientLight = gsap.fromTo(
+        ".gsap-plan-glow",
+        { xPercent: -10, autoAlpha: 0 },
+        {
+          xPercent: 420,
+          autoAlpha: 0.36,
+          duration: 1.65,
+          stagger: 0.48,
+          repeat: -1,
+          repeatDelay: 2.2,
+          ease: "power2.inOut",
+          paused: true,
+        },
+      );
+
+      timeline
+        .from(".gsap-plans-heading", {
+          autoAlpha: 0,
+          y: 58,
+          duration: 0.95,
+        })
+        .from(
+          cards,
+          {
+            autoAlpha: 0,
+            xPercent: (index) => [-26, 0, 26][index],
+            y: 130,
+            rotateX: 12,
+            rotateY: (index) => [16, 0, -16][index],
+            scale: 0.9,
+            filter: "blur(10px)",
+            transformOrigin: "50% 50%",
+            duration: 1.3,
+            stagger: 0.18,
+          },
+          "-=0.48",
+        )
+        .to(cards, { filter: "blur(0px)", duration: 0.35, stagger: 0.1 }, "-=0.5")
+        .from(
+          ".gsap-plan-detail",
+          {
+            autoAlpha: 0,
+            y: 16,
+            duration: 0.55,
+            stagger: 0.035,
+          },
+          "-=0.7",
+        )
+        .fromTo(
+          ".gsap-plan-sheen",
+          { xPercent: -150, autoAlpha: 0 },
+          {
+            xPercent: 150,
+            autoAlpha: 0.9,
+            duration: 1.15,
+            stagger: 0.12,
+            ease: "power2.inOut",
+          },
+          "-=0.65",
+        )
+        .call(() => {
+          floatingCards.play();
+          ambientLight.play();
+        });
+
+      gsap.to(".gsap-plans-orb", {
+        yPercent: -28,
+        xPercent: 12,
+        ease: "none",
+        scrollTrigger: {
+          trigger: plansSectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.2,
+        },
+      });
+    },
+    { scope: plansSectionRef },
+  );
+
+  useEffect(() => {
+      const scene = projectsSceneRef.current;
+      const cards = gsap.utils.toArray(".project-depth-card");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (!scene || reducedMotion) {
+        gsap.set(cards, { clearProps: "all" });
+        return;
+      }
+
+      const context = gsap.context(() => {
+      const compact = window.innerWidth < 1024;
+      const mainCard = cards[0];
+      const sideCards = cards.slice(1);
+
+      gsap.set(mainCard, {
+        autoAlpha: 1,
+        scale: compact ? 1.08 : 1.32,
+        yPercent: compact ? 16 : 22,
+        rotateX: 5,
+        z: compact ? 40 : 140,
+      });
+      gsap.set(sideCards, {
+        autoAlpha: 0,
+        scale: 0.72,
+        filter: "blur(10px)",
+      });
+      gsap.set(sideCards[0], { xPercent: -52, rotateY: 22 });
+      gsap.set(sideCards[1], { xPercent: 52, rotateY: -22 });
+      gsap.set([".project-story-step", ".project-story-final"], { autoAlpha: 0, y: 24 });
+      gsap.set(".project-story-progress", { scaleX: 0, transformOrigin: "left center" });
+      gsap.set(".project-light-beam", { xPercent: -130, autoAlpha: 0 });
+
+      const story = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: scene,
+          start: "top top+=72",
+          end: "bottom bottom-=36",
+          scrub: 1.05,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      story
+        .to(".project-story-progress", { scaleX: 1, duration: 1 }, 0)
+        .to(".project-light-beam", { xPercent: 470, autoAlpha: 0.38, duration: 0.86 }, 0.05)
+        .to(".project-orbit-ring", { rotate: 150, duration: 1 }, 0)
+        .to(".project-cinematic-copy", { autoAlpha: 0, y: -28, duration: 0.12 }, 0.1)
+        .to(
+          mainCard,
+          {
+            scale: 1,
+            yPercent: compact ? 3 : -5,
+            rotateX: 0,
+            z: 0,
+            duration: 0.25,
+          },
+          0.12,
+        )
+        .to(".project-story-step-2", { autoAlpha: 1, y: 0, duration: 0.1 }, 0.27)
+        .to(".project-story-step-2", { autoAlpha: 0, y: -20, duration: 0.1 }, 0.43)
+        .to(
+          mainCard,
+          { scale: compact ? 0.9 : 0.82, yPercent: compact ? 8 : 5, duration: 0.23 },
+          0.48,
+        )
+        .to(
+          sideCards,
+          {
+            autoAlpha: 1,
+            xPercent: 0,
+            rotateY: (index) => (index === 0 ? -9 : 9),
+            scale: compact ? 0.94 : 1,
+            filter: "blur(0px)",
+            duration: 0.24,
+          },
+          0.48,
+        )
+        .to(".project-story-step-3", { autoAlpha: 1, y: 0, duration: 0.1 }, 0.56)
+        .to(sideCards, { rotateY: 0, scale: 1, duration: 0.18 }, 0.7)
+        .to(".project-story-step-3", { autoAlpha: 0, y: -20, duration: 0.1 }, 0.76)
+        .to(cards, { yPercent: (index) => [2, -4, 4][index], duration: 0.18 }, 0.78)
+        .to(".project-story-final", { autoAlpha: 1, y: 0, duration: 0.14 }, 0.84);
+      }, scene);
+
+      return () => context.revert();
+  }, []);
+
+  useEffect(() => {
+    let context;
+    let updateFrame;
+    const section = methodologySectionRef.current;
+
+    if (!section) return undefined;
+
+    const updateActiveMethodology = () => {
+      const bounds = section.getBoundingClientRect();
+      const desktop = window.innerWidth >= 1024;
+      const startLine = desktop ? 96 : window.innerHeight * 0.68;
+      const travelDistance = desktop
+        ? Math.max(section.offsetHeight - window.innerHeight + 176, 1)
+        : Math.max(section.offsetHeight + window.innerHeight * 0.3, 1);
+      const progress = Math.min(1, Math.max(0, (startLine - bounds.top) / travelDistance));
+      const nextIndex = Math.min(
+        methodology.length - 1,
+        Math.floor(progress * methodology.length),
+      );
+
+      setActiveMethodStep((current) =>
+        current.step === methodology[nextIndex].step ? current : methodology[nextIndex],
+      );
+    };
+
+    const requestMethodologyUpdate = () => {
+      window.cancelAnimationFrame(updateFrame);
+      updateFrame = window.requestAnimationFrame(updateActiveMethodology);
+    };
+
+    const initializeMethodology = () => {
+      if (!section || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      context = gsap.context(() => {
+        gsap.fromTo(
+          ".methodology-step",
+          { autoAlpha: 0, x: -24 },
+          {
+            autoAlpha: 1,
+            x: 0,
+            duration: 0.58,
+            stagger: 0.055,
+            ease: "power3.out",
+            clearProps: "opacity,visibility,transform",
+          },
+        );
+
+        gsap.to(".methodology-orbit", {
+          rotate: 120,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.2,
+          },
+        });
+      }, section);
+
+      ScrollTrigger.refresh();
+      requestMethodologyUpdate();
+    };
+
+    window.addEventListener("scroll", requestMethodologyUpdate, { passive: true });
+    window.addEventListener("resize", requestMethodologyUpdate);
+    requestMethodologyUpdate();
+    const initializationTimer = window.setTimeout(initializeMethodology, 120);
+
+    return () => {
+      window.clearTimeout(initializationTimer);
+      window.cancelAnimationFrame(updateFrame);
+      window.removeEventListener("scroll", requestMethodologyUpdate);
+      window.removeEventListener("resize", requestMethodologyUpdate);
+      context?.revert();
+    };
   }, []);
 
   useEffect(() => {
@@ -266,6 +554,9 @@ export default function Landing({ onStart }) {
   };
 
   const heroVideoEmbedUrl = `https://www.youtube-nocookie.com/embed/${heroVideo.youtubeId}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1`;
+  const cinematicStudies = cinematicProjectIds
+    .map((id) => featuredCaseStudies.find((study) => study.id === id))
+    .filter(Boolean);
 
   return (
     <div className="apoc-shell selection:bg-[#83926f] selection:text-[#0a0d0b]">
@@ -723,30 +1014,31 @@ export default function Landing({ onStart }) {
           </div>
         </section>
 
-        <section id="planes-agentes-ia" className="px-4 py-16 md:px-10 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeading
-              eyebrow="Cómo trabajamos"
-              title="Tres formas de contratar APOC, según dónde esté tu empresa."
-              description="Podés financiar tu software propio, comprar un proyecto cerrado o incorporar a APOC como departamento de tecnología continuo. El modelo se adapta a tu etapa y a tus objetivos."
-            />
+        <section
+          ref={plansSectionRef}
+          id="planes-agentes-ia"
+          className="relative overflow-hidden px-4 py-16 md:px-10 md:py-24"
+        >
+          <div className="gsap-plans-orb pointer-events-none absolute -right-32 top-24 h-96 w-96 rounded-full bg-[#82956c]/10 blur-[110px]" />
+          <div className="relative mx-auto max-w-7xl [perspective:1400px]">
+            <div className="gsap-plans-heading">
+              <SectionHeading
+                eyebrow="Cómo trabajamos"
+                title="Tres formas de contratar APOC, según dónde esté tu empresa."
+                description="Podés financiar tu software propio, comprar un proyecto cerrado o incorporar a APOC como departamento de tecnología continuo. El modelo se adapta a tu etapa y a tus objetivos."
+              />
+            </div>
 
             <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
               {commercialOptions.map((option, index) => (
-                <motion.article
-                  key={option.id}
-                  variants={reveal}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ delay: index * 0.08 }}
-                  className="group relative flex h-full overflow-hidden rounded-[30px] border border-[#9baa87]/20 bg-[linear-gradient(155deg,rgba(132,149,111,0.15)_0%,rgba(15,19,16,0.96)_34%,rgba(7,9,8,0.98)_100%)] p-[1px] shadow-[0_28px_90px_rgba(0,0,0,0.34)] transition duration-500 hover:-translate-y-1 hover:border-[#a9ba93]/40 hover:shadow-[0_34px_110px_rgba(65,77,53,0.22)] md:rounded-[36px]"
-                >
+                <div key={option.id} className="gsap-plan-card h-full">
+                <article className="group relative flex h-full overflow-hidden rounded-[30px] border border-[#9baa87]/20 bg-[linear-gradient(155deg,rgba(132,149,111,0.15)_0%,rgba(15,19,16,0.96)_34%,rgba(7,9,8,0.98)_100%)] p-[1px] shadow-[0_28px_90px_rgba(0,0,0,0.34)] transition duration-500 hover:-translate-y-1 hover:border-[#a9ba93]/40 hover:shadow-[0_34px_110px_rgba(65,77,53,0.22)] md:rounded-[36px]">
                   <div className="pointer-events-none absolute -right-14 -top-16 h-52 w-52 rounded-full bg-[#92a67a]/10 blur-3xl transition duration-500 group-hover:bg-[#92a67a]/16" />
-                  <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(190,208,167,0.7),transparent)]" />
+                  <div className="gsap-plan-glow pointer-events-none absolute -left-1/2 top-0 z-10 h-full w-1/2 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(196,218,172,0.12),rgba(235,244,225,0.2),transparent)] blur-xl" />
+                  <div className="gsap-plan-sheen pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(213,231,192,0.95),transparent)] shadow-[0_0_18px_rgba(180,205,151,0.65)]" />
 
                   <div className="relative flex h-full w-full flex-col rounded-[29px] bg-[linear-gradient(180deg,rgba(17,21,18,0.88),rgba(8,10,9,0.96))] p-5 md:rounded-[35px] md:p-7">
-                    <div className="flex items-center justify-between gap-4">
+                    <div className="gsap-plan-detail flex items-center justify-between gap-4">
                       <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-full border border-[#91a27c]/25 bg-[#849570]/10 px-3 text-[11px] font-semibold tracking-[0.18em] text-[#dfe8d6]">
                         0{index + 1}
                       </span>
@@ -755,17 +1047,17 @@ export default function Landing({ onStart }) {
                       </p>
                     </div>
 
-                    <h3 className="mt-7 text-[1.9rem] font-semibold tracking-[-0.055em] text-[#f5f7f1] md:text-[2.15rem]">
+                    <h3 className="gsap-plan-detail mt-7 text-[1.9rem] font-semibold tracking-[-0.055em] text-[#f5f7f1] md:text-[2.15rem]">
                       {option.name}
                     </h3>
-                    <p className="mt-3 min-h-[4rem] text-lg font-medium leading-7 text-[#e4eadf]">
+                    <p className="gsap-plan-detail mt-3 min-h-[4rem] text-lg font-medium leading-7 text-[#e4eadf]">
                       {option.tagline}
                     </p>
-                    <p className="mt-4 min-h-[5.25rem] text-sm leading-7 text-[#aeb9a5] md:text-[15px]">
+                    <p className="gsap-plan-detail mt-4 min-h-[5.25rem] text-sm leading-7 text-[#aeb9a5] md:text-[15px]">
                       {option.summary}
                     </p>
 
-                    <div className="mt-6 grid grid-cols-2 overflow-hidden rounded-[20px] border border-white/8 bg-black/20">
+                    <div className="gsap-plan-detail mt-6 grid grid-cols-2 overflow-hidden rounded-[20px] border border-white/8 bg-black/20">
                       <div className="border-r border-white/8 p-4">
                         <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#87947e]">
                           Modalidad de pago
@@ -784,7 +1076,7 @@ export default function Landing({ onStart }) {
                       </div>
                     </div>
 
-                    <div className="mt-7 flex-1 space-y-3.5 border-t border-white/8 pt-7">
+                    <div className="gsap-plan-detail mt-7 flex-1 space-y-3.5 border-t border-white/8 pt-7">
                       {option.items.map((item) => (
                         <div key={item} className="flex gap-3">
                           <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#91a27c]/25 bg-[#849570]/10 text-[10px] text-[#cbd8bf]">
@@ -798,7 +1090,7 @@ export default function Landing({ onStart }) {
                     </div>
 
                     {option.terms?.length ? (
-                      <div className="mt-7 rounded-[22px] border border-[#7a8a67]/25 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(255,255,255,0.03))] p-4 md:rounded-[26px] md:p-5">
+                      <div className="gsap-plan-detail mt-7 rounded-[22px] border border-[#7a8a67]/25 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(255,255,255,0.03))] p-4 md:rounded-[26px] md:p-5">
                         <p className="text-[10px] uppercase tracking-[0.24em] text-[#909d83]">
                           Plazos sugeridos
                         </p>
@@ -818,7 +1110,7 @@ export default function Landing({ onStart }) {
                     ) : null}
 
                     {option.includes?.length ? (
-                      <div className="mt-6">
+                      <div className="gsap-plan-detail mt-6">
                         <p className="text-[10px] uppercase tracking-[0.24em] text-[#909d83]">
                           Incluye
                         </p>
@@ -835,7 +1127,7 @@ export default function Landing({ onStart }) {
                       </div>
                     ) : null}
 
-                    <div className="mt-8 pt-2">
+                    <div className="gsap-plan-detail mt-8 pt-2">
                       <a
                         href={getOptionWhatsAppHref(option)}
                         target="_blank"
@@ -846,7 +1138,8 @@ export default function Landing({ onStart }) {
                       </a>
                     </div>
                   </div>
-                </motion.article>
+                </article>
+                </div>
               ))}
             </div>
           </div>
@@ -859,6 +1152,120 @@ export default function Landing({ onStart }) {
               title="Seleccionamos los casos más fuertes para mostrar resultado, criterio y nivel de ejecución."
               description={`Estos ${featuredCaseStudies.length} casos resumen el tipo de proyectos que mejor representan a APOC Automation. El portfolio completo ya supera los ${caseStudies.length} desarrollos recientes no tercerizados.`}
             />
+
+            <div
+              ref={projectsSceneRef}
+              className="relative mt-10 h-[220vh] md:mt-14 md:h-[240vh]"
+              aria-label="Escena interactiva de proyectos de APOC"
+            >
+              <div className="sticky top-[4.5rem] h-[calc(100vh-9rem)] min-h-[520px] overflow-hidden rounded-[30px] border border-white/10 bg-[radial-gradient(circle_at_50%_42%,rgba(119,139,96,0.2),transparent_28%),linear-gradient(180deg,#101512_0%,#080b09_58%,#050706_100%)] shadow-[0_45px_150px_rgba(0,0,0,0.42)] md:rounded-[42px] lg:top-20 lg:h-[calc(100vh-6.5rem)] lg:min-h-[620px]">
+              <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(157,178,135,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(157,178,135,0.07)_1px,transparent_1px)] [background-size:54px_54px] [mask-image:radial-gradient(circle_at_center,black,transparent_82%)]" />
+              <div className="pointer-events-none absolute inset-x-0 top-[54%] h-px bg-[linear-gradient(90deg,transparent,rgba(160,188,132,0.34),transparent)] shadow-[0_0_45px_rgba(124,155,95,0.32)] lg:top-[58%]" />
+              <div className="pointer-events-none absolute left-1/2 top-[46%] h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#71885a]/12 blur-[90px] md:h-[34rem] md:w-[34rem]" />
+              <div className="pointer-events-none absolute left-1/2 top-[44%] h-64 w-64 -translate-x-1/2 rounded-full border border-[#9bae84]/16 shadow-[0_0_120px_rgba(126,148,101,0.22)] md:h-96 md:w-96" />
+              <div className="project-orbit-ring pointer-events-none absolute left-1/2 top-[44%] h-[32rem] w-[32rem] -translate-x-1/2 rounded-full border border-dashed border-[#9bae84]/12 md:h-[46rem] md:w-[46rem]" />
+              <div className="project-light-beam pointer-events-none absolute -left-1/3 top-0 z-10 h-full w-1/3 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(190,218,160,0.08),rgba(225,241,207,0.17),transparent)] blur-2xl" />
+              <div className="pointer-events-none absolute inset-x-[8%] bottom-[-12%] hidden h-72 origin-bottom rounded-[50%] border border-[#95aa7a]/12 bg-[radial-gradient(ellipse_at_center,rgba(114,139,90,0.14),transparent_64%)] [transform:rotateX(72deg)] lg:block" />
+              <div className="pointer-events-none absolute left-1/2 top-[49%] -translate-x-1/2 whitespace-nowrap text-[4rem] font-semibold uppercase tracking-[-0.08em] text-white/[0.025] md:text-[7rem] lg:text-[10rem]">
+                APOC SYSTEMS
+              </div>
+
+              <div className="project-cinematic-copy absolute inset-x-4 top-6 z-40 max-w-xl md:inset-x-8 md:top-8 lg:left-10 lg:right-auto lg:top-10">
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#95a77e]/20 bg-[#8da077]/8 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#cbd7c0] backdrop-blur-xl">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#a9bd91] shadow-[0_0_12px_rgba(169,189,145,0.8)]" />
+                  Experiencia interactiva
+                </div>
+                <h3 className="mt-4 max-w-md text-2xl font-semibold tracking-[-0.045em] text-[#f3f6ef] md:text-3xl">
+                  Sistemas reales, mostrados con profundidad.
+                </h3>
+                <p className="mt-3 max-w-lg text-sm leading-6 text-[#aeb9a5] md:text-[15px] md:leading-7">
+                  Deslizá para descubrir cómo una operación se transforma en un sistema completo.
+                </p>
+              </div>
+
+              <div className="project-story-step project-story-step-2 pointer-events-none absolute inset-x-4 top-7 z-40 max-w-lg opacity-0 md:inset-x-8 md:top-10 lg:left-10 lg:right-auto">
+                <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-[#9caf88]">Una operación</p>
+                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.05em] text-[#f3f6ef] md:text-4xl">
+                  Todas sus capas, en un solo lugar.
+                </h3>
+              </div>
+
+              <div className="project-story-step project-story-step-3 pointer-events-none absolute inset-x-4 top-7 z-40 max-w-lg opacity-0 md:inset-x-8 md:top-10 lg:left-auto lg:right-10 lg:text-right">
+                <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-[#9caf88]">Tres negocios reales</p>
+                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.05em] text-[#f3f6ef] md:text-4xl">
+                  Una misma arquitectura para crecer.
+                </h3>
+              </div>
+
+              <div className="absolute inset-0 z-20 [perspective:1700px] [transform-style:preserve-3d]">
+                {cinematicStudies.map((study, index) => (
+                  <Link
+                    key={study.id}
+                    to={`/proyectos/${study.id}`}
+                    className={`project-depth-card absolute block will-change-transform [transform-style:preserve-3d] ${cinematicProjectPositions[index]}`}
+                    aria-label={`Abrir proyecto ${study.client}`}
+                  >
+                    <div className="project-depth-inner [transform-style:preserve-3d]">
+                      <div className="project-depth-float [transform-style:preserve-3d]">
+                        <div className="group relative overflow-hidden rounded-[24px] border border-white/16 bg-[#0a0e0b]/94 p-2 shadow-[0_36px_100px_rgba(0,0,0,0.72),0_0_45px_rgba(116,143,89,0.09)] backdrop-blur-xl transition duration-500 hover:border-[#a9bc91]/55 hover:shadow-[0_44px_130px_rgba(63,79,48,0.38)] md:rounded-[30px] md:p-3">
+                          <div className="pointer-events-none absolute inset-x-[10%] top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(222,239,203,0.98),transparent)] shadow-[0_0_22px_rgba(190,215,164,0.7)]" />
+                          <div className="flex h-8 items-center justify-between px-2 md:h-10 md:px-3">
+                            <div className="flex gap-1.5">
+                              <span className="h-1.5 w-1.5 rounded-full bg-[#8ca077] shadow-[0_0_8px_rgba(140,160,119,0.7)] md:h-2 md:w-2" />
+                              <span className="h-1.5 w-1.5 rounded-full bg-[#4f5947] md:h-2 md:w-2" />
+                              <span className="h-1.5 w-1.5 rounded-full bg-[#343b31] md:h-2 md:w-2" />
+                            </div>
+                            <span className="text-[8px] font-semibold uppercase tracking-[0.2em] text-[#94a489] md:text-[9px]">
+                              APOC / Producto real
+                            </span>
+                          </div>
+
+                          <div className="relative aspect-[16/9] overflow-hidden rounded-[17px] border border-white/10 bg-[#050706] md:rounded-[22px]">
+                            <img
+                              src={study.image}
+                              alt={`Interfaz del proyecto ${study.client}`}
+                              className="h-full w-full object-contain brightness-[1.08] saturate-[1.08] transition duration-700 group-hover:scale-[1.035]"
+                            />
+                            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.12),transparent_22%,transparent_70%,rgba(132,153,110,0.12))]" />
+                          </div>
+
+                          <div className="project-depth-label flex items-end justify-between gap-4 px-2 pb-2 pt-4 md:px-3 md:pb-3 md:pt-5">
+                            <div>
+                              <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#94a489]">
+                                Caso de éxito 0{index + 1}
+                              </p>
+                              <p className="mt-1 text-base font-semibold tracking-[-0.03em] text-[#f0f3eb] md:text-xl">
+                                {study.client}
+                              </p>
+                            </div>
+                            <span className="rounded-full border border-[#9eb187]/20 bg-[#8da077]/10 px-3 py-2 text-[8px] font-semibold uppercase tracking-[0.18em] text-[#e1e9d9] md:text-[9px]">
+                              Explorar
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="project-story-final pointer-events-none absolute inset-x-4 bottom-9 z-40 text-center opacity-0 md:inset-x-8 md:bottom-12">
+                <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-[#9caf88]">El próximo sistema puede ser el tuyo</p>
+                <p className="mx-auto mt-2 max-w-xl text-xl font-semibold tracking-[-0.04em] text-[#f3f6ef] md:text-3xl">
+                  Construimos tecnología que acompaña el crecimiento.
+                </p>
+              </div>
+
+              <div className="pointer-events-none absolute bottom-4 left-1/2 z-40 hidden -translate-x-1/2 items-center gap-3 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#74806d] lg:flex">
+                <span className="h-px w-10 bg-[linear-gradient(90deg,transparent,#74806d)]" />
+                Deslizá para explorar
+                <span className="h-px w-10 bg-[linear-gradient(90deg,#74806d,transparent)]" />
+              </div>
+              <div className="absolute inset-x-0 bottom-0 z-50 h-px bg-white/5">
+                <div className="project-story-progress h-full w-full bg-[linear-gradient(90deg,#718460,#b7c9a2)] shadow-[0_0_16px_rgba(166,190,139,0.65)]" />
+              </div>
+              </div>
+            </div>
 
             <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
               {featuredCaseStudies.map((study, index) => (
@@ -1016,25 +1423,45 @@ export default function Landing({ onStart }) {
         <section id="metodologia" className="px-4 py-16 md:px-10 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionHeading
-              eyebrow="Metodologia"
+              eyebrow="Metodología"
               title="Roadmap transparente para reducir riesgo y aumentar confianza."
-              description="El cliente entiende que recibe en cada etapa, cuando ve avances y como se controla la calidad antes de pasar a producción."
+              description="El cliente entiende qué recibe en cada etapa, cuándo ve avances y cómo se controla la calidad antes de pasar a producción."
             />
 
-            <div className="mt-10 grid gap-5 lg:mt-14 lg:gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-              <div className="space-y-3">
+            <div ref={methodologySectionRef} className="relative mt-10 lg:mt-14 lg:h-[185vh]">
+            <div className="grid gap-5 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-8">
+              <div className="relative space-y-3 pl-2 md:pl-3">
+                <p className="pb-2 pl-10 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7f8c75] md:pl-12">
+                  <span className="lg:hidden">Tocá una etapa o seguí bajando</span>
+                  <span className="hidden lg:inline">Deslizá para recorrer las 7 etapas</span>
+                </p>
+                <div className="pointer-events-none absolute bottom-5 left-[1.35rem] top-12 w-px bg-white/8 md:left-[1.6rem]">
+                  <div
+                    className="methodology-progress-fill h-full w-px origin-top bg-[linear-gradient(180deg,#b5c7a0,#748663)] shadow-[0_0_16px_rgba(158,181,134,0.55)] transition-transform duration-500"
+                    style={{ transform: `scaleY(${Number(activeMethodStep.step) / methodology.length})` }}
+                  />
+                </div>
                 {methodology.map((item) => {
                   const isActive = activeMethodStep.step === item.step;
                   return (
                     <button
                       key={item.step}
                       onClick={() => setActiveMethodStep(item)}
-                      className={`w-full rounded-[20px] border px-4 py-4 text-left transition md:rounded-[24px] md:px-5 md:py-5 ${
+                      className={`methodology-step relative w-full rounded-[20px] border py-4 pl-12 pr-4 text-left transition duration-500 md:rounded-[24px] md:py-5 md:pl-14 md:pr-5 ${
                         isActive
-                          ? "border-[#7c8d69]/35 bg-[#111511] text-white shadow-[0_24px_60px_rgba(0,0,0,0.28)]"
+                          ? "border-[#91a57b]/38 bg-[linear-gradient(135deg,rgba(125,145,104,0.18),rgba(17,21,17,0.96))] text-white shadow-[0_24px_70px_rgba(0,0,0,0.34),0_0_35px_rgba(112,135,89,0.08)]"
                           : "border-white/8 bg-white/4 text-[#b8c0af] hover:border-white/14"
                       }`}
                     >
+                      <span
+                        className={`absolute left-[0.78rem] top-1/2 z-10 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full border transition duration-500 md:left-[0.9rem] ${
+                          isActive
+                            ? "border-[#b1c49a]/55 bg-[#839570] shadow-[0_0_18px_rgba(145,168,119,0.58)]"
+                            : "border-white/12 bg-[#0b0e0c]"
+                        }`}
+                      >
+                        <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-white" : "bg-[#65705e]"}`} />
+                      </span>
                       <div className="flex items-center gap-4">
                         <span className={`text-sm uppercase tracking-[0.24em] ${isActive ? "text-[#9cad8d]" : "text-[#7e8777]"}`}>
                           {item.step}
@@ -1051,13 +1478,23 @@ export default function Landing({ onStart }) {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
-                className="glass-card rounded-[28px] p-5 md:rounded-[34px] md:p-8"
+                className="glass-card relative overflow-hidden rounded-[28px] p-5 md:rounded-[34px] md:p-8 lg:min-h-[31rem]"
               >
-                <p className="text-xs uppercase tracking-[0.24em] text-[#8f9a84]">Etapa {activeMethodStep.step}</p>
-                <h3 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-[#f6f7f2] md:text-4xl">{activeMethodStep.title}</h3>
-                <p className="mt-5 max-w-2xl text-sm leading-7 text-[#a9b2a0] md:mt-6 md:text-base md:leading-8">{activeMethodStep.text}</p>
+                <div className="methodology-orbit pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full border border-dashed border-[#9bae84]/12 shadow-[0_0_100px_rgba(126,148,101,0.12)]" />
+                <div className="pointer-events-none absolute right-8 top-8 text-[5.5rem] font-semibold leading-none tracking-[-0.09em] text-white/[0.025] md:text-[8rem]">
+                  {activeMethodStep.step}
+                </div>
+                <div className="relative">
+                  <div className="flex items-center justify-between gap-4">
+                    <p className="text-xs uppercase tracking-[0.24em] text-[#8f9a84]">Etapa {activeMethodStep.step}</p>
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#738069]">
+                      {Number(activeMethodStep.step)} / {methodology.length}
+                    </p>
+                  </div>
+                  <h3 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-[#f6f7f2] md:text-4xl">{activeMethodStep.title}</h3>
+                  <p className="mt-5 max-w-2xl text-sm leading-7 text-[#a9b2a0] md:mt-6 md:text-base md:leading-8">{activeMethodStep.text}</p>
 
-                <div className="mt-6 grid gap-4 md:mt-8 md:gap-5 md:grid-cols-2">
+                <div className="mt-6 grid gap-4 md:mt-8 md:grid-cols-2 md:gap-5">
                   <div className="rounded-[24px] border border-white/8 bg-black/18 p-5 md:rounded-[28px] md:p-6">
                     <p className="text-xs uppercase tracking-[0.22em] text-[#8b9681]">El cliente recibe</p>
                     <p className="mt-4 text-lg text-[#edf1e8]">{activeMethodStep.deliverable}</p>
@@ -1066,7 +1503,7 @@ export default function Landing({ onStart }) {
                     <p className="text-xs uppercase tracking-[0.22em] text-[#8b9681]">Ritmo de trabajo</p>
                     <ul className="mt-4 space-y-3 text-sm leading-7 text-[#d6ddd0]">
                       <li>Reuniones cortas y concretas.</li>
-                      <li>Demos rapidas y visibles.</li>
+                      <li>Demos rápidas y visibles.</li>
                       <li>Seguimiento constante y documentado.</li>
                       <li>Transparencia en riesgos y decisiones.</li>
                     </ul>
@@ -1076,7 +1513,9 @@ export default function Landing({ onStart }) {
                 <div className="mt-8">
                   <PrimaryButton onClick={onStart}>Agendar reunión de discovery</PrimaryButton>
                 </div>
+                </div>
               </motion.div>
+            </div>
             </div>
           </div>
         </section>
