@@ -723,9 +723,14 @@ Detalles del lead:
           }
         />
         <Route path="/casos-de-éxito" element={<PortfolioPage onStart={handleStartForm} />} />
+        <Route path="/casos-de-exito" element={<PortfolioPage onStart={handleStartForm} />} />
         <Route path="/proyectos/:id" element={<CaseStudyPage onStart={handleStartForm} />} />
         <Route
           path="/reunión-confirmada"
+          element={leadData ? <Success data={leadData} /> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/reunion-confirmada"
           element={leadData ? <Success data={leadData} /> : <Navigate to="/" replace />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />

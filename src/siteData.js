@@ -656,5 +656,15 @@ export const seoConfig = {
 };
 
 export function getCaseStudyById(id) {
-  return caseStudies.find((item) => item.id === id);
+  if (!id) return null;
+  const decoded = decodeURIComponent(id);
+  const normalize = (str) =>
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+  return caseStudies.find(
+    (item) =>
+      item.id === id ||
+      item.id === decoded ||
+      normalize(item.id) === normalize(decoded)
+  );
 }
