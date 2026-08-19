@@ -718,22 +718,22 @@ export default function Landing({ onStart }) {
                   </div>
                 </div>
 
-                <div className="mt-7 hidden max-w-3xl rounded-[24px] border border-[#7d8d6a]/28 bg-[linear-gradient(180deg,rgba(111,126,96,0.16),rgba(255,255,255,0.03))] p-4 backdrop-blur-xl md:block md:p-6">
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-[#9db08c]">
+                <div className="mt-6 block max-w-3xl rounded-[22px] border border-[#7d8d6a]/28 bg-[linear-gradient(180deg,rgba(111,126,96,0.16),rgba(255,255,255,0.03))] p-4 backdrop-blur-xl md:mt-7 md:rounded-[24px] md:p-6">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-[10px] uppercase tracking-[0.22em] text-[#9db08c] md:tracking-[0.24em]">
                       Una solución que no termina cuando termina el desarrollo
                     </p>
-                    <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/20 px-3 py-1 text-[9px] uppercase tracking-[0.2em] text-[#e3eadc]">
+                    <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/20 px-2.5 py-0.5 text-[9px] uppercase tracking-[0.18em] text-[#e3eadc] md:px-3 md:py-1 md:tracking-[0.2em]">
                       Socio Tecnológico
                     </span>
                   </div>
-                  <p className="mt-3 text-base font-medium leading-7 text-[#eef2e8] md:text-lg md:leading-8">
+                  <p className="mt-3 text-sm font-medium leading-6 text-[#eef2e8] sm:text-base md:text-lg md:leading-8">
                     Tu empresa va a seguir creciendo, cambiando y necesitando nuevas soluciones.
                   </p>
-                  <p className="mt-3 text-sm leading-6 text-[#c6cec0] md:text-base md:leading-7">
+                  <p className="mt-2 text-xs leading-5 text-[#c6cec0] sm:text-sm sm:leading-6 md:mt-3 md:text-base md:leading-7">
                     Por eso en APOC desarrollamos sistemas pensados para evolucionar junto con tu negocio, con un equipo que continúa acompañando el proyecto después de su implementación.
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.18em] text-[#9ab088]">
+                  <div className="mt-3 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.16em] text-[#9ab088] md:mt-4 md:text-[11px] md:tracking-[0.18em]">
                     <span>Desarrollo a medida</span> · <span>Evolución continua</span> · <span>Soporte</span>
                   </div>
                 </div>
