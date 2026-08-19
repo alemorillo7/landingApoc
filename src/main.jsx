@@ -199,26 +199,33 @@ function upsertJsonLd(id, data) {
   element.textContent = JSON.stringify(data);
 }
 
-function Seo({ title, description, pathname, schema }) {
+function Seo({ title, description, pathname, schema, image }) {
   useEffect(() => {
     const canonicalUrl = `${seoConfig.baseUrl}${pathname}`;
+    const ogImage = image || `${seoConfig.baseUrl}/og-image.jpg`;
     document.title = title;
     upsertMeta('meta[name="description"]', { name: "description", content: description });
     upsertMeta('meta[property="og:title"]', { property: "og:title", content: title });
     upsertMeta('meta[property="og:description"]', { property: "og:description", content: description });
     upsertMeta('meta[property="og:type"]', { property: "og:type", content: "website" });
     upsertMeta('meta[property="og:url"]', { property: "og:url", content: canonicalUrl });
+    upsertMeta('meta[property="og:image"]', { property: "og:image", content: ogImage });
+    upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: title });
+    upsertMeta('meta[property="og:site_name"]', { property: "og:site_name", content: seoConfig.siteName });
     upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
     upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: title });
     upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: description });
+    upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: ogImage });
+    upsertMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt", content: title });
     upsertLink('link[rel="canonical"]', { rel: "canonical", href: canonicalUrl });
     if (schema) {
       upsertJsonLd("apoc-schema", schema);
     }
-  }, [description, pathname, schema, title]);
+  }, [description, image, pathname, schema, title]);
 
   return null;
 }
+
 
 function ScrollToTop() {
   const location = useLocation();

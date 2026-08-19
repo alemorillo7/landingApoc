@@ -1,0 +1,11 @@
+# robots.txt - APOC Automation
+# https://apocautomation.site
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://apocautomation.site/sitemap.xml
+
+# Crawl-delay (opcional, para bots que lo respeten)
+Crawl-delay: 1
