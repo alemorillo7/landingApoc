@@ -54,7 +54,7 @@ export const caseStudies = [
     id: "taller-german-lucero",
     client: "Taller Lucero",
     industry: "Automotriz / Chaperia - Argentina",
-    image: "/taller-lucero.png",
+    image: "/taller-lucero.webp",
     tags: ["Destacado", "Software a medida"],
     problem:
       "El taller trabajaba con procesos manuales en papel para presupuestos, seguimiento, finanzas y administración, lo que generaba demoras y poca trazabilidad.",
@@ -74,7 +74,7 @@ export const caseStudies = [
     id: "revitalis",
     client: "Revitalis",
     industry: "Salud / Clínica Estética - Argentina",
-    image: "/revitalis.jpeg",
+    image: "/revitalis.webp",
     tags: ["Destacado", "Agente IA"],
     problem:
       "El equipo dedicaba demasiadas horas a responder consultas, explicar tratamientos y coordinar turnos entre distintas sedes.",
@@ -109,7 +109,7 @@ export const caseStudies = [
     id: "nukipet",
     client: "NukiPet",
     industry: "E-commerce / Mascotas - Peru",
-    image: "/nukipet.jpeg",
+    image: "/nukipet.webp",
     tags: ["Destacado", "Automatización"],
     problem:
       "El negocio operaba entre pedidos web, WhatsApp y logística nacional, con demasiadas validaciones manuales para cada compra.",
@@ -144,7 +144,7 @@ export const caseStudies = [
     id: "ramayo-propiedades",
     client: "Ramayo Propiedades",
     industry: "Inmobiliaria - Argentina",
-    image: "/ramayo-crm.png",
+    image: "/ramayo-crm.webp",
     tags: ["Destacado", "Agente IA"],
     problem:
       "Las consultas llegaban rápido, pero el equipo invertia demasiado tiempo filtrando interesados antes de poder avanzar con oportunidades reales.",
@@ -227,7 +227,7 @@ export const caseStudies = [
     id: "benefit-gym",
     client: "Benefit Gym",
     industry: "Gimnasios / Acceso inteligente - Argentina",
-    image: "/benefyt.png",
+    image: "/benefyt.webp",
     tags: ["Automatización", "Software a medida"],
     problem:
       "El ingreso de socios y el control diario del gimnasio dependian de una gestion poco integrada y sin una solución propia conectada al acceso fisico.",
@@ -246,7 +246,7 @@ export const caseStudies = [
     id: "global-medical-os",
     client: "360 Global Medical OS",
     industry: "Farmaceutico / Brokerage - Internacional",
-    image: "/global-medical.jpeg",
+    image: "/global-medical.webp",
     tags: ["Destacado", "Software a medida"],
     problem:
       "La operación del brokerage estaba repartida entre Excel, correo y seguimiento manual, sin una vista unificada del estado de cada orden.",
@@ -265,7 +265,7 @@ export const caseStudies = [
     id: "realt-ia",
     client: "Realt IA",
     industry: "Real Estate / Agente IA + CRM a medida - España",
-    image: "/Realt ai.png",
+    image: "/Realt ai.webp",
     tags: ["Destacado", "Agente IA", "Software a medida"],
     problem:
       "La operación inmobiliaria necesitaba responder mejor, ordenar leads y trabajar sobre un sistema propio en lugar de depender de herramientas separadas.",
@@ -284,7 +284,7 @@ export const caseStudies = [
     id: "rc-autopartes",
     client: "RC Autopartes",
     industry: "Autopartes / Stock y venta interna - Argentina",
-    image: "/CONTROL-STOCK.png",
+    image: "/CONTROL-STOCK.webp",
     tags: ["Destacado", "Software a medida"],
     problem:
       "La empresa necesitaba dejar atras el control disperso de stock, ventas internas y seguimiento administrativo para trabajar con una sola base confiable.",
@@ -323,7 +323,7 @@ export const team = [
   {
     name: "Ezequiel",
     initials: "EZ",
-    image: "/eze-contrera.jpeg",
+    image: "/eze-contrera.webp",
     role: "Socio Fundador & Referente de Automatización",
     detail:
       "Especialista en automatización, IA y optimizacion de procesos. Se asegura de que la tecnología realmente resuelva problemas de negocio de forma eficiente.",
@@ -331,7 +331,7 @@ export const team = [
   {
     name: "Alejandro",
     initials: "AL",
-    image: "/ale2.jpeg",
+    image: "/ale2.webp",
     role: "Socio Fundador & Referente de Arquitectura",
     detail:
       "Programador experto en sistemas escalables. Su enfoque principal es garantizar que cada pieza de codigo sea solida y segura desde el principio.",

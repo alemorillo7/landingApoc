@@ -59,6 +59,8 @@ function SectionHeading({ eyebrow, title, description, align = "left" }) {
     <motion.div
       variants={reveal}
       initial="hidden"
+
+
       whileInView="visible"
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -129,6 +131,8 @@ function ProjectCover({ study }) {
         <img
           src={study.image}
           alt={study.client}
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-contain object-center transition duration-500 group-hover:scale-[1.01]"
         />
       </div>
@@ -578,7 +582,7 @@ export default function Landing({ onStart }) {
           <a href="#inicio" className="flex min-w-0 items-center gap-2 md:gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/6 md:h-11 md:w-11">
               <img
-                src="/logo-sin-fondo-apoc.png"
+                src="/logo-sin-fondo-apoc.webp"
                 alt="APOC Automation"
                 className="h-7 w-7 object-contain md:h-8 md:w-8"
               />
@@ -1178,6 +1182,8 @@ export default function Landing({ onStart }) {
                               <img
                                 src={study.image}
                                 alt={`Interfaz del proyecto ${study.client}`}
+                                loading="lazy"
+                                decoding="async"
                                 className="h-full w-full object-contain brightness-[1.08] saturate-[1.08] transition duration-700 group-hover:scale-[1.035]"
                               />
                               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.12),transparent_22%,transparent_70%,rgba(132,153,110,0.12))]" />
@@ -1316,6 +1322,8 @@ export default function Landing({ onStart }) {
                           <img
                             src={member.image}
                             alt={member.name}
+                            loading="lazy"
+                            decoding="async"
                             className="h-full w-full object-cover"
                           />
                         ) : (
@@ -1661,6 +1669,8 @@ export default function Landing({ onStart }) {
                         <img 
                           src={`https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`} 
                           alt={`Video de ${item.company}`}
+                          loading="lazy"
+                          decoding="async"
                           className="absolute inset-0 h-full w-full object-cover opacity-50 transition duration-500 group-hover:scale-105 group-hover:opacity-70"
                         />
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -1685,6 +1695,8 @@ export default function Landing({ onStart }) {
                         <img
                           src={caseStudies.find((study) => study.id === item.projectId)?.image}
                           alt={item.company}
+                          loading="lazy"
+                          decoding="async"
                           className="h-full w-full object-contain object-center opacity-85 transition duration-500 group-hover:scale-[1.01]"
                         />
                         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,8,0.14),rgba(7,9,8,0.82))]" />
@@ -1850,8 +1862,10 @@ export default function Landing({ onStart }) {
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/6 md:h-11 md:w-11">
                 <img
-                  src="/logo-sin-fondo-apoc.png"
+                  src="/logo-sin-fondo-apoc.webp"
                   alt="APOC Automation"
+                  loading="lazy"
+                  decoding="async"
                   className="h-7 w-7 object-contain md:h-8 md:w-8"
                 />
               </div>
@@ -1984,42 +1998,56 @@ export default function Landing({ onStart }) {
               </button>
 
               <div className="inline-flex items-center gap-2 rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/16 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#dce3d3]">
-                💡 Visión APOC · Socio Tecnológico
+                🚀 Modelo APOC · Socio Tecnológico
               </div>
 
-              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.04em] text-[#f6f7f3] md:text-4xl">
-                ¿Buscás un ERP o Software a Medida?
+              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.04em] text-[#f6f7f3] md:text-3xl">
+                Mucho más que un software. Un equipo técnico para tu empresa.
               </h3>
 
-              <div className="mt-5 space-y-4 text-sm leading-7 text-[#c6d0bd] md:text-base md:leading-8">
+              <div className="mt-5 space-y-3.5 text-sm leading-6 text-[#c6d0bd] md:text-[15px] md:leading-7">
                 <p>
-                  Alguien entra buscando: <strong className="text-[#f5f7f3]">“Necesito un ERP o un CRM.”</strong>
+                  Cuando una empresa busca un <strong className="text-[#f5f7f3]">ERP, CRM o sistema a medida</strong>, suele toparse con el mismo problema: los proveedores entregan el código y desaparecen.
                 </p>
-                <p className="rounded-2xl border border-white/10 bg-black/30 p-4 text-[#eef2e8]">
-                  Y descubre algo mucho más valioso: <br />
-                  <span className="text-[#9cb08a] font-medium">
-                    “Además de desarrollar mi ERP, puedo tener un equipo que entienda mi negocio y siga acompañándome cuando aparezcan nuevas necesidades.”
-                  </span>
-                </p>
-                <p>
-                  En APOC no terminamos el desarrollo y quedamos desconectados. Te ofrecemos una estructura de tecnología propia para evolucionar el software a medida que tu empresa crece.
-                </p>
+
+                <div className="rounded-2xl border border-[#7d8d6a]/25 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(0,0,0,0.3))] p-4 text-[#eef2e8]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9cb08a]">
+                    Nuestra propuesta de valor
+                  </p>
+                  <p className="mt-2 text-sm md:text-base font-medium leading-relaxed text-[#f4f7f1]">
+                    No solo construimos tu sistema desde cero: nos integramos como tu <strong>departamento de tecnología</strong> para mantenerlo, actualizarlo y escalarlo a medida que tu negocio suma clientes y procesos.
+                  </p>
+                </div>
+
+                <div className="grid gap-2.5 sm:grid-cols-3 pt-1">
+                  <div className="rounded-xl border border-white/8 bg-black/20 p-3">
+                    <p className="text-[11px] font-semibold text-[#edf1e8]">1. A tu medida real</p>
+                    <p className="mt-1 text-xs text-[#a4af9b]">Cero enlatados. Hecho exactamente para tu operación.</p>
+                  </div>
+                  <div className="rounded-xl border border-white/8 bg-black/20 p-3">
+                    <p className="text-[11px] font-semibold text-[#edf1e8]">2. Evolución continua</p>
+                    <p className="mt-1 text-xs text-[#a4af9b]">Nuevos módulos e integraciones mes a mes.</p>
+                  </div>
+                  <div className="rounded-xl border border-white/8 bg-black/20 p-3">
+                    <p className="text-[11px] font-semibold text-[#edf1e8]">3. Soporte directo</p>
+                    <p className="mt-1 text-xs text-[#a4af9b]">Equipo asignado que conoce tu código y tu negocio.</p>
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-white/10 pt-6">
-                <div className="text-xs uppercase tracking-[0.2em] text-[#93a084]">
-                  Desarrollo · Evolución continua · Soporte
-                </div>
-                <div className="flex gap-3">
-                  <PrimaryButton
-                    onClick={() => {
-                      setIsPartnerModalOpen(false);
-                      onStart();
-                    }}
-                  >
-                    Agendá una reunión →
-                  </PrimaryButton>
-                </div>
+              <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-t border-white/10 pt-5">
+                <p className="text-xs text-[#93a084]">
+                  Conversemos sobre las necesidades de tu empresa.
+                </p>
+                <PrimaryButton
+                  onClick={() => {
+                    setIsPartnerModalOpen(false);
+                    onStart();
+                  }}
+                  className="w-full sm:w-auto"
+                >
+                  Agendá una reunión →
+                </PrimaryButton>
               </div>
             </motion.div>
           </motion.div>
