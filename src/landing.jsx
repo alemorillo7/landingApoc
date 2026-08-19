@@ -43,6 +43,8 @@ const cinematicProjectPositions = [
   "-right-[25%] top-[49%] z-10 w-[70%] rotate-[10deg] lg:-right-[3%] lg:top-[33%] lg:w-[39%] lg:rotate-[7deg]",
 ];
 
+
+
 function SectionTag({ children }) {
   return (
     <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#c4ccb9] backdrop-blur-xl">
@@ -354,26 +356,26 @@ export default function Landing({ onStart }) {
   );
 
   useEffect(() => {
-      const scene = projectsSceneRef.current;
-      const cards = gsap.utils.toArray(".project-depth-card");
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const scene = projectsSceneRef.current;
+    const cards = gsap.utils.toArray(".project-depth-card");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      if (!scene || reducedMotion) {
-        gsap.set(cards, { clearProps: "all" });
-        return;
-      }
+    // Solo ejecutar en desktop (pantallas grandes) para que en celulares no consuma memoria ni ralentice el scroll
+    if (!scene || window.innerWidth < 1024 || reducedMotion) {
+      if (scene) gsap.set(cards, { clearProps: "all" });
+      return;
+    }
 
-      const context = gsap.context(() => {
-      const compact = window.innerWidth < 1024;
+    const context = gsap.context(() => {
       const mainCard = cards[0];
       const sideCards = cards.slice(1);
 
       gsap.set(mainCard, {
         autoAlpha: 1,
-        scale: compact ? 1.08 : 1.32,
-        yPercent: compact ? 16 : 22,
+        scale: 1.32,
+        yPercent: 22,
         rotateX: 5,
-        z: compact ? 40 : 140,
+        z: 140,
       });
       gsap.set(sideCards, {
         autoAlpha: 0,
@@ -406,7 +408,7 @@ export default function Landing({ onStart }) {
           mainCard,
           {
             scale: 1,
-            yPercent: compact ? 3 : -5,
+            yPercent: -5,
             rotateX: 0,
             z: 0,
             duration: 0.25,
@@ -417,7 +419,7 @@ export default function Landing({ onStart }) {
         .to(".project-story-step-2", { autoAlpha: 0, y: -20, duration: 0.1 }, 0.43)
         .to(
           mainCard,
-          { scale: compact ? 0.9 : 0.82, yPercent: compact ? 8 : 5, duration: 0.23 },
+          { scale: 0.82, yPercent: 5, duration: 0.23 },
           0.48,
         )
         .to(
@@ -426,7 +428,7 @@ export default function Landing({ onStart }) {
             autoAlpha: 1,
             xPercent: 0,
             rotateY: (index) => (index === 0 ? -9 : 9),
-            scale: compact ? 0.94 : 1,
+            scale: 1,
             filter: "blur(0px)",
             duration: 0.24,
           },
@@ -437,10 +439,12 @@ export default function Landing({ onStart }) {
         .to(".project-story-step-3", { autoAlpha: 0, y: -20, duration: 0.1 }, 0.76)
         .to(cards, { yPercent: (index) => [2, -4, 4][index], duration: 0.18 }, 0.78)
         .to(".project-story-final", { autoAlpha: 1, y: 0, duration: 0.14 }, 0.84);
-      }, scene);
+    }, scene);
 
-      return () => context.revert();
+    return () => context.revert();
   }, []);
+
+
 
   useEffect(() => {
     let context;
@@ -561,6 +565,7 @@ export default function Landing({ onStart }) {
   const cinematicStudies = cinematicProjectIds
     .map((id) => featuredCaseStudies.find((study) => study.id === id))
     .filter(Boolean);
+
 
   return (
     <div className="apoc-shell selection:bg-[#83926f] selection:text-[#0a0d0b]">
@@ -1101,119 +1106,122 @@ export default function Landing({ onStart }) {
               description={`Estos ${featuredCaseStudies.length} casos resumen el tipo de proyectos que mejor representan a APOC Automation. El portfolio completo ya supera los ${caseStudies.length} desarrollos recientes no tercerizados.`}
             />
 
+            {/* Escena interactiva 3D activa ÚNICAMENTE en computadoras (hidden en móvil para máxima velocidad) */}
             <div
               ref={projectsSceneRef}
-              className="relative mt-10 h-[220vh] md:mt-14 md:h-[240vh]"
+              className="relative mt-14 hidden h-[240vh] lg:block"
               aria-label="Escena interactiva de proyectos de APOC"
             >
-              <div className="sticky top-[4.5rem] h-[calc(100vh-9rem)] min-h-[520px] overflow-hidden rounded-[30px] border border-white/10 bg-[radial-gradient(circle_at_50%_42%,rgba(119,139,96,0.2),transparent_28%),linear-gradient(180deg,#101512_0%,#080b09_58%,#050706_100%)] shadow-[0_45px_150px_rgba(0,0,0,0.42)] md:rounded-[42px] lg:top-20 lg:h-[calc(100vh-6.5rem)] lg:min-h-[620px]">
-              <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(157,178,135,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(157,178,135,0.07)_1px,transparent_1px)] [background-size:54px_54px] [mask-image:radial-gradient(circle_at_center,black,transparent_82%)]" />
-              <div className="pointer-events-none absolute inset-x-0 top-[54%] h-px bg-[linear-gradient(90deg,transparent,rgba(160,188,132,0.34),transparent)] shadow-[0_0_45px_rgba(124,155,95,0.32)] lg:top-[58%]" />
-              <div className="pointer-events-none absolute left-1/2 top-[46%] h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#71885a]/12 blur-[90px] md:h-[34rem] md:w-[34rem]" />
-              <div className="pointer-events-none absolute left-1/2 top-[44%] h-64 w-64 -translate-x-1/2 rounded-full border border-[#9bae84]/16 shadow-[0_0_120px_rgba(126,148,101,0.22)] md:h-96 md:w-96" />
-              <div className="project-orbit-ring pointer-events-none absolute left-1/2 top-[44%] h-[32rem] w-[32rem] -translate-x-1/2 rounded-full border border-dashed border-[#9bae84]/12 md:h-[46rem] md:w-[46rem]" />
-              <div className="project-light-beam pointer-events-none absolute -left-1/3 top-0 z-10 h-full w-1/3 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(190,218,160,0.08),rgba(225,241,207,0.17),transparent)] blur-2xl" />
-              <div className="pointer-events-none absolute inset-x-[8%] bottom-[-12%] hidden h-72 origin-bottom rounded-[50%] border border-[#95aa7a]/12 bg-[radial-gradient(ellipse_at_center,rgba(114,139,90,0.14),transparent_64%)] [transform:rotateX(72deg)] lg:block" />
-              <div className="pointer-events-none absolute left-1/2 top-[49%] -translate-x-1/2 whitespace-nowrap text-[4rem] font-semibold uppercase tracking-[-0.08em] text-white/[0.025] md:text-[7rem] lg:text-[10rem]">
-                APOC SYSTEMS
-              </div>
-
-              <div className="project-cinematic-copy absolute inset-x-4 top-6 z-40 max-w-xl md:inset-x-8 md:top-8 lg:left-10 lg:right-auto lg:top-10">
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#95a77e]/20 bg-[#8da077]/8 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#cbd7c0] backdrop-blur-xl">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#a9bd91] shadow-[0_0_12px_rgba(169,189,145,0.8)]" />
-                  Experiencia interactiva
+              <div className="sticky top-20 h-[calc(100vh-6.5rem)] min-h-[620px] overflow-hidden rounded-[42px] border border-white/10 bg-[radial-gradient(circle_at_50%_42%,rgba(119,139,96,0.2),transparent_28%),linear-gradient(180deg,#101512_0%,#080b09_58%,#050706_100%)] shadow-[0_45px_150px_rgba(0,0,0,0.42)]">
+                <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(157,178,135,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(157,178,135,0.07)_1px,transparent_1px)] [background-size:54px_54px] [mask-image:radial-gradient(circle_at_center,black,transparent_82%)]" />
+                <div className="pointer-events-none absolute inset-x-0 top-[58%] h-px bg-[linear-gradient(90deg,transparent,rgba(160,188,132,0.34),transparent)] shadow-[0_0_45px_rgba(124,155,95,0.32)]" />
+                <div className="pointer-events-none absolute left-1/2 top-[46%] h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#71885a]/12 blur-[90px]" />
+                <div className="pointer-events-none absolute left-1/2 top-[44%] h-96 w-96 -translate-x-1/2 rounded-full border border-[#9bae84]/16 shadow-[0_0_120px_rgba(126,148,101,0.22)]" />
+                <div className="project-orbit-ring pointer-events-none absolute left-1/2 top-[44%] h-[46rem] w-[46rem] -translate-x-1/2 rounded-full border border-dashed border-[#9bae84]/12" />
+                <div className="project-light-beam pointer-events-none absolute -left-1/3 top-0 z-10 h-full w-1/3 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(190,218,160,0.08),rgba(225,241,207,0.17),transparent)] blur-2xl" />
+                <div className="pointer-events-none absolute inset-x-[8%] bottom-[-12%] h-72 origin-bottom rounded-[50%] border border-[#95aa7a]/12 bg-[radial-gradient(ellipse_at_center,rgba(114,139,90,0.14),transparent_64%)] [transform:rotateX(72deg)]" />
+                <div className="pointer-events-none absolute left-1/2 top-[49%] -translate-x-1/2 whitespace-nowrap text-[10rem] font-semibold uppercase tracking-[-0.08em] text-white/[0.025]">
+                  APOC SYSTEMS
                 </div>
-                <h3 className="mt-4 max-w-md text-2xl font-semibold tracking-[-0.045em] text-[#f3f6ef] md:text-3xl">
-                  Sistemas reales, mostrados con profundidad.
-                </h3>
-                <p className="mt-3 max-w-lg text-sm leading-6 text-[#aeb9a5] md:text-[15px] md:leading-7">
-                  Deslizá para descubrir cómo una operación se transforma en un sistema completo.
-                </p>
-              </div>
 
-              <div className="project-story-step project-story-step-2 pointer-events-none absolute inset-x-4 top-7 z-40 max-w-lg opacity-0 md:inset-x-8 md:top-10 lg:left-10 lg:right-auto">
-                <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-[#9caf88]">Una operación</p>
-                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.05em] text-[#f3f6ef] md:text-4xl">
-                  Todas sus capas, en un solo lugar.
-                </h3>
-              </div>
+                <div className="project-cinematic-copy absolute left-10 right-auto top-10 z-40 max-w-xl">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[#95a77e]/20 bg-[#8da077]/8 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#cbd7c0] backdrop-blur-xl">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#a9bd91] shadow-[0_0_12px_rgba(169,189,145,0.8)]" />
+                    Experiencia interactiva
+                  </div>
+                  <h3 className="mt-4 max-w-md text-3xl font-semibold tracking-[-0.045em] text-[#f3f6ef]">
+                    Sistemas reales, mostrados con profundidad.
+                  </h3>
+                  <p className="mt-3 max-w-lg text-[15px] leading-7 text-[#aeb9a5]">
+                    Deslizá para descubrir cómo una operación se transforma en un sistema completo.
+                  </p>
+                </div>
 
-              <div className="project-story-step project-story-step-3 pointer-events-none absolute inset-x-4 top-7 z-40 max-w-lg opacity-0 md:inset-x-8 md:top-10 lg:left-auto lg:right-10 lg:text-right">
-                <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-[#9caf88]">Tres negocios reales</p>
-                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.05em] text-[#f3f6ef] md:text-4xl">
-                  Una misma arquitectura para crecer.
-                </h3>
-              </div>
+                <div className="project-story-step project-story-step-2 pointer-events-none absolute left-10 right-auto top-10 z-40 max-w-lg opacity-0">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-[#9caf88]">Una operación</p>
+                  <h3 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-[#f3f6ef]">
+                    Todas sus capas, en un solo lugar.
+                  </h3>
+                </div>
 
-              <div className="absolute inset-0 z-20 [perspective:1700px] [transform-style:preserve-3d]">
-                {cinematicStudies.map((study, index) => (
-                  <Link
-                    key={study.id}
-                    to={`/proyectos/${study.id}`}
-                    className={`project-depth-card absolute block will-change-transform [transform-style:preserve-3d] ${cinematicProjectPositions[index]}`}
-                    aria-label={`Abrir proyecto ${study.client}`}
-                  >
-                    <div className="project-depth-inner [transform-style:preserve-3d]">
-                      <div className="project-depth-float [transform-style:preserve-3d]">
-                        <div className="group relative overflow-hidden rounded-[24px] border border-white/16 bg-[#0a0e0b]/94 p-2 shadow-[0_36px_100px_rgba(0,0,0,0.72),0_0_45px_rgba(116,143,89,0.09)] backdrop-blur-xl transition duration-500 hover:border-[#a9bc91]/55 hover:shadow-[0_44px_130px_rgba(63,79,48,0.38)] md:rounded-[30px] md:p-3">
-                          <div className="pointer-events-none absolute inset-x-[10%] top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(222,239,203,0.98),transparent)] shadow-[0_0_22px_rgba(190,215,164,0.7)]" />
-                          <div className="flex h-8 items-center justify-between px-2 md:h-10 md:px-3">
-                            <div className="flex gap-1.5">
-                              <span className="h-1.5 w-1.5 rounded-full bg-[#8ca077] shadow-[0_0_8px_rgba(140,160,119,0.7)] md:h-2 md:w-2" />
-                              <span className="h-1.5 w-1.5 rounded-full bg-[#4f5947] md:h-2 md:w-2" />
-                              <span className="h-1.5 w-1.5 rounded-full bg-[#343b31] md:h-2 md:w-2" />
+                <div className="project-story-step project-story-step-3 pointer-events-none absolute left-auto right-10 top-10 z-40 max-w-lg opacity-0 text-right">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-[#9caf88]">Tres negocios reales</p>
+                  <h3 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-[#f3f6ef]">
+                    Una misma arquitectura para crecer.
+                  </h3>
+                </div>
+
+                <div className="absolute inset-0 z-20 [perspective:1700px] [transform-style:preserve-3d]">
+                  {cinematicStudies.map((study, index) => (
+                    <Link
+                      key={study.id}
+                      to={`/proyectos/${study.id}`}
+                      className={`project-depth-card absolute block will-change-transform [transform-style:preserve-3d] ${cinematicProjectPositions[index]}`}
+                      aria-label={`Abrir proyecto ${study.client}`}
+                    >
+                      <div className="project-depth-inner [transform-style:preserve-3d]">
+                        <div className="project-depth-float [transform-style:preserve-3d]">
+                          <div className="group relative overflow-hidden rounded-[30px] border border-white/16 bg-[#0a0e0b]/94 p-3 shadow-[0_36px_100px_rgba(0,0,0,0.72),0_0_45px_rgba(116,143,89,0.09)] backdrop-blur-xl transition duration-500 hover:border-[#a9bc91]/55 hover:shadow-[0_44px_130px_rgba(63,79,48,0.38)]">
+                            <div className="pointer-events-none absolute inset-x-[10%] top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(222,239,203,0.98),transparent)] shadow-[0_0_22px_rgba(190,215,164,0.7)]" />
+                            <div className="flex h-10 items-center justify-between px-3">
+                              <div className="flex gap-1.5">
+                                <span className="h-2 w-2 rounded-full bg-[#8ca077] shadow-[0_0_8px_rgba(140,160,119,0.7)]" />
+                                <span className="h-2 w-2 rounded-full bg-[#4f5947]" />
+                                <span className="h-2 w-2 rounded-full bg-[#343b31]" />
+                              </div>
+                              <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#94a489]">
+                                APOC / Producto real
+                              </span>
                             </div>
-                            <span className="text-[8px] font-semibold uppercase tracking-[0.2em] text-[#94a489] md:text-[9px]">
-                              APOC / Producto real
-                            </span>
-                          </div>
 
-                          <div className="relative aspect-[16/9] overflow-hidden rounded-[17px] border border-white/10 bg-[#050706] md:rounded-[22px]">
-                            <img
-                              src={study.image}
-                              alt={`Interfaz del proyecto ${study.client}`}
-                              className="h-full w-full object-contain brightness-[1.08] saturate-[1.08] transition duration-700 group-hover:scale-[1.035]"
-                            />
-                            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.12),transparent_22%,transparent_70%,rgba(132,153,110,0.12))]" />
-                          </div>
-
-                          <div className="project-depth-label flex items-end justify-between gap-4 px-2 pb-2 pt-4 md:px-3 md:pb-3 md:pt-5">
-                            <div>
-                              <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#94a489]">
-                                Caso de éxito 0{index + 1}
-                              </p>
-                              <p className="mt-1 text-base font-semibold tracking-[-0.03em] text-[#f0f3eb] md:text-xl">
-                                {study.client}
-                              </p>
+                            <div className="relative aspect-[16/9] overflow-hidden rounded-[22px] border border-white/10 bg-[#050706]">
+                              <img
+                                src={study.image}
+                                alt={`Interfaz del proyecto ${study.client}`}
+                                className="h-full w-full object-contain brightness-[1.08] saturate-[1.08] transition duration-700 group-hover:scale-[1.035]"
+                              />
+                              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.12),transparent_22%,transparent_70%,rgba(132,153,110,0.12))]" />
                             </div>
-                            <span className="rounded-full border border-[#9eb187]/20 bg-[#8da077]/10 px-3 py-2 text-[8px] font-semibold uppercase tracking-[0.18em] text-[#e1e9d9] md:text-[9px]">
-                              Explorar
-                            </span>
+
+                            <div className="project-depth-label flex items-end justify-between gap-4 px-3 pb-3 pt-5">
+                              <div>
+                                <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#94a489]">
+                                  Caso de éxito 0{index + 1}
+                                </p>
+                                <p className="mt-1 text-xl font-semibold tracking-[-0.03em] text-[#f0f3eb]">
+                                  {study.client}
+                                </p>
+                              </div>
+                              <span className="rounded-full border border-[#9eb187]/20 bg-[#8da077]/10 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-[#e1e9d9]">
+                                Explorar
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+                    </Link>
+                  ))}
+                </div>
 
-              <div className="project-story-final pointer-events-none absolute inset-x-4 bottom-9 z-40 text-center opacity-0 md:inset-x-8 md:bottom-12">
-                <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-[#9caf88]">El próximo sistema puede ser el tuyo</p>
-                <p className="mx-auto mt-2 max-w-xl text-xl font-semibold tracking-[-0.04em] text-[#f3f6ef] md:text-3xl">
-                  Construimos tecnología que acompaña el crecimiento.
-                </p>
-              </div>
+                <div className="project-story-final pointer-events-none absolute inset-x-8 bottom-12 z-40 text-center opacity-0">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-[#9caf88]">El próximo sistema puede ser el tuyo</p>
+                  <p className="mx-auto mt-2 max-w-xl text-3xl font-semibold tracking-[-0.04em] text-[#f3f6ef]">
+                    Construimos tecnología que acompaña el crecimiento.
+                  </p>
+                </div>
 
-              <div className="pointer-events-none absolute bottom-4 left-1/2 z-40 hidden -translate-x-1/2 items-center gap-3 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#74806d] lg:flex">
-                <span className="h-px w-10 bg-[linear-gradient(90deg,transparent,#74806d)]" />
-                Deslizá para explorar
-                <span className="h-px w-10 bg-[linear-gradient(90deg,#74806d,transparent)]" />
-              </div>
-              <div className="absolute inset-x-0 bottom-0 z-50 h-px bg-white/5">
-                <div className="project-story-progress h-full w-full bg-[linear-gradient(90deg,#718460,#b7c9a2)] shadow-[0_0_16px_rgba(166,190,139,0.65)]" />
-              </div>
+                <div className="pointer-events-none absolute bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#74806d]">
+                  <span className="h-px w-10 bg-[linear-gradient(90deg,transparent,#74806d)]" />
+                  Deslizá para explorar
+                  <span className="h-px w-10 bg-[linear-gradient(90deg,#74806d,transparent)]" />
+                </div>
+                <div className="absolute inset-x-0 bottom-0 z-50 h-px bg-white/5">
+                  <div className="project-story-progress h-full w-full bg-[linear-gradient(90deg,#718460,#b7c9a2)] shadow-[0_0_16px_rgba(166,190,139,0.65)]" />
+                </div>
               </div>
             </div>
+
+
 
             <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
               {featuredCaseStudies.map((study, index) => (
@@ -1926,23 +1934,28 @@ export default function Landing({ onStart }) {
       </div>
 
       {/* Botón y Banner Flotante: Socio Tecnológico & Equipo Continuo (Idea de Milagros Varela) */}
-      <div className="fixed bottom-6 right-6 z-40 hidden md:block">
+      <div className="fixed bottom-[64px] left-3 right-3 z-40 md:bottom-6 md:left-auto md:right-6">
         <button
           onClick={() => setIsPartnerModalOpen(true)}
-          className="group relative flex items-center gap-3 rounded-full border border-[#7d8d6a]/40 bg-[#0d120f]/90 px-5 py-3 text-left shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl transition duration-300 hover:scale-105 hover:border-[#8ea279] hover:bg-[#121915]"
+          className="group relative flex w-full md:w-auto items-center justify-between md:justify-start gap-3 rounded-full border border-[#7d8d6a]/40 bg-[#0d120f]/95 px-4 py-2.5 md:px-5 md:py-3 text-left shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl transition duration-300 hover:scale-[1.02] md:hover:scale-105 hover:border-[#8ea279] hover:bg-[#121915]"
         >
-          <span className="relative flex h-3 w-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8ea279] opacity-75" />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-[#758863]" />
-          </span>
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#a4b595]">
-              ¿Buscás un ERP o CRM a medida?
-            </p>
-            <p className="text-xs font-medium text-[#edf1e8]">
-              Leé sobre nuestro equipo continuo →
-            </p>
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className="relative flex h-2.5 w-2.5 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8ea279] opacity-75" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#758863]" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.18em] md:tracking-[0.22em] text-[#a4b595] truncate">
+                ¿Buscás un ERP o CRM a medida?
+              </p>
+              <p className="text-[11px] md:text-xs font-medium text-[#edf1e8] truncate">
+                Leé sobre nuestro equipo continuo →
+              </p>
+            </div>
           </div>
+          <span className="shrink-0 rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[9px] font-semibold text-[#c8d4bf] md:hidden">
+            Ver
+          </span>
         </button>
       </div>
 
