@@ -1988,63 +1988,63 @@ export default function Landing({ onStart }) {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.92, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-2xl rounded-[32px] border border-[#7d8d6a]/30 bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.2),rgba(9,12,10,0.98))] p-6 text-[#f5f7f3] shadow-[0_40px_120px_rgba(0,0,0,0.7)] backdrop-blur-2xl md:p-9"
+              className="relative w-full max-w-xl max-h-[86vh] overflow-y-auto rounded-[28px] border border-[#7d8d6a]/30 bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.2),rgba(9,12,10,0.98))] p-5 text-[#f5f7f3] shadow-[0_40px_120px_rgba(0,0,0,0.7)] backdrop-blur-2xl md:max-w-2xl md:p-8"
             >
               <button
                 onClick={() => setIsPartnerModalOpen(false)}
-                className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d7ddd0] transition hover:bg-white/10"
+                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d7ddd0] transition hover:bg-white/10 md:right-5 md:top-5 md:h-9 md:w-9"
               >
                 ✕
               </button>
 
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/16 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#dce3d3]">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/16 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-[#dce3d3] md:px-4 md:py-1.5 md:text-[10px] md:tracking-[0.24em]">
                 🚀 Modelo APOC · Socio Tecnológico
               </div>
 
-              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.04em] text-[#f6f7f3] md:text-3xl">
+              <h3 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-[#f6f7f3] md:mt-4 md:text-3xl">
                 Mucho más que un software. Un equipo técnico para tu empresa.
               </h3>
 
-              <div className="mt-5 space-y-3.5 text-sm leading-6 text-[#c6d0bd] md:text-[15px] md:leading-7">
+              <div className="mt-3.5 space-y-3 text-xs leading-5 text-[#c6d0bd] md:mt-4 md:space-y-3.5 md:text-[14px] md:leading-6">
                 <p>
-                  Cuando una empresa busca un <strong className="text-[#f5f7f3]">ERP, CRM o sistema a medida</strong>, suele toparse con el mismo problema: los proveedores entregan el código y desaparecen.
+                  Cuando buscás un <strong className="text-[#f5f7f3]">ERP, CRM o sistema a medida</strong>, los proveedores tradicionales suelen entregar el código y desaparecer.
                 </p>
 
-                <div className="rounded-2xl border border-[#7d8d6a]/25 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(0,0,0,0.3))] p-4 text-[#eef2e8]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9cb08a]">
-                    Nuestra propuesta de valor
+                <div className="rounded-xl border border-[#7d8d6a]/25 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(0,0,0,0.3))] p-3 md:p-4 text-[#eef2e8]">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9cb08a] md:text-xs">
+                    Nuestra propuesta
                   </p>
-                  <p className="mt-2 text-sm md:text-base font-medium leading-relaxed text-[#f4f7f1]">
-                    No solo construimos tu sistema desde cero: nos integramos como tu <strong>departamento de tecnología</strong> para mantenerlo, actualizarlo y escalarlo a medida que tu negocio suma clientes y procesos.
+                  <p className="mt-1 text-xs md:text-sm font-medium leading-5 md:leading-6 text-[#f4f7f1]">
+                    Construimos tu sistema propio y nos integramos como tu <strong>departamento de tecnología</strong> para mantenerlo, actualizarlo y escalarlo mes a mes.
                   </p>
                 </div>
 
-                <div className="grid gap-2.5 sm:grid-cols-3 pt-1">
-                  <div className="rounded-xl border border-white/8 bg-black/20 p-3">
-                    <p className="text-[11px] font-semibold text-[#edf1e8]">1. A tu medida real</p>
-                    <p className="mt-1 text-xs text-[#a4af9b]">Cero enlatados. Hecho exactamente para tu operación.</p>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  <div className="rounded-lg border border-white/8 bg-black/20 p-2.5 md:p-3">
+                    <p className="text-[11px] font-semibold text-[#edf1e8]">1. A tu medida</p>
+                    <p className="mt-0.5 text-[10px] leading-4 text-[#a4af9b]">Cero enlatados, adaptado 100% a tu operación.</p>
                   </div>
-                  <div className="rounded-xl border border-white/8 bg-black/20 p-3">
-                    <p className="text-[11px] font-semibold text-[#edf1e8]">2. Evolución continua</p>
-                    <p className="mt-1 text-xs text-[#a4af9b]">Nuevos módulos e integraciones mes a mes.</p>
+                  <div className="rounded-lg border border-white/8 bg-black/20 p-2.5 md:p-3">
+                    <p className="text-[11px] font-semibold text-[#edf1e8]">2. Evolución</p>
+                    <p className="mt-0.5 text-[10px] leading-4 text-[#a4af9b]">Nuevos módulos e integraciones continuas.</p>
                   </div>
-                  <div className="rounded-xl border border-white/8 bg-black/20 p-3">
-                    <p className="text-[11px] font-semibold text-[#edf1e8]">3. Soporte directo</p>
-                    <p className="mt-1 text-xs text-[#a4af9b]">Equipo asignado que conoce tu código y tu negocio.</p>
+                  <div className="rounded-lg border border-white/8 bg-black/20 p-2.5 md:p-3">
+                    <p className="text-[11px] font-semibold text-[#edf1e8]">3. Soporte</p>
+                    <p className="mt-0.5 text-[10px] leading-4 text-[#a4af9b]">Equipo que conoce tu código y te responde.</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-t border-white/10 pt-5">
-                <p className="text-xs text-[#93a084]">
-                  Conversemos sobre las necesidades de tu empresa.
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-white/10 pt-4 md:mt-5 md:pt-5">
+                <p className="text-[11px] text-[#93a084] hidden sm:block">
+                  Conversemos sobre tu proyecto.
                 </p>
                 <PrimaryButton
                   onClick={() => {
                     setIsPartnerModalOpen(false);
                     onStart();
                   }}
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto text-center"
                 >
                   Agendá una reunión →
                 </PrimaryButton>
