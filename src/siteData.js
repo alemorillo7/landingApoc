@@ -32,20 +32,20 @@ export const clientLogos = [
 
 export const differentiators = [
   {
-    title: "Arquitectura desde el inicio",
-    text: "Definimos estructura, integraciones y criterios técnicos antes de escalar el desarrollo.",
+    title: "Entendemos tu negocio",
+    text: "Analizamos tus procesos y necesidades operativas reales antes de escribir una sola línea de código.",
+  },
+  {
+    title: "Desarrollamos a medida",
+    text: "Construimos la solución que realmente necesita tu empresa: ERP, CRM, automatización o agentes de IA.",
+  },
+  {
+    title: "Acompañamos el crecimiento",
+    text: "Tu empresa evoluciona y surgen nuevas necesidades. Contás con un equipo propio que sigue trabajando sobre el sistema.",
   },
   {
     title: "Seguridad y estabilidad real",
-    text: "Construimos sistemas preparados para operar con menos fragilidad y mejor mantenimiento.",
-  },
-  {
-    title: "Seguimiento profesional",
-    text: "Trabajamos con procesos claros, demos visibles y comunicación constante durante todo el proyecto.",
-  },
-  {
-    title: "Tecnologia conectada a negocio",
-    text: "Cada decisión busca mejorar operación, productividad y capacidad de crecimiento.",
+    text: "Construimos arquitectura sólida preparada para operar con menos fragilidad y mejor mantenimiento.",
   },
 ];
 

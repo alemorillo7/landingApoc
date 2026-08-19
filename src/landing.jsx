@@ -194,11 +194,15 @@ function SocialIcon({ label }) {
   );
 }
 
+
+
+
 export default function Landing({ onStart }) {
   const [activeMethodStep, setActiveMethodStep] = useState(methodology[0]);
   const [enableHeroScene, setEnableHeroScene] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDesktopViewport, setIsDesktopViewport] = useState(false);
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const [calculatorInputs, setCalculatorInputs] = useState({
     people: 2,
     hoursPerWeek: 12,
@@ -659,31 +663,29 @@ export default function Landing({ onStart }) {
                 <SectionTag>Solo tomamos 3 proyectos por mes</SectionTag>
 
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {["Automatización", "Agentes IA", "Software a medida"].map((item) => (
+                  {["ERP & CRM a medida", "Agentes IA & WhatsApp", "Evolución continua"].map((item) => (
                     <span
                       key={item}
-                      className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#cdd5c4]"
+                      className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/16 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#edf1e8]"
                     >
                       {item}
                     </span>
                   ))}
                 </div>
 
-                <h1 className="mt-7 max-w-5xl text-[2.45rem] font-semibold uppercase leading-[0.88] tracking-[-0.085em] text-[#f7f8f4] min-[360px]:text-[2.8rem] md:text-[5.2rem] xl:text-[5.7rem]">
-                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">No desarrollamos</span>
-                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">software rápido.</span>
+                <h1 className="mt-7 max-w-5xl text-[2.45rem] font-semibold uppercase leading-[0.88] tracking-[-0.085em] text-[#f7f8f4] min-[360px]:text-[2.8rem] md:text-[4.8rem] xl:text-[5.4rem]">
+                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">Tu empresa necesita</span>
                   <span className="block bg-[linear-gradient(180deg,#cfe0bf_0%,#8ea47b_100%)] bg-clip-text text-transparent drop-shadow-[0_10px_36px_rgba(120,141,95,0.26)]">
-                    Desarrollamos
+                    un sistema que pueda
                   </span>
-                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">software que no tengas que rehacer después.</span>
+                  <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">crecer con ella.</span>
                 </h1>
 
                 <div className="mt-5 h-px w-20 bg-[linear-gradient(90deg,rgba(164,184,140,0.9),rgba(164,184,140,0))]" />
 
-                <p className="mt-5 max-w-[46rem] text-[15px] leading-7 text-[#c7d0bd] md:mt-6 md:text-[19px] md:leading-8">
-                  Diseñamos agentes de IA, automatizaciones y software seguros, escalables y
-                  estables para empresas que ya no pueden seguir resolviendo con Excel. Creamos un
-                  sistema que realmente pueda sostener tu crecimiento.
+                <p className="mt-5 max-w-[48rem] text-[15px] leading-7 text-[#c7d0bd] md:mt-6 md:text-[19px] md:leading-8">
+                  Desarrollamos ERP, CRM y software a medida para empresas que necesitan optimizar su
+                  operación y contar con una solución preparada para acompañar su crecimiento.
                 </p>
 
                 <div className="mt-6 lg:hidden">
@@ -716,23 +718,31 @@ export default function Landing({ onStart }) {
                   </div>
                 </div>
 
-                <div className="mt-7 hidden max-w-3xl rounded-[24px] border border-[#7d8d6a]/22 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(255,255,255,0.03))] p-4 backdrop-blur-xl md:block md:p-5">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-[#92a083]">
-                    La diferencia esta después
-                  </p>
+                <div className="mt-7 hidden max-w-3xl rounded-[24px] border border-[#7d8d6a]/28 bg-[linear-gradient(180deg,rgba(111,126,96,0.16),rgba(255,255,255,0.03))] p-4 backdrop-blur-xl md:block md:p-6">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-[10px] uppercase tracking-[0.24em] text-[#9db08c]">
+                      Una solución que no termina cuando termina el desarrollo
+                    </p>
+                    <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/20 px-3 py-1 text-[9px] uppercase tracking-[0.2em] text-[#e3eadc]">
+                      Socio Tecnológico
+                    </span>
+                  </div>
                   <p className="mt-3 text-base font-medium leading-7 text-[#eef2e8] md:text-lg md:leading-8">
-                    Los errores, las vulnerabilidades y las malas decisiones tecnicas suelen aparecer meses después de lanzar un sistema.
+                    Tu empresa va a seguir creciendo, cambiando y necesitando nuevas soluciones.
                   </p>
                   <p className="mt-3 text-sm leading-6 text-[#c6cec0] md:text-base md:leading-7">
-                    En APOC diseñamos soluciones seguras, escalables y preparadas para acompañar el crecimiento de tu empresa desde el primer día.
+                    Por eso en APOC desarrollamos sistemas pensados para evolucionar junto con tu negocio, con un equipo que continúa acompañando el proyecto después de su implementación.
                   </p>
+                  <div className="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.18em] text-[#9ab088]">
+                    <span>Desarrollo a medida</span> · <span>Evolución continua</span> · <span>Soporte</span>
+                  </div>
                 </div>
 
                 <div className="mt-8 hidden gap-3 sm:grid-cols-3 md:grid">
                   {[
-                    "Menos carga manual y más control operativo.",
-                    "Integraciones, trazabilidad y estructura real.",
-                    "Implementación con criterio técnico y foco comercial.",
+                    "Entendemos tu negocio antes de construir.",
+                    "Desarrollamos la solución a tu medida real.",
+                    "Acompañamos el crecimiento con equipo continuo.",
                   ].map((item) => (
                     <div
                       key={item}
@@ -753,68 +763,6 @@ export default function Landing({ onStart }) {
                   <SecondaryButton href="#calculadora-ahorro" className="w-full sm:w-auto">
                     Calcular ahorro
                   </SecondaryButton>
-                </div>
-
-                <div className="mt-8 hidden gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:grid">
-                  <div className="rounded-[28px] border border-[#738261]/18 bg-white/5 p-5 text-sm leading-7 text-[#c4ccb9] backdrop-blur-2xl">
-                    <p className="font-medium uppercase tracking-[0.22em] text-[#8f9c82]">
-                      Que hacemos
-                    </p>
-                    <p className="mt-3 text-base font-medium leading-7 text-[#eef1e8]">
-                      Diseñamos e implementamos sistemas que reemplazan tareas manuales, mejoran
-                      atención, ordenan operación y escalan mejor con el negocio.
-                    </p>
-                    <p className="mt-3">
-                      Desde el primer discovery definimos arquitectura, integraciones, testing y
-                      puesta en marcha para que el proyecto no dependa de parches ni improvisación.
-                    </p>
-                  </div>
-
-                  <div className="rounded-[28px] border border-white/10 bg-black/20 p-5 backdrop-blur-2xl">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-[#8f9c82]">
-                      Ideal para empresas que
-                    </p>
-                    <div className="mt-4 space-y-3">
-                      {[
-                        "Reciben muchas consultas y respuestas repetitivas.",
-                        "Tienen procesos internos lentos o desordenados.",
-                        "Necesitan un sistema propio, no otra solución generica.",
-                      ].map((item) => (
-                        <div key={item} className="flex gap-3">
-                          <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#81906f]" />
-                          <p className="text-sm leading-6 text-[#d5dccd]">{item}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-10 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                  {heroStats.map((stat, index) => (
-                    <motion.div
-                      key={stat.label}
-                      variants={reveal}
-                      initial="hidden"
-                      animate="visible"
-                      transition={{ delay: 0.1 + index * 0.08, duration: 0.55 }}
-                      className="glass-card rounded-[24px] p-4 sm:rounded-[28px] sm:p-5"
-                    >
-                      <p className="text-2xl font-semibold tracking-[-0.05em] text-[#f5f6f1] sm:text-3xl">{stat.value}</p>
-                      <p className="mt-2 text-[10px] uppercase leading-4 tracking-[0.16em] text-[#95a286] sm:text-xs sm:tracking-[0.2em]">{stat.label}</p>
-                      {stat.detail ? <p className="mt-3 text-sm leading-6 text-[#aeb7a6]">{stat.detail}</p> : null}
-                    </motion.div>
-                  ))}
-                </div>
-
-                <div className="mt-10">
-                  <p className="text-[11px] uppercase tracking-[0.28em] text-[#8e9984]">Empresas y verticales con foco operacional</p>
-                  <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
-                    {clientLogos.map((item) => (
-                      <div key={item} className="glass-card flex min-h-[52px] min-w-0 items-center justify-center rounded-2xl px-3 py-2 text-center text-[11px] uppercase leading-4 tracking-[0.1em] text-[#c2cab8] break-words sm:h-14 sm:text-sm sm:tracking-[0.16em]">
-                        {item}
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </motion.div>
 
@@ -980,9 +928,9 @@ export default function Landing({ onStart }) {
         <section id="diferencial" className="px-4 py-16 md:px-10 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionHeading
-              eyebrow="Por qué en APOC"
-              title="Construimos sistemas pensados para durar y crecer con tu operación."
-              description="Nos posicionamos desde arquitectura, seguridad, seguimiento y criterio técnico. La idea no es solo desarrollar, sino construir una base confiable para el negocio."
+              eyebrow="Tecnología pensada para tu operación"
+              title="Soluciones diseñadas a la medida de tus procesos."
+              description="Entendemos tu negocio antes de escribir una sola línea de código, desarrollamos la solución que realmente necesitás (ERP, CRM, automatizaciones o IA) y acompañamos tu crecimiento en el tiempo."
               align="center"
             />
 
@@ -1804,17 +1752,17 @@ export default function Landing({ onStart }) {
               <div className="absolute right-0 top-0 h-56 w-56 rounded-full bg-[#738260]/16 blur-3xl" />
               <div className="grid gap-8 lg:gap-12 lg:grid-cols-[0.9fr_1.1fr]">
                 <div className="relative">
-                  <SectionTag>Contacto premium</SectionTag>
-                  <h2 className="mt-5 max-w-xl text-3xl font-semibold tracking-[-0.05em] text-[#f6f7f3] md:mt-6 md:text-6xl">
-                    Tomamos proyectos limitados cada mes.
+                  <SectionTag>Evolución operativa</SectionTag>
+                  <h2 className="mt-5 max-w-xl text-3xl font-semibold tracking-[-0.05em] text-[#f6f7f3] md:mt-6 md:text-5xl lg:text-6xl">
+                    Si tu empresa está lista para evolucionar, hablemos.
                   </h2>
                   <p className="mt-5 max-w-xl text-base leading-7 text-[#abb4a2] md:mt-6 md:text-lg md:leading-8">
-                    Reserva una reunión estratégica si buscas construir en serio, con seguridad,
-                    arquitectura y seguimiento premium.
+                    No esperes a que el crecimiento de tu negocio convierta tus procesos en un límite.
+                    Agendá una reunión con nuestro equipo y contanos qué necesitás resolver.
                   </p>
                   <div className="mt-6 rounded-[24px] border border-[#7a8968]/20 bg-white/5 p-4 text-sm leading-7 text-[#d7ddd0] md:mt-8 md:rounded-[28px] md:p-5">
-                    <p>Trabajamos con empresas que necesitan una base técnica confiable para crecer sin fragilidad.</p>
-                    <p className="mt-2 text-[#f2f4ee]">Ultimos cupos disponibles esta semana.</p>
+                    <p className="text-xs uppercase tracking-[0.24em] text-[#93a084]">Primera conversación · Sin compromiso</p>
+                    <p className="mt-2 text-[#f2f4ee]">Evaluamos tu contexto, oportunidad y factibilidad técnica sin fricción.</p>
                   </div>
                 </div>
 
@@ -1972,10 +1920,98 @@ export default function Landing({ onStart }) {
             <SocialIcon label="WhatsApp" />
           </a>
           <PrimaryButton onClick={onStart} className="flex-1 rounded-[1.05rem] px-3 py-2.5 text-[9px] tracking-[0.05em]">
-            Agenda tu llamada
+            Agendá una reunión
           </PrimaryButton>
         </div>
       </div>
+
+      {/* Botón y Banner Flotante: Socio Tecnológico & Equipo Continuo (Idea de Milagros Varela) */}
+      <div className="fixed bottom-6 right-6 z-40 hidden md:block">
+        <button
+          onClick={() => setIsPartnerModalOpen(true)}
+          className="group relative flex items-center gap-3 rounded-full border border-[#7d8d6a]/40 bg-[#0d120f]/90 px-5 py-3 text-left shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl transition duration-300 hover:scale-105 hover:border-[#8ea279] hover:bg-[#121915]"
+        >
+          <span className="relative flex h-3 w-3">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8ea279] opacity-75" />
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-[#758863]" />
+          </span>
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#a4b595]">
+              ¿Buscás un ERP o CRM a medida?
+            </p>
+            <p className="text-xs font-medium text-[#edf1e8]">
+              Leé sobre nuestro equipo continuo →
+            </p>
+          </div>
+        </button>
+      </div>
+
+      {/* Modal Interactivo de Socio Tecnológico */}
+      <AnimatePresence>
+        {isPartnerModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+            onClick={() => setIsPartnerModalOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl rounded-[32px] border border-[#7d8d6a]/30 bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.2),rgba(9,12,10,0.98))] p-6 text-[#f5f7f3] shadow-[0_40px_120px_rgba(0,0,0,0.7)] backdrop-blur-2xl md:p-9"
+            >
+              <button
+                onClick={() => setIsPartnerModalOpen(false)}
+                className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d7ddd0] transition hover:bg-white/10"
+              >
+                ✕
+              </button>
+
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/16 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#dce3d3]">
+                💡 Visión APOC · Socio Tecnológico
+              </div>
+
+              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.04em] text-[#f6f7f3] md:text-4xl">
+                ¿Buscás un ERP o Software a Medida?
+              </h3>
+
+              <div className="mt-5 space-y-4 text-sm leading-7 text-[#c6d0bd] md:text-base md:leading-8">
+                <p>
+                  Alguien entra buscando: <strong className="text-[#f5f7f3]">“Necesito un ERP o un CRM.”</strong>
+                </p>
+                <p className="rounded-2xl border border-white/10 bg-black/30 p-4 text-[#eef2e8]">
+                  Y descubre algo mucho más valioso: <br />
+                  <span className="text-[#9cb08a] font-medium">
+                    “Además de desarrollar mi ERP, puedo tener un equipo que entienda mi negocio y siga acompañándome cuando aparezcan nuevas necesidades.”
+                  </span>
+                </p>
+                <p>
+                  En APOC no terminamos el desarrollo y quedamos desconectados. Te ofrecemos una estructura de tecnología propia para evolucionar el software a medida que tu empresa crece.
+                </p>
+              </div>
+
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-white/10 pt-6">
+                <div className="text-xs uppercase tracking-[0.2em] text-[#93a084]">
+                  Desarrollo · Evolución continua · Soporte
+                </div>
+                <div className="flex gap-3">
+                  <PrimaryButton
+                    onClick={() => {
+                      setIsPartnerModalOpen(false);
+                      onStart();
+                    }}
+                  >
+                    Agendá una reunión →
+                  </PrimaryButton>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
