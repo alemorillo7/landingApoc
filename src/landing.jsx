@@ -126,6 +126,22 @@ function SocialIcon({ label }) {
     );
   }
 
+  if (label === "Phone") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+      </svg>
+    );
+  }
+
+  if (label === "Email") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+      </svg>
+    );
+  }
+
   if (label === "Instagram") {
     return (
       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
@@ -143,11 +159,8 @@ function SocialIcon({ label }) {
   }
 
   return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <path d="M4 4h16v16H4z" />
-      <path d="M8 9h8" />
-      <path d="M8 13h8" />
-      <path d="M8 17h5" />
+    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
     </svg>
   );
 }
@@ -251,111 +264,111 @@ export default function Landing({ onStart }) {
       <div className="hero-orb hero-orb-bottom" />
 
       {/* ========================================================================= */}
-      {/* 1. NAVEGACIÓN FIJA                                                        */}
+      {/* 1. NAVEGACIÓN FIJA & BANNER DE URGENCIA                                   */}
       {/* ========================================================================= */}
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/8 bg-[#090b0a]/85 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 md:px-10 md:py-4">
-          <a href="#inicio" className="flex min-w-0 items-center gap-2 md:gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/6 md:h-11 md:w-11">
-              <img
-                src="/logo-sin-fondo-apoc.webp"
-                alt="APOC Automation"
-                className="h-7 w-7 object-contain md:h-8 md:w-8"
-              />
-            </div>
-            <div className="min-w-0">
-              <p className="text-[10px] uppercase tracking-[0.28em] text-[#95a286] md:text-xs md:tracking-[0.35em]">
-                APOC AUTOMATION
-              </p>
-              <p className="hidden text-[11px] leading-tight text-[#c6cdbe] min-[360px]:block md:text-sm">
-                Software, IA y automatización
-              </p>
-            </div>
-          </a>
+      <header className="fixed inset-x-0 top-0 z-50">
+        <nav className="border-b border-white/8 bg-[#090b0a]/90 backdrop-blur-xl">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 md:px-10 md:py-4">
+            <a href="#inicio" className="flex min-w-0 items-center gap-2 md:gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/6 md:h-11 md:w-11">
+                <img
+                  src="/logo-sin-fondo-apoc.webp"
+                  alt="APOC Automation"
+                  className="h-7 w-7 object-contain md:h-8 md:w-8"
+                />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] uppercase tracking-[0.28em] text-[#95a286] md:text-xs md:tracking-[0.35em]">
+                  APOC AUTOMATION
+                </p>
+                <p className="hidden text-[11px] leading-tight text-[#c6cdbe] min-[360px]:block md:text-sm">
+                  Software, IA y automatización
+                </p>
+              </div>
+            </a>
 
-          <div className="hidden items-center gap-7 text-xs uppercase tracking-[0.2em] text-[#9aa491] lg:flex">
-            <a href="#casos-exito" className="transition hover:text-white">Casos de éxito</a>
-            <a href="#testimonios" className="transition hover:text-white">Testimonios</a>
-            <a href="#equipo" className="transition hover:text-white">Equipo</a>
-            <a href="#planes" className="transition hover:text-white">Planes</a>
-            <a href="#calculadora-ahorro" className="transition hover:text-white">Calculadora</a>
-            <a href="#contacto" className="transition hover:text-white">Contacto</a>
+            <div className="hidden items-center gap-7 text-xs uppercase tracking-[0.2em] text-[#9aa491] lg:flex">
+              <a href="#casos-exito" className="transition hover:text-white">Casos de éxito</a>
+              <a href="#testimonios" className="transition hover:text-white">Testimonios</a>
+              <a href="#equipo" className="transition hover:text-white">Equipo</a>
+              <a href="#planes" className="transition hover:text-white">Planes</a>
+              <a href="#calculadora-ahorro" className="transition hover:text-white">Calculadora</a>
+              <a href="#contacto" className="transition hover:text-white">Contacto</a>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <PrimaryButton
+                onClick={onStart}
+                className="shrink-0 rounded-[1.15rem] px-4 py-2 !text-[9px] leading-none tracking-[0.06em] shadow-none sm:px-5 sm:py-2.5 sm:text-[10px] sm:tracking-[0.12em] md:rounded-full md:px-6 md:py-3 md:text-[11px] md:tracking-[0.16em]"
+              >
+                <span className="sm:hidden">Agendar</span>
+                <span className="hidden sm:inline">Agendá tu llamada gratis</span>
+              </PrimaryButton>
+              <button
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#f2f4ee] lg:hidden"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Abrir menú"
+              >
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+                  {isMobileMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
           </div>
+        </nav>
 
-          <div className="flex items-center gap-2">
-            <PrimaryButton
-              onClick={onStart}
-              className="shrink-0 rounded-[1.15rem] px-4 py-2 !text-[9px] leading-none tracking-[0.06em] shadow-none sm:px-5 sm:py-2.5 sm:text-[10px] sm:tracking-[0.12em] md:rounded-full md:px-6 md:py-3 md:text-[11px] md:tracking-[0.16em]"
+        {/* Menú Mobile Drawer */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="border-b border-white/8 bg-[#090b0a]/95 px-5 py-6 backdrop-blur-2xl lg:hidden"
             >
-              <span className="sm:hidden">Agendar</span>
-              <span className="hidden sm:inline">Agendá tu llamada gratis</span>
-            </PrimaryButton>
+              <div className="flex flex-col gap-4 text-xs uppercase tracking-[0.2em] text-[#9aa491]">
+                <a href="#casos-exito" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Casos de éxito</a>
+                <a href="#testimonios" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Testimonios</a>
+                <a href="#equipo" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Equipo dedicado</a>
+                <a href="#planes" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Formas de contratación</a>
+                <a href="#calculadora-ahorro" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Calculadora de ahorro</a>
+                <a href="#contacto" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Contacto directo</a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Banner Sticky de Urgencia */}
+        <div
+          className={`border-b border-[#7d8d6a]/30 bg-[#0e1310]/98 backdrop-blur-xl transition-all duration-300 ${
+            showUrgencyBanner
+              ? "max-h-24 opacity-100 py-2.5 shadow-[0_12px_36px_rgba(0,0,0,0.6)]"
+              : "max-h-0 opacity-0 py-0 pointer-events-none overflow-hidden border-transparent"
+          }`}
+        >
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-8">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <span className="relative flex h-2.5 w-2.5 shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8ea279] opacity-75" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#758863]" />
+              </span>
+              <p className="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c9d4bf] sm:text-xs sm:tracking-[0.18em]">
+                Solo quedan <span className="font-bold text-[#f2f6ee]">{urgencySlots} {urgencySlots === 1 ? "lugar disponible" : "lugares disponibles"}</span> este mes para nuevos desarrollos
+              </p>
+            </div>
             <button
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#f2f4ee] lg:hidden"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Abrir menú"
+              onClick={onStart}
+              className="shrink-0 text-[10px] font-bold uppercase tracking-[0.15em] text-[#a4b892] underline underline-offset-4 hover:text-[#d3dfc7] sm:text-xs"
             >
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-                {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
+              Asegurar lugar →
             </button>
           </div>
         </div>
-      </nav>
-
-      {/* Menú Mobile Drawer */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-x-0 top-[61px] z-40 border-b border-white/8 bg-[#090b0a]/95 px-5 py-6 backdrop-blur-2xl lg:hidden"
-          >
-            <div className="flex flex-col gap-4 text-xs uppercase tracking-[0.2em] text-[#9aa491]">
-              <a href="#casos-exito" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Casos de éxito</a>
-              <a href="#testimonios" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Testimonios</a>
-              <a href="#equipo" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Equipo dedicado</a>
-              <a href="#planes" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Formas de contratación</a>
-              <a href="#calculadora-ahorro" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Calculadora de ahorro</a>
-              <a href="#contacto" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Contacto directo</a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ========================================================================= */}
-      {/* BANNER STICKY DE URGENCIA (Se activa al bajar y permanece estático)       */}
-      {/* ========================================================================= */}
-      <div
-        className={`fixed inset-x-0 top-[57px] md:top-[65px] z-40 border-b border-[#7d8d6a]/25 bg-[#0e1310]/95 backdrop-blur-xl transition-all duration-400 ${
-          showUrgencyBanner
-            ? "translate-y-0 opacity-100 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
-            : "-translate-y-full opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:px-8">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <span className="relative flex h-2.5 w-2.5 shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8ea279] opacity-75" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#758863]" />
-            </span>
-            <p className="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c9d4bf] sm:text-xs sm:tracking-[0.18em]">
-              Solo quedan <span className="font-bold text-[#f2f6ee]">{urgencySlots} {urgencySlots === 1 ? "lugar disponible" : "lugares disponibles"}</span> este mes para nuevos desarrollos
-            </p>
-          </div>
-          <button
-            onClick={onStart}
-            className="shrink-0 text-[10px] font-bold uppercase tracking-[0.15em] text-[#a4b892] underline underline-offset-4 hover:text-[#d3dfc7] sm:text-xs"
-          >
-            Asegurar lugar →
-          </button>
-        </div>
-      </div>
+      </header>
 
       <main className="relative z-10 pb-24 md:pb-0">
         {/* ========================================================================= */}
@@ -406,10 +419,10 @@ export default function Landing({ onStart }) {
                 ))}
               </div>
 
-              {/* Video demostrativo compacto */}
-              <div className="mx-auto mt-8 max-w-3xl overflow-hidden rounded-[24px] border border-white/10 bg-[#0e1210]/90 p-2.5 shadow-[0_25px_70px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-                <div className="overflow-hidden rounded-[18px] border border-white/10 bg-black">
-                  <div className="aspect-[16/9] w-full">
+              {/* Video demostrativo compacto (Formato YouTube Short) */}
+              <div className="mx-auto mt-8 max-w-xs sm:max-w-[340px] overflow-hidden rounded-[26px] border border-white/10 bg-[#0e1210]/90 p-2.5 shadow-[0_25px_70px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+                <div className="overflow-hidden rounded-[20px] border border-white/10 bg-black">
+                  <div className="aspect-[9/16] w-full max-h-[540px]">
                     <iframe
                       className="h-full w-full"
                       src={heroVideoEmbedUrl}
@@ -446,9 +459,9 @@ export default function Landing({ onStart }) {
               align="center"
             />
 
-            {/* Testimonios en Video Destacados (B-Fit con voz real + Testimonio YouTube) */}
+            {/* Testimonios en Video Destacados (Beyond Fit con voz real + Testimonio YouTube) */}
             <div className="mt-12 grid gap-6 md:grid-cols-2">
-              {/* Testimonio 1: B-FIT (Video directo con voz del cliente) */}
+              {/* Testimonio 1: Beyond Fit (Video directo con voz de la clienta) */}
               <motion.div
                 variants={reveal}
                 initial="hidden"
@@ -458,9 +471,9 @@ export default function Landing({ onStart }) {
               >
                 <div className="flex items-center justify-between pb-3">
                   <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/20 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-[#dce3d3]">
-                    Voz real del cliente
+                    Voz real de la clienta
                   </span>
-                  <span className="text-xs uppercase tracking-[0.2em] text-[#93a084]">Benefit Gym / B-fit</span>
+                  <span className="text-xs uppercase tracking-[0.2em] text-[#93a084]">Beyond Fit</span>
                 </div>
                 <div className="overflow-hidden rounded-[20px] border border-white/10 bg-black/40">
                   <video
@@ -913,15 +926,17 @@ export default function Landing({ onStart }) {
               </a>
               <a
                 href={contactInfo.phoneHref}
-                className="inline-flex items-center gap-2 rounded-xl border border-white/8 bg-white/4 px-4 py-2.5 transition hover:border-white/20"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/8 bg-white/4 px-4 py-2.5 text-[#d7ddd0] transition hover:border-white/20 hover:text-white"
               >
-                <span>📞 {contactInfo.phone}</span>
+                <SocialIcon label="Phone" />
+                <span>{contactInfo.phone}</span>
               </a>
               <a
                 href={contactInfo.emailHref}
-                className="inline-flex items-center gap-2 rounded-xl border border-white/8 bg-white/4 px-4 py-2.5 transition hover:border-white/20"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/8 bg-white/4 px-4 py-2.5 text-[#d7ddd0] transition hover:border-white/20 hover:text-white"
               >
-                <span>✉️ {contactInfo.email}</span>
+                <SocialIcon label="Email" />
+                <span>{contactInfo.email}</span>
               </a>
             </div>
           </div>

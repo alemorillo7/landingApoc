@@ -10,10 +10,10 @@ export const urgencyConfig = {
 };
 
 export const bfitTestimonial = {
-  title: "Testimonio B-fit",
+  title: "Testimonio Beyond Fit",
   videoSrc: "/testimonio-bfit.mp4",
-  client: "B-fit",
-  caption: "Escuchá directo de nuestro cliente cómo fue trabajar con APOC.",
+  client: "Beyond Fit",
+  caption: "Escuchá directo de nuestra clienta cómo fue trabajar con APOC.",
 };
 
 export const heroStats = [
@@ -42,8 +42,7 @@ export const heroStats = [
 export const clientLogos = [
   "Taller Lucero",
   "Ramayo",
-  "Benefit Gym",
-  "Dental Quality",
+  "Beyond Fit",
   "RC Autopartes",
   "Realt IA",
 ];
@@ -322,8 +321,8 @@ export const caseStudies = [
 export const featuredCaseStudyIds = [
   "taller-german-lucero",
   "ramayo-propiedades",
-  "benefit-gym",
-  "global-medical-os",
+  "revitalis",
+  "nukipet",
   "realt-ia",
   "rc-autopartes",
 ];
@@ -357,6 +356,7 @@ export const team = [
   {
     name: "Elian",
     initials: "EL",
+    image: "/elian.webp",
     role: "Encargado Comercial & Closer",
     detail:
       "Responsable de seguimiento comercial y cierre. Se encarga de que cada empresa reciba la atención y el acompañamiento que necesita para avanzar.",
@@ -439,7 +439,7 @@ export const videoTestimonial = {
 
 export const heroVideo = {
   title: "Vista general",
-  youtubeId: "6V-Wt7evlxA",
+  youtubeId: "Vz8AqAMCuQs",
   badge: "apoc automation",
   heading: "Soluciones pensadas para durar, integrarse bien y sostener el crecimiento.",
   description:
@@ -483,24 +483,6 @@ export const testimonials = [
     proof: "Ver caso",
     initials: "RP",
     projectId: "ramayo-propiedades",
-  },
-  {
-    company: "Benefit Gym",
-    quote:
-      "Implementamos un sistema a medida con hardware integrado para validar acceso con DNI y ordenar la operación del gimnasio sobre una base propia.",
-    source: "Caso destacado - Benefit Gym",
-    proof: "Ver caso",
-    initials: "BG",
-    projectId: "benefit-gym",
-  },
-  {
-    company: "360 Global Medical OS",
-    quote:
-      "El sistema reemplazó procesos manuales dispersos, dio visibilidad 360 de cada operación y mejoro la coordinación internacional entre clientes y proveedores.",
-    source: "Caso destacado - 360 Global Medical OS",
-    proof: "Ver caso",
-    initials: "36",
-    projectId: "global-medical-os",
   },
 ];
 
