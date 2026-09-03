@@ -88,76 +88,6 @@ export const caseStudies = [
       "Taller de chapa y pintura con trabajo operativo diario, necesidad de presupuestar más rápido y mejor control sobre cada vehiculo en curso.",
   },
   {
-    id: "revitalis",
-    client: "Revitalis",
-    industry: "Salud / Clínica Estética - Argentina",
-    image: "/revitalis.webp",
-    tags: ["Destacado", "Agente IA"],
-    problem:
-      "El equipo dedicaba demasiadas horas a responder consultas, explicar tratamientos y coordinar turnos entre distintas sedes.",
-    solution:
-      "Implementamos el agente IA Mateo en WhatsApp para resolver preguntas frecuentes, consultar agenda en tiempo real y derivar cada conversacion segun sede, tratamiento o necesidad.",
-    result:
-      "La operación comercial y de recepción quedó mucho más liviana, con menos carga manual y atención disponible durante todo el día.",
-    impact:
-      "Revitalis ganó capacidad de respuesta sin sumar más fricción interna, manteniendo una experiencia más consistente para pacientes y equipo.",
-    metrics: ["-80% consultas manuales", "Agenda 24/7", "Multi-sede", "Derivacion a humano"],
-    technologies: ["n8n", "WhatsApp Cloud API", "Supabase", "OpenAI GPT-4", "Chatwoot"],
-    clientSummary:
-      "Clínica estética con dos sedes y alto volumen de consultas que necesitaba escalar atención sin perder calidad de respuesta.",
-  },
-  {
-    id: "maria-belen",
-    client: "Maria Belen",
-    industry: "Medicina Estética - Argentina",
-    tags: ["Automatización", "Agente IA"],
-    problem:
-      "La gestion manual de consultas y turnos hacia perder tiempo y limitaba la conversión de interes en turnos confirmados.",
-    solution:
-      "Desarrollamos un sistema de atención automatizada para consultas, agendamiento de tratamientos, calificación de leads y derivación segun el tipo de tratamiento solicitado.",
-    result:
-      "La atención quedó operando de forma continua, sin gestion manual constante, y aumento la conversión de consultas a turnos confirmados.",
-    metrics: ["Atención continua", "Leads calificados", "Agenda automatizada", "Mas turnos confirmados"],
-    technologies: ["n8n", "WhatsApp API", "OpenAI", "Agenda integrada"],
-    clientSummary:
-      "Profesional de medicina estética que buscaba escalar atención y mejorar conversión sin sumar carga operativa.",
-  },
-  {
-    id: "nukipet",
-    client: "NukiPet",
-    industry: "E-commerce / Mascotas - Peru",
-    image: "/nukipet.webp",
-    tags: ["Destacado", "Automatización"],
-    problem:
-      "El negocio operaba entre pedidos web, WhatsApp y logística nacional, con demasiadas validaciones manuales para cada compra.",
-    solution:
-      "Creamos el sistema multi-agente Mia en WhatsApp para clasificar pedidos, definir rutas segun destino, consultar agencias de Shalom e integrarse con WooCommerce.",
-    result:
-      "La operación pasó a resolver mejor cada pedido, con menos intervención manual y un flujo mucho más claro para ventas y despacho.",
-    impact:
-      "NukiPet pudo sostener una logística más amplia con mejor orden operativo y menos desgaste del equipo en tareas repetitivas.",
-    metrics: ["499 agencias en RAG", "Cobertura nacional", "Pedidos clasificados", "Logistica inteligente"],
-    technologies: ["n8n", "WhatsApp Cloud API", "WooCommerce", "RAG / Embeddings", "OpenAI", "Chatwoot"],
-    clientSummary:
-      "E-commerce peruano con envíos a múltiples zonas y necesidad de ordenar pedidos, consultas y logística en un mismo flujo.",
-  },
-  {
-    id: "ansurance",
-    client: "Ansurance",
-    industry: "Seguros - Argentina",
-    tags: ["Automatización", "Agente IA"],
-    problem:
-      "La captación y calificación de prospectos dependia de gestion manual, con poca velocidad de respuesta y orden comercial insuficiente.",
-    solution:
-      "Desarrollamos un agente de calificación y gestion de leads para captar prospectos, relevar datos del perfil asegurador y derivar automáticamente al asesor correcto.",
-    result:
-      "El pipeline quedó más organizado, las consultas reciben respuesta inmediata y mejoro la tasa de contacto efectivo.",
-    metrics: ["Respuesta inmediata", "Leads mejor calificados", "Derivacion automática", "Pipeline ordenado"],
-    technologies: ["n8n", "WhatsApp API", "CRM", "OpenAI"],
-    clientSummary:
-      "Empresa de seguros que necesitaba ordenar la entrada de leads y responder más rápido sin depender de filtros manuales.",
-  },
-  {
     id: "ramayo-propiedades",
     client: "Ramayo Propiedades",
     industry: "Inmobiliaria - Argentina",
@@ -177,72 +107,8 @@ export const caseStudies = [
       "Inmobiliaria con flujo constante de leads y necesidad de ordenar mejor la primera respuesta comercial.",
   },
   {
-    id: "dentalquality",
-    client: "DentalQuality",
-    industry: "Odontologia - Argentina",
-    tags: ["Automatización", "Agente IA"],
-    problem:
-      "Las consultas de tratamientos, aranceles, turnos y recordatorios se gestionaban con demasiada intervención manual.",
-    solution:
-      "Implementamos un agente IA en WhatsApp para consultas, arancelario, agendamiento de turnos y recordatorios automáticos a pacientes.",
-    result:
-      "Bajaron las llamadas telefónicas, mejoro la adherencia a los turnos y se elevo la experiencia del paciente.",
-    metrics: ["Menos llamadas", "Recordatorios automáticos", "Agenda por WhatsApp", "Mejor experiencia"],
-    technologies: ["n8n", "WhatsApp API", "OpenAI", "Google Calendar / Agenda"],
-    clientSummary:
-      "Clínica odontologica que necesitaba automatizar atención y agenda sin perder orden operativo.",
-  },
-  {
-    id: "cara-medicina-estética",
-    client: "Cara Medicina Estética",
-    industry: "Salud / Estética - Argentina",
-    tags: ["Automatización", "Agente IA"],
-    problem:
-      "El negocio necesitaba mejorar captación, agendamiento y seguimiento post-consulta sin depender de gestion manual todo el tiempo.",
-    solution:
-      "Desarrollamos un sistema de atención automatizada por WhatsApp para informar procedimientos, captar pacientes, agendar y hacer seguimiento post-consulta.",
-    result:
-      "La tasa de agendamiento subió 22%, el ausentismo bajó 8% y la atención quedó disponible las 24 horas.",
-    metrics: ["+22% agendamiento", "-8% ausentismo", "Atención 24 hs", "Seguimiento post-consulta"],
-    technologies: ["n8n", "WhatsApp Cloud API", "OpenAI GPT-4", "Chatwoot", "Supabase"],
-    clientSummary:
-      "Centro estetico que necesitaba mejorar conversión, seguimiento y disponibilidad de atención.",
-  },
-  {
-    id: "datahome-dani-bot",
-    client: "DataHome",
-    industry: "Real Estate / PropTech - Mexico",
-    tags: ["Destacado", "Agente IA"],
-    problem:
-      "El equipo necesitaba calificar leads y agendar demos más rápido, con criterios consistentes y seguimiento automatizado.",
-    solution:
-      "Implementamos el bot DANI para calificación de leads y agendamiento de demos, integrado con GoHighLevel, PostgreSQL y flujos de seguimiento automático.",
-    result:
-      "La calificación pasó a ejecutarse automáticamente con criterios definidos, bajó el tiempo de respuesta comercial y crecieron las demos agendadas.",
-    metrics: ["Mas demos agendadas", "Leads calificados", "GoHighLevel", "Seguimiento automatizado"],
-    technologies: ["n8n", "GoHighLevel", "PostgreSQL", "WhatsApp API", "OpenAI"],
-    clientSummary:
-      "Empresa PropTech mexicana que necesitaba acelerar conversión comercial sin perder calidad en el filtrado.",
-  },
-  {
-    id: "rrit-reclutamiento",
-    client: "R&Rit",
-    industry: "Recursos Humanos / HR Tech - Latam",
-    tags: ["Automatización", "Agente IA"],
-    problem:
-      "El proceso de screening y recolección de datos de candidatos implicaba demasiado trabajo manual y poca estructura para el equipo.",
-    solution:
-      "Desarrollamos un agente IA de reclutamiento en n8n y Chatwoot para gestionar candidatos, salario, moneda, contratación, reubicación y seguimiento del proceso.",
-    result:
-      "El screening quedó automatizado, la información de candidatos se recopila de forma estructurada y bajó la carga operativa del equipo de RRHH.",
-    metrics: ["Screening automatizado", "Datos estructurados", "Menos carga operativa", "Seguimiento del proceso"],
-    technologies: ["n8n", "Chatwoot", "OpenAI", "WhatsApp API", "Formularios estructurados"],
-    clientSummary:
-      "Equipo de reclutamiento que necesitaba hacer más eficiente la evaluación inicial y la captura de información.",
-  },
-  {
-    id: "benefit-gym",
-    client: "Benefit Gym",
+    id: "beyond-fit",
+    client: "Beyond Fit",
     industry: "Gimnasios / Acceso inteligente - Argentina",
     image: "/benefyt.webp",
     tags: ["Automatización", "Software a medida"],
@@ -253,30 +119,11 @@ export const caseStudies = [
     result:
       "El acceso quedó más simple de operar, con validación automática y una base propia para administrar ingresos desde un sistema pensado para ese contexto.",
     impact:
-      "Benefit Gym ganó autonomia sobre su operación y dejo de depender de un control manual para una parte critica de la experiencia del socio.",
+      "Beyond Fit ganó autonomia sobre su operación y dejo de depender de un control manual para una parte critica de la experiencia del socio.",
     metrics: ["Acceso con DNI", "Hardware integrado", "Sistema a medida", "Operacion más ordenada"],
     technologies: ["React", "n8n", "Render", "Postgres"],
     clientSummary:
-      "Gimnasio que necesitaba combinar software y hardware para profesionalizar el acceso y ordenar la operación diaria.",
-  },
-  {
-    id: "global-medical-os",
-    client: "360 Global Medical OS",
-    industry: "Farmaceutico / Brokerage - Internacional",
-    image: "/global-medical.webp",
-    tags: ["Destacado", "Software a medida"],
-    problem:
-      "La operación del brokerage estaba repartida entre Excel, correo y seguimiento manual, sin una vista unificada del estado de cada orden.",
-    solution:
-      "Desarrollamos un CRM operativo con pipeline de ordenes, cotización asistida con IA, CommHub, auto-sourcing y trazabilidad completa sobre adjuntos y decisiones.",
-    result:
-      "La operación dejo de depender de herramientas sueltas y pasó a gestionarse con más visibilidad, orden y seguimiento de punta a punta.",
-    impact:
-      "360 Global Medical OS consolidó una base mucho más profesional para coordinar clientes, proveedores y decisiones comerciales en una operación internacional.",
-    metrics: ["Operacion 360", "Cotizacion con IA", "Trazabilidad end-to-end", "Excel reemplazado"],
-    technologies: ["Next.js", "Airtable", "n8n", "OpenAI GPT-4", "Email API"],
-    clientSummary:
-      "Brokerage farmaceutico internacional con muchas variables operativas y necesidad de centralizar una operación compleja.",
+      "Gimnasio y centro de entrenamiento que necesitaba combinar software y hardware para profesionalizar el acceso y ordenar la operación diaria.",
   },
   {
     id: "realt-ia",
@@ -321,8 +168,7 @@ export const caseStudies = [
 export const featuredCaseStudyIds = [
   "taller-german-lucero",
   "ramayo-propiedades",
-  "revitalis",
-  "nukipet",
+  "beyond-fit",
   "realt-ia",
   "rc-autopartes",
 ];
@@ -458,24 +304,6 @@ export const testimonials = [
     videoId: "i93Yyv8REjg",
   },
   {
-    company: "Revitalis",
-    quote:
-      "Automatizamos el agendamiento por WhatsApp en múltiples sedes, redujimos un 80% las consultas manuales y dejamos la atención disponible 24/7.",
-    source: "Caso real - Revitalis",
-    proof: "Ver caso",
-    initials: "R",
-    projectId: "revitalis",
-  },
-  {
-    company: "NukiPet",
-    quote:
-      "La operación pasó a gestionar pedidos de forma autónoma, redujo consultas repetitivas y ganó cobertura nacional con derivación logística inteligente.",
-    source: "Caso destacado - NukiPet",
-    proof: "Ver caso",
-    initials: "NP",
-    projectId: "nukipet",
-  },
-  {
     company: "Ramayo Propiedades",
     quote:
       "El bot pasó a calificar el 100% de los leads entrantes, bajó el tiempo de respuesta y ayudó a impactar en USD 70.000 de facturación en el primer mes.",
@@ -483,6 +311,33 @@ export const testimonials = [
     proof: "Ver caso",
     initials: "RP",
     projectId: "ramayo-propiedades",
+  },
+  {
+    company: "Beyond Fit",
+    quote:
+      "El sistema nos ordenó el ingreso de socios con DNI y dejó toda la administración de cuotas y accesos automatizada en una plataforma propia.",
+    source: "Caso real - Beyond Fit",
+    proof: "Ver caso",
+    initials: "BF",
+    projectId: "beyond-fit",
+  },
+  {
+    company: "Realt IA",
+    quote:
+      "Centralizamos la entrada comercial de leads inmobiliarios sincronizados en tiempo real con el agente de IA dentro de nuestro CRM propio.",
+    source: "Caso real - Realt IA (España)",
+    proof: "Ver caso",
+    initials: "RI",
+    projectId: "realt-ia",
+  },
+  {
+    company: "RC Autopartes",
+    quote:
+      "Integramos el inventario de stock, ventas internas y gestión de vendedores en una sola base confiable que agilizó toda la administración.",
+    source: "Caso real - RC Autopartes",
+    proof: "Ver caso",
+    initials: "RC",
+    projectId: "rc-autopartes",
   },
 ];
 

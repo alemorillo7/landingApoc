@@ -213,16 +213,40 @@ export default function Form({ onComplete }) {
                     ></div>
                 </div>
 
-                <div className="mb-6 relative md:mb-8">
-                   {step > 0 && (
-                       <button 
-                        onClick={prevStep}
-                        className="mb-4 inline-flex items-center gap-1 text-[#829072] hover:text-[#dfe5d7] font-semibold text-[10px] uppercase tracking-[0.22em] transition-colors cursor-pointer md:absolute md:-top-8 md:left-0 md:mb-0 md:text-xs md:tracking-[0.24em]"
-                       >
-                         ← Volver
-                       </button>
-                   )}
-                   <h3 className="mb-3 text-[#91a082] uppercase tracking-[0.24em] font-semibold text-[10px] md:text-xs">Paso {step + 1} de {steps.length}</h3>
+                {/* TOP HEADER: Back button and Step indicator */}
+                <div className="mb-6 flex items-center justify-between gap-3 border-b border-white/8 pb-4">
+                    {step > 0 ? (
+                        <button 
+                            type="button"
+                            onClick={prevStep}
+                            className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#d6ded0] transition hover:bg-white/12 hover:text-white cursor-pointer"
+                            aria-label="Paso anterior"
+                        >
+                            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                            </svg>
+                            <span>Atrás</span>
+                        </button>
+                    ) : (
+                        <button 
+                            type="button"
+                            onClick={() => window.location.href = "/"}
+                            className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#d6ded0] transition hover:bg-white/12 hover:text-white cursor-pointer"
+                            aria-label="Volver al inicio"
+                        >
+                            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                            </svg>
+                            <span>Inicio</span>
+                        </button>
+                    )}
+
+                    <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/15 px-3 py-1 text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] text-[#c9d4bf]">
+                        Paso {step + 1} de {steps.length}
+                    </span>
+                </div>
+
+                <div className="mb-6 md:mb-8">
                    <h2 className="text-[1.65rem] md:text-4xl font-semibold tracking-[-0.04em] text-[#f3f5ef] leading-tight">
                         {current.question}
                     </h2>
@@ -279,6 +303,15 @@ export default function Form({ onComplete }) {
                                     {opt}
                                 </button>
                             ))}
+                            {step > 0 && (
+                                <button
+                                    type="button"
+                                    onClick={prevStep}
+                                    className="mt-2 text-left text-xs font-semibold uppercase tracking-[0.16em] text-[#8ea080] hover:text-white transition cursor-pointer py-1"
+                                >
+                                    ← Volver al paso anterior
+                                </button>
+                            )}
                         </div>
                     )}
 
@@ -441,12 +474,23 @@ export default function Form({ onComplete }) {
                 </div>
 
                 {current.type !== "select" && (
-                    <button
-                        onClick={nextStep}
-                        className="bg-[#6f7d61] text-white px-5 py-3 rounded-[20px] w-full text-[11px] md:px-10 md:py-5 md:rounded-full md:text-xl font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] hover:scale-[1.02] transition-transform shadow-xl shadow-[#435B47]/20 cursor-pointer"
-                    >
-                        {step === steps.length - 1 ? "CONFIRMAR Y AGENDAR CITA →" : "CONTINUAR →"}
-                    </button>
+                    <div className="flex items-center gap-3">
+                        {step > 0 && (
+                            <button
+                                type="button"
+                                onClick={prevStep}
+                                className="rounded-[20px] md:rounded-full border border-white/12 bg-white/6 px-5 py-3 md:px-8 md:py-5 text-[11px] md:text-lg font-semibold uppercase tracking-[0.14em] text-[#d6ded0] transition hover:bg-white/12 hover:text-white cursor-pointer shrink-0"
+                            >
+                                ← Atrás
+                            </button>
+                        )}
+                        <button
+                            onClick={nextStep}
+                            className="bg-[#6f7d61] text-white px-5 py-3 rounded-[20px] flex-1 text-[11px] md:px-10 md:py-5 md:rounded-full md:text-xl font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] hover:scale-[1.01] transition-transform shadow-xl shadow-[#435B47]/20 cursor-pointer"
+                        >
+                            {step === steps.length - 1 ? "CONFIRMAR Y AGENDAR CITA →" : "CONTINUAR →"}
+                        </button>
+                    </div>
                 )}
 
                 <p className="text-[10px] mt-6 md:mt-8 text-[#91a082] font-semibold uppercase tracking-[0.14em] md:tracking-[0.18em] text-center">

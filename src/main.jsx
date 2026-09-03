@@ -374,7 +374,7 @@ function CaseStudyPage({ onStart }) {
         <div className="hero-orb hero-orb-top" />
         <div className="hero-orb hero-orb-bottom" />
 
-        <main className="relative z-10 px-6 pb-20 pt-28 md:px-10 md:pt-32">
+        <main className="relative z-10 px-6 pb-20 pt-10 md:px-10 md:pt-14">
           <div className="mx-auto max-w-6xl">
             <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <Link
@@ -521,7 +521,7 @@ function PortfolioPage({ onStart }) {
         <div className="hero-orb hero-orb-top" />
         <div className="hero-orb hero-orb-bottom" />
 
-        <main className="relative z-10 px-6 pb-20 pt-28 md:px-10 md:pt-32">
+        <main className="relative z-10 px-6 pb-20 pt-10 md:px-10 md:pt-14">
           <div className="mx-auto max-w-7xl">
             <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <Link
