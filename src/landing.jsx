@@ -430,10 +430,10 @@ export default function Landing({ onStart }) {
                 ))}
               </div>
 
-              {/* Video demostrativo compacto (Formato YouTube Short) */}
-              <div className="mx-auto mt-8 max-w-xs sm:max-w-[340px] overflow-hidden rounded-[26px] border border-white/10 bg-[#0e1210]/90 p-2.5 shadow-[0_25px_70px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-                <div className="overflow-hidden rounded-[20px] border border-white/10 bg-black">
-                  <div className="aspect-[9/16] w-full max-h-[540px]">
+              {/* Video demostrativo horizontal */}
+              <div className="mx-auto mt-8 max-w-2xl sm:max-w-3xl overflow-hidden rounded-[24px] border border-white/10 bg-[#0e1210]/90 p-2.5 shadow-[0_25px_70px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+                <div className="overflow-hidden rounded-[18px] border border-white/10 bg-black">
+                  <div className="aspect-[16/9] w-full">
                     <iframe
                       className="h-full w-full"
                       src={heroVideoEmbedUrl}
