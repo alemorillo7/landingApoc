@@ -179,18 +179,29 @@ export default function Landing({ onStart }) {
 
   const plansSectionRef = useRef(null);
 
-  // Consulta dinámica de cupos restantes desde el CRM (con fallback seguro)
+  // Consulta dinámica de cupos restantes desde el ERP de APOC en tiempo real
   useEffect(() => {
     if (!urgencyConfig.endpoint) return;
     fetch(urgencyConfig.endpoint)
-      .then((res) => res.json())
-      .then((data) => {
-        const count = typeof data?.count === "number" ? data.count : 0;
-        const remaining = Math.max(urgencyConfig.minDisplay, urgencyConfig.maxSlots - count);
-        setUrgencySlots(remaining);
+      .then((res) => res.text())
+      .then((text) => {
+        const trimmed = text.trim();
+        let count = Number(trimmed);
+        if (isNaN(count)) {
+          try {
+            const parsed = JSON.parse(trimmed);
+            count = typeof parsed === "number" ? parsed : (typeof parsed?.count === "number" ? parsed.count : 0);
+          } catch {
+            count = 0;
+          }
+        }
+        if (!isNaN(count)) {
+          const remaining = Math.max(urgencyConfig.minDisplay, urgencyConfig.maxSlots - count);
+          setUrgencySlots(remaining);
+        }
       })
       .catch(() => {
-        // Mantiene fallback predeterminado
+        // Mantiene fallback predeterminado ante cualquier error de red
       });
   }, []);
 

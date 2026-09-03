@@ -1,10 +1,7 @@
-// Urgency banner configuration
-// TODO: Replace fallback with real CRM endpoint when available
+// Urgency banner configuration connected to APOC ERP
 export const urgencyConfig = {
   maxSlots: 3,
-  // Endpoint to fetch current project count for this month (returns { count: number })
-  // endpoint: "https://apocrm-one.vercel.app/api/slots",
-  endpoint: null, // Set to null to use fallback
+  endpoint: "https://erp.apocautomation.site/api/finance/projects/count",
   fallbackSlots: 3,
   minDisplay: 1, // Never show 0, always show at least 1
 };
