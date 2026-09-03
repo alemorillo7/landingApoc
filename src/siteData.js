@@ -1,3 +1,21 @@
+// Urgency banner configuration
+// TODO: Replace fallback with real CRM endpoint when available
+export const urgencyConfig = {
+  maxSlots: 3,
+  // Endpoint to fetch current project count for this month (returns { count: number })
+  // endpoint: "https://apocrm-one.vercel.app/api/slots",
+  endpoint: null, // Set to null to use fallback
+  fallbackSlots: 3,
+  minDisplay: 1, // Never show 0, always show at least 1
+};
+
+export const bfitTestimonial = {
+  title: "Testimonio B-fit",
+  videoSrc: "/testimonio-bfit.mp4",
+  client: "B-fit",
+  caption: "Escuchá directo de nuestro cliente cómo fue trabajar con APOC.",
+};
+
 export const heroStats = [
   {
     value: "32",
@@ -335,6 +353,13 @@ export const team = [
     role: "Socio Fundador & Referente de Arquitectura",
     detail:
       "Programador experto en sistemas escalables. Su enfoque principal es garantizar que cada pieza de codigo sea solida y segura desde el principio.",
+  },
+  {
+    name: "Elian",
+    initials: "EL",
+    role: "Encargado Comercial & Closer",
+    detail:
+      "Responsable de seguimiento comercial y cierre. Se encarga de que cada empresa reciba la atención y el acompañamiento que necesita para avanzar.",
   },
   {
     name: "Milagros",
