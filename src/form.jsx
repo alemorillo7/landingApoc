@@ -47,7 +47,7 @@ const steps = [
         ],
     },
     {
-        question: "Elige el día y la hora para tu diagnóstico en vivo",
+        question: "Elegí el día y la hora para tu diagnóstico en vivo",
         field: "appointment",
         type: "calendar"
     }
@@ -429,7 +429,7 @@ export default function Form({ onComplete }) {
                                         <div className="bg-white/4 p-3 rounded-[20px] border border-white/10 min-h-[220px] flex flex-col justify-between md:p-4 md:rounded-[24px] md:min-h-[260px]">
                                             <div className="w-full">
                                                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#8e9984] mb-3 text-left">
-                                                    {selectedDate ? `Horarios para el ${formatDateLabel(selectedDate)}` : "Selecciona un día"}
+                                                    {selectedDate ? `Horarios para el ${formatDateLabel(selectedDate)}` : "Seleccioná un día"}
                                                 </p>
                                                 
                                                 {selectedDate ? (
@@ -461,7 +461,7 @@ export default function Form({ onComplete }) {
                                                     )
                                                 ) : (
                                                     <div className="text-center py-8">
-                                                        <p className="text-xs md:text-sm font-semibold text-[#aab3a0]">Haz clic en un día destacado del calendario para ver las horas disponibles.</p>
+                                                        <p className="text-xs md:text-sm font-semibold text-[#aab3a0]">Hacé clic en un día destacado del calendario para ver los horarios disponibles.</p>
                                                     </div>
                                                 )}
                                             </div>

@@ -67,22 +67,22 @@ export const caseStudies = [
   {
     id: "taller-german-lucero",
     client: "Taller Lucero",
-    industry: "Automotriz / Chaperia - Argentina",
+    industry: "Automotriz / Chapería - Argentina",
     image: "/taller-lucero.webp",
     tags: ["Destacado", "Software a medida"],
     problem:
       "El taller trabajaba con procesos manuales en papel para presupuestos, seguimiento, finanzas y administración, lo que generaba demoras y poca trazabilidad.",
     solution:
-      "Desarrollamos un sistema web de presupuestos digitales con gestion de clientes, vehiculos, operarios, historial, finanzas y panel administrador completo.",
+      "Desarrollamos un sistema web de presupuestos digitales con gestión de clientes, vehículos, operarios, historial, finanzas y panel administrador completo.",
     result:
       "Se eliminó el proceso manual en papel, los presupuestos se generan en segundos y el dueño ahora tiene acceso remoto con trazabilidad completa de cada trabajo.",
     metrics: ["0 papel", "Presupuestos en segundos", "Acceso remoto", "Trazabilidad total"],
     technologies: ["Next.js", "Base de datos en la nube", "Sistema de roles"],
     videoId: "i93Yyv8REjg",
     feedback:
-      "Antes del sistema era todo muy manual, la verdad que nos ahorra muchísimo tiempo y podemos salir a hacer presupuestos en la calle. Es mucho más práctico y me aumento la capacidad de producción.",
+      "Antes del sistema era todo muy manual, la verdad que nos ahorra muchísimo tiempo y podemos salir a hacer presupuestos en la calle. Es mucho más práctico y me aumentó la capacidad de producción.",
     clientSummary:
-      "Taller de chapa y pintura con trabajo operativo diario, necesidad de presupuestar más rápido y mejor control sobre cada vehiculo en curso.",
+      "Taller de chapa y pintura con trabajo operativo diario, necesidad de presupuestar más rápido y mejor control sobre cada vehículo en curso.",
   },
   {
     id: "ramayo-propiedades",
@@ -91,11 +91,11 @@ export const caseStudies = [
     image: "/ramayo-crm.webp",
     tags: ["Destacado", "Agente IA"],
     problem:
-      "Las consultas llegaban rápido, pero el equipo invertia demasiado tiempo filtrando interesados antes de poder avanzar con oportunidades reales.",
+      "Las consultas llegaban rápido, pero el equipo invertía demasiado tiempo filtrando interesados antes de poder avanzar con oportunidades reales.",
     solution:
       "Implementamos el bot RAMI en WhatsApp para mostrar propiedades, relevar datos clave, calificar leads e integrarlos con un CRM hecho a medida para una derivación comercial más ordenada.",
     result:
-      "La entrada comercial quedó mucho mejor filtrada, el tiempo de respuesta bajó fuerte y el sistema participo en USD 70.000 de facturación durante el primer mes.",
+      "La entrada comercial quedó mucho mejor filtrada, el tiempo de respuesta bajó fuerte y el sistema participó en USD 70.000 de facturación durante el primer mes.",
     impact:
       "Ramayo pasó a dedicar más tiempo a cerrar oportunidades concretas y menos a responder consultas sin contexto ni prioridad.",
     metrics: ["USD 70.000 en 1 mes", "100% leads calificados", "CRM a medida", "Subworkflows dinámicos"],
@@ -110,14 +110,14 @@ export const caseStudies = [
     image: "/benefyt.webp",
     tags: ["Automatización", "Software a medida"],
     problem:
-      "El ingreso de socios y el control diario del gimnasio dependian de una gestion poco integrada y sin una solución propia conectada al acceso fisico.",
+      "El ingreso de socios y el control diario del gimnasio dependían de una gestión poco integrada y sin una solución propia conectada al acceso físico.",
     solution:
       "Desarrollamos un sistema a medida con hardware integrado para validar identidad con DNI y abrir el acceso de forma automatizada.",
     result:
       "El acceso quedó más simple de operar, con validación automática y una base propia para administrar ingresos desde un sistema pensado para ese contexto.",
     impact:
-      "Beyond Fit ganó autonomia sobre su operación y dejo de depender de un control manual para una parte critica de la experiencia del socio.",
-    metrics: ["Acceso con DNI", "Hardware integrado", "Sistema a medida", "Operacion más ordenada"],
+      "Beyond Fit ganó autonomía sobre su operación y dejó de depender de un control manual para una parte crítica de la experiencia del socio.",
+    metrics: ["Acceso con DNI", "Hardware integrado", "Sistema a medida", "Operación más ordenada"],
     technologies: ["React", "n8n", "Render", "Postgres"],
     clientSummary:
       "Gimnasio y centro de entrenamiento que necesitaba combinar software y hardware para profesionalizar el acceso y ordenar la operación diaria.",
@@ -135,7 +135,7 @@ export const caseStudies = [
     result:
       "El negocio pasó a centralizar mejor la entrada comercial, responder con más consistencia y trabajar sobre una base mucho más alineada a su proceso real.",
     impact:
-      "Realt IA consolidó una estructura más profesional para ventas inmobiliarias, combinando automatización de contacto con gestion comercial sobre software propio.",
+      "Realt IA consolidó una estructura más profesional para ventas inmobiliarias, combinando automatización de contacto con gestión comercial sobre software propio.",
     metrics: ["Chats en tiempo real", "Pipeline comercial", "Etiquetas y contactos", "CRM a medida"],
     technologies: ["TypeScript", "Firebase", "Vercel", "Postgres", "n8n"],
     clientSummary:
@@ -148,17 +148,17 @@ export const caseStudies = [
     image: "/CONTROL-STOCK.webp",
     tags: ["Destacado", "Software a medida"],
     problem:
-      "La empresa necesitaba dejar atras el control disperso de stock, ventas internas y seguimiento administrativo para trabajar con una sola base confiable.",
+      "La empresa necesitaba dejar atrás el control disperso de stock, ventas internas y seguimiento administrativo para trabajar con una sola base confiable.",
     solution:
-      "Desarrollamos un sistema integral para autopartes con control de stock, venta interna, gestion financiera y seguimiento comercial de vendedores dentro de una misma plataforma.",
+      "Desarrollamos un sistema integral para autopartes con control de stock, venta interna, gestión financiera y seguimiento comercial de vendedores dentro de una misma plataforma.",
     result:
       "La operación quedó mucho más ordenada, con inventario, ventas y administración conectados sobre un flujo más claro para el equipo.",
     impact:
       "RC Autopartes ganó una base más firme para gestionar crecimiento, controlar mejor el negocio y reducir errores por trabajo fragmentado.",
-    metrics: ["Control de stock", "Venta interna", "Finanzas ordenadas", "Gestion de vendedores"],
+    metrics: ["Control de stock", "Venta interna", "Finanzas ordenadas", "Gestión de vendedores"],
     technologies: ["React + Vite", "Firebase", "Firestore"],
     clientSummary:
-      "Empresa de autopartes con necesidad de integrar stock, ventas internas y gestion administrativa en un sistema propio.",
+      "Empresa de autopartes con necesidad de integrar stock, ventas internas y gestión administrativa en un sistema propio.",
   },
 ];
 
@@ -186,7 +186,7 @@ export const team = [
     image: "/eze-contrera.webp",
     role: "Socio Fundador & Referente de Automatización",
     detail:
-      "Especialista en automatización, IA y optimizacion de procesos. Se asegura de que la tecnología realmente resuelva problemas de negocio de forma eficiente.",
+      "Especialista en automatización, IA y optimización de procesos. Se asegura de que la tecnología realmente resuelva problemas de negocio de forma eficiente.",
   },
   {
     name: "Alejandro",
@@ -194,7 +194,7 @@ export const team = [
     image: "/ale2.webp",
     role: "Socio Fundador & Referente de Arquitectura",
     detail:
-      "Programador experto en sistemas escalables. Su enfoque principal es garantizar que cada pieza de codigo sea solida y segura desde el principio.",
+      "Programador experto en sistemas escalables. Su enfoque principal es garantizar que cada pieza de código sea sólida y segura desde el principio.",
   },
   {
     name: "Elian",
@@ -293,8 +293,8 @@ export const testimonials = [
   {
     company: "Taller Lucero",
     quote:
-      "Antes del sistema era todo muy manual, la verdad que nos ahorra muchísimo tiempo y podemos salir a hacer presupuestos en la calle. Es mucho más práctico y me aumento la capacidad de producción.",
-    source: "Dueño - Taller German Lucero",
+      "Antes del sistema era todo muy manual, la verdad que nos ahorra muchísimo tiempo y podemos salir a hacer presupuestos en la calle. Es mucho más práctico y me aumentó la capacidad de producción.",
+    source: "Dueño - Taller Germán Lucero",
     proof: "Ver proyecto",
     initials: "GL",
     projectId: "taller-german-lucero",
@@ -349,7 +349,7 @@ export const challengeOptions = [
   },
   {
     label: "Uso Excel",
-    solution: "Migramos procesos criticos a software estable, trazable y mantenible, sin depender de archivos manuales.",
+    solution: "Migramos procesos críticos a software estable, trazable y mantenible, sin depender de archivos manuales.",
   },
   {
     label: "Mi negocio no escala",
@@ -361,10 +361,10 @@ export const challengeOptions = [
   },
   {
     label: "Mi sistema actual falla",
-    solution: "Auditamos el problema de base y reconstruimos la parte critica con foco en estabilidad.",
+    solution: "Auditamos el problema de base y reconstruimos la parte crítica con foco en estabilidad.",
   },
   {
-    label: "No tengo metricas",
+    label: "No tengo métricas",
     solution: "Creamos dashboards ejecutivos y tableros operativos para decidir con datos, no intuición.",
   },
   {
@@ -380,7 +380,7 @@ export const commercialOptions = [
     tagline: "Desarrollá hoy. Pagá en el tiempo. El sistema termina siendo tuyo.",
     model: "Financiación para software propio",
     summary:
-      "Ideal si querés construir un sistema propio, pero prefieres pagar en cuotas sin frenar el desarrollo.",
+      "Ideal si querés construir un sistema propio, pero preferís pagar en cuotas sin frenar el desarrollo.",
     payment: "20% anticipo + cuotas",
     ownership: "Al finalizar el contrato",
     items: [

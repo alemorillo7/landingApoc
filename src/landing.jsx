@@ -368,7 +368,11 @@ export default function Landing({ onStart }) {
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#758863]" />
               </span>
               <p className="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c9d4bf] sm:text-xs sm:tracking-[0.18em]">
-                Solo quedan <span className="font-bold text-[#f2f6ee]">{urgencySlots} {urgencySlots === 1 ? "lugar disponible" : "lugares disponibles"}</span> este mes para nuevos desarrollos
+                {urgencySlots === 1 ? "Solo queda" : "Solo quedan"}{" "}
+                <span className="font-bold text-[#f2f6ee]">
+                  {urgencySlots} {urgencySlots === 1 ? "lugar disponible" : "lugares disponibles"}
+                </span>{" "}
+                este mes para nuevos desarrollos
               </p>
             </div>
             <button
@@ -393,7 +397,11 @@ export default function Landing({ onStart }) {
               animate="visible"
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <SectionTag>Solo tomamos {urgencySlots} proyectos por mes</SectionTag>
+              <SectionTag>
+                {urgencySlots === 1
+                  ? "Solo tomamos 1 proyecto por mes"
+                  : `Solo tomamos ${urgencySlots} proyectos por mes`}
+              </SectionTag>
 
               <h1 className="mt-6 text-[2.35rem] font-semibold uppercase leading-[0.92] tracking-[-0.07em] text-[#f7f8f4] min-[360px]:text-[2.7rem] md:text-[4.2rem] xl:text-[5rem]">
                 <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">Tu empresa necesita</span>
@@ -464,7 +472,7 @@ export default function Landing({ onStart }) {
         <section id="casos-exito" className="px-4 py-14 md:px-10 md:py-20 border-t border-white/6">
           <div className="mx-auto max-w-7xl">
             <SectionHeading
-              eyebrow="Mira, ellos ya lo han hecho"
+              eyebrow="Mirá, ellos ya lo han hecho"
               title="Resultados reales y testimonios de nuestros clientes."
               description="Empresas de Argentina y Latinoamérica que ya dejaron atrás procesos manuales y escalaron con software a medida de APOC."
               align="center"
@@ -715,7 +723,7 @@ export default function Landing({ onStart }) {
             <SectionHeading
               eyebrow="Flexibilidad comercial"
               title="Tres formas de contratar APOC, según tu empresa."
-              description="Si no agendaste antes, mira cómo podés financiar tu sistema en cuotas, pagar por hitos cerrados o incorporarnos como departamento de tecnología continuo."
+              description="Si no agendaste antes, mirá cómo podés financiar tu sistema en cuotas, pagar por hitos cerrados o incorporarnos como departamento de tecnología continuo."
               align="center"
             />
 
@@ -798,7 +806,7 @@ export default function Landing({ onStart }) {
             <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
               <SectionHeading
                 eyebrow="Calculadora de impacto"
-                title="Calcula cuánto dinero estás perdiendo en procesos manuales."
+                title="Calculá cuánto dinero estás perdiendo en procesos manuales."
                 description="Ingresá datos estimados de tu operación para dimensionar las horas perdidas y el ahorro real que recuperás automatizando."
               />
 
