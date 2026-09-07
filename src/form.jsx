@@ -2,28 +2,32 @@ import React, { useState, useEffect } from "react";
 
 const steps = [
     {
-        question: "Nombre y apellido",
+        question: "Tu nombre y apellido completos",
         field: "name",
         type: "text",
-        placeholder: "Ej: Juan Pérez"
+        placeholder: "Ej: Horacio López",
+        helper: "Para saber con quién vamos a reunirnos en la sesión estratégica."
     },
     {
-        question: "Dejanos tu número de WhatsApp",
+        question: "Tu número de WhatsApp con código de país",
         field: "phone",
         type: "text",
-        placeholder: "+54 9 11 ..."
+        placeholder: "+54 9 11 1234 5678 o +56 9 1234 5678",
+        helper: "Te enviaremos la confirmación directa y el enlace por WhatsApp antes de la reunión."
     },
     {
-        question: "Dejanos tu correo empresarial",
+        question: "Tu correo electrónico corporativo o personal",
         field: "email",
         type: "email",
-        placeholder: "nombre@empresa.com"
+        placeholder: "contacto@tuempresa.com o tu-email@gmail.com",
+        helper: "Te llegará la invitación formal de Google Meet y los detalles de la sesión."
     },
     {
-        question: "Nombre de tu empresa y a qué se dedica",
+        question: "Nombre de tu empresa y qué procesos necesitan resolver",
         field: "industry",
         type: "textarea",
-        placeholder: "Ej: Somos una agencia de marketing digital..."
+        placeholder: "Ej: Somos una ferretería con 8 empleados y queremos automatizar respuestas de WhatsApp, pedidos y control de stock...",
+        helper: "Nos permite estudiar tu caso antes de la llamada y presentarte soluciones específicas de tu rubro."
     },
     {
         question: "¿Cuánto estás dispuesto a invertir en tu software o plataforma?",
@@ -52,6 +56,171 @@ const steps = [
         type: "calendar"
     }
 ];
+
+const countryPills = [
+    { label: "🇦🇷 +54 9", code: "+54 9 " },
+    { label: "🇨🇱 +56 9", code: "+56 9 " },
+    { label: "🇲🇽 +52", code: "+52 " },
+    { label: "🇪🇸 +34", code: "+34 " },
+    { label: "🇵🇪 +51 9", code: "+51 9 " },
+    { label: "🇨🇴 +57", code: "+57 " },
+    { label: "🇺🇾 +598", code: "+598 " },
+];
+
+const FAKE_DOMAINS = new Set([
+    "empresa.com",
+    "empresa.com.ar",
+    "ejemplo.com",
+    "ejemplo.org",
+    "ejemplo.es",
+    "example.com",
+    "example.org",
+    "example.net",
+    "test.com",
+    "testing.com",
+    "prueba.com",
+    "pruebas.com",
+    "fake.com",
+    "asdf.com",
+    "correo.com",
+    "email.com",
+    "mail.com",
+    "none.com",
+    "no.com",
+    "demo.com",
+    "temporal.com",
+    "tempmail.com",
+    "10minutemail.com",
+    "mailinator.com",
+    "guerrillamail.com",
+    "throwawaymail.com",
+    "yopmail.com",
+    "dispostable.com",
+    "trashmail.com",
+    "sharklasers.com",
+    "getairmail.com",
+    "mytemp.email",
+]);
+
+const validateField = (field, value) => {
+    const val = (value || "").trim();
+
+    if (field === "name") {
+        if (!val) return "Por favor, ingresá tu nombre y apellido.";
+        if (val.length < 4) return "El nombre es demasiado corto. Ingresá tu nombre y apellido completos.";
+        const parts = val.split(/\s+/).filter(Boolean);
+        if (parts.length < 2) return "Por favor, incluí tu apellido además del nombre (ej: Horacio López).";
+        if (parts.some(p => p.length < 2)) return "Ingresá un nombre y apellido válidos.";
+        if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/.test(val)) {
+            return "El nombre solo puede contener letras y espacios.";
+        }
+        if (/^(.)\1{3,}/.test(val)) return "Por favor, ingresá un nombre real.";
+        return null;
+    }
+
+    if (field === "phone") {
+        if (!val) return "Por favor, ingresá tu número de WhatsApp.";
+        
+        const digitsOnly = val.replace(/\D/g, "");
+
+        if (digitsOnly.length < 10) {
+            return "Número incompleto. Debe incluir código de país y tu número móvil completo (mínimo 10 dígitos, ej: +54 9 11 1234 5678 o +56 9 1234 5678).";
+        }
+        if (digitsOnly.length > 15) {
+            return "El número es demasiado largo (máximo 15 dígitos según estándar internacional).";
+        }
+
+        // Bloqueo de números falsos o repetidos
+        if (/^(\d)\1+$/.test(digitsOnly)) {
+            return "Por favor, ingresá un número de teléfono real.";
+        }
+        if ("0123456789012345".includes(digitsOnly) || "9876543210987654".includes(digitsOnly)) {
+            return "Por favor, ingresá un número de teléfono real.";
+        }
+
+        // Validaciones específicas por país:
+        // Chile (+56): Móviles tienen código 56 + 9 dígitos = 11 dígitos total (ej: +56 9 1234 5678).
+        if (digitsOnly.startsWith("56")) {
+            if (digitsOnly.length !== 11) {
+                return `Para Chile (+56), el número móvil debe tener 9 dígitos después del código (ej: +56 9 1234 5678). Ingresaste ${digitsOnly.length - 2} dígitos.`;
+            }
+        }
+
+        // Argentina (+54): WhatsApp requiere 549 + 10 dígitos (13 dígitos) o 54 + 10 dígitos (12 dígitos).
+        if (digitsOnly.startsWith("54")) {
+            if (digitsOnly.length < 12 || digitsOnly.length > 13) {
+                return "Para Argentina (+54), incluí código de área y número sin el 15 (ej: +54 9 11 1234 5678).";
+            }
+        }
+
+        // España (+34): Móviles tienen 34 + 9 dígitos = 11 dígitos total.
+        if (digitsOnly.startsWith("34")) {
+            if (digitsOnly.length !== 11) {
+                return "Para España (+34), el número debe tener 9 dígitos después del código (ej: +34 612 345 678).";
+            }
+        }
+
+        // México (+52): 52 + 10 dígitos = 12 dígitos (o 521 + 10 = 13 dígitos).
+        if (digitsOnly.startsWith("52")) {
+            if (digitsOnly.length < 12 || digitsOnly.length > 13) {
+                return "Para México (+52), el número debe tener 10 dígitos después del código (ej: +52 55 1234 5678).";
+            }
+        }
+
+        // Perú (+51): 51 + 9 dígitos = 11 dígitos total.
+        if (digitsOnly.startsWith("51")) {
+            if (digitsOnly.length !== 11) {
+                return "Para Perú (+51), el número móvil debe tener 9 dígitos después del código (ej: +51 912 345 678).";
+            }
+        }
+
+        // Colombia (+57): 57 + 10 dígitos = 12 dígitos total.
+        if (digitsOnly.startsWith("57")) {
+            if (digitsOnly.length !== 12) {
+                return "Para Colombia (+57), el número debe tener 10 dígitos después del código (ej: +57 300 123 4567).";
+            }
+        }
+
+        return null;
+    }
+
+    if (field === "email") {
+        if (!val) return "Por favor, ingresá tu correo electrónico.";
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(val)) {
+            return "Ingresá un correo electrónico válido (ej: contacto@tuempresa.com o tu-email@gmail.com).";
+        }
+
+        const [userPart, domainPart] = val.toLowerCase().split("@");
+        if (!domainPart || !domainPart.includes(".")) {
+            return "El dominio del correo es inválido.";
+        }
+
+        if (FAKE_DOMAINS.has(domainPart)) {
+            return `El dominio @${domainPart} no es válido. Ingresá tu correo real para poder enviarte el enlace de Google Meet.`;
+        }
+
+        if (["asdf", "test", "testing", "fake", "prueba", "none", "no", "admin", "null"].includes(userPart)) {
+            return "Por favor, ingresá un correo corporativo o personal real.";
+        }
+
+        return null;
+    }
+
+    if (field === "industry") {
+        if (!val) return "Por favor, contanos sobre tu empresa y a qué se dedica.";
+        if (val.length < 12) {
+            return "Por favor, danos un poco más de detalle sobre tu rubro y necesidades (mínimo 12 caracteres).";
+        }
+        const words = val.split(/\s+/).filter(Boolean);
+        if (words.length < 3) {
+            return "Por favor, describí brevemente tu negocio con al menos 3 o 4 palabras.";
+        }
+        return null;
+    }
+
+    return null;
+};
 
 const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 const weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
@@ -164,21 +333,41 @@ export default function Form({ onComplete }) {
         }
     }, [step]);
 
+    const [errorMessage, setErrorMessage] = useState("");
+
     const handleChange = (e) => {
-        setData({ ...data, [current.field]: e.target.value });
+        const val = e.target.value;
+        setData(prev => ({ ...prev, [current.field]: val }));
+        if (errorMessage) {
+            const err = validateField(current.field, val);
+            setErrorMessage(err || "");
+        }
     };
 
     const nextStep = () => {
+        setErrorMessage("");
+
         if (current.type === "calendar") {
-            if (!data.date || !data.time) return alert("Por favor, selecciona un día y un horario.");
+            if (!data.date || !data.time) {
+                setErrorMessage("Por favor, elegí un día y un horario disponible en el calendario.");
+                return;
+            }
+        } else if (current.type === "select") {
+            if (!data[current.field]) {
+                setErrorMessage("Por favor, seleccioná una opción para continuar.");
+                return;
+            }
         } else {
-            if (!current.optional && !data[current.field] && current.type !== "select") {
-                return alert("Por favor, completa este campo.");
+            const error = validateField(current.field, data[current.field]);
+            if (error) {
+                setErrorMessage(error);
+                return;
             }
         }
         
         if (step < steps.length - 1) {
             setStep(step + 1);
+            setErrorMessage("");
         } else {
             console.log("LEAD QUALIFIED:", data);
             onComplete(data);
@@ -186,7 +375,10 @@ export default function Form({ onComplete }) {
     };
 
     const prevStep = () => {
-        if (step > 0) setStep(step - 1);
+        if (step > 0) {
+            setStep(step - 1);
+            setErrorMessage("");
+        }
     };
 
     const nextMonth = () => {
@@ -253,14 +445,40 @@ export default function Form({ onComplete }) {
                 </div>
 
                 <div className="mb-6 md:mb-8">
+                    {current.field === "phone" && (
+                        <div className="mb-3.5 text-left">
+                            <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8e9984]">
+                                Elegí tu país para autocompletar el código:
+                            </p>
+                            <div className="flex flex-wrap gap-1.5">
+                                {countryPills.map(p => (
+                                    <button
+                                        key={p.label}
+                                        type="button"
+                                        onClick={() => {
+                                            setData(prev => ({ ...prev, phone: p.code }));
+                                            setErrorMessage("");
+                                        }}
+                                        className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-[#cdd5c6] transition hover:border-[#7b8c69]/50 hover:bg-[#6f7d61]/20 hover:text-white cursor-pointer"
+                                    >
+                                        {p.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                     {current.type === "text" && (
                         <input
                             type="text"
                             placeholder={current.placeholder}
                             value={data[current.field] || ""}
                             onChange={handleChange}
+                            onKeyDown={(e) => { if (e.key === "Enter") nextStep(); }}
                             autoFocus
-                            className="w-full rounded-[22px] border border-white/10 bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] focus:border-[#7b8c69]/45 focus:bg-[#0f130f] md:px-5 md:py-4 md:text-2xl"
+                            className={`w-full rounded-[22px] border bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] md:px-5 md:py-4 md:text-2xl ${
+                                errorMessage ? "border-red-500/60 focus:border-red-500" : "border-white/10 focus:border-[#7b8c69]/45 focus:bg-[#0f130f]"
+                            }`}
                         />
                     )}
 
@@ -270,8 +488,11 @@ export default function Form({ onComplete }) {
                             placeholder={current.placeholder}
                             value={data[current.field] || ""}
                             onChange={handleChange}
+                            onKeyDown={(e) => { if (e.key === "Enter") nextStep(); }}
                             autoFocus
-                            className="w-full rounded-[22px] border border-white/10 bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] focus:border-[#7b8c69]/45 focus:bg-[#0f130f] md:px-5 md:py-4 md:text-2xl"
+                            className={`w-full rounded-[22px] border bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] md:px-5 md:py-4 md:text-2xl ${
+                                errorMessage ? "border-red-500/60 focus:border-red-500" : "border-white/10 focus:border-[#7b8c69]/45 focus:bg-[#0f130f]"
+                            }`}
                         />
                     )}
 
@@ -281,8 +502,25 @@ export default function Form({ onComplete }) {
                             value={data[current.field] || ""}
                             onChange={handleChange}
                             autoFocus
-                            className="w-full min-h-[120px] resize-none rounded-[22px] border border-white/10 bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] focus:border-[#7b8c69]/45 focus:bg-[#0f130f] md:min-h-[140px] md:px-5 md:py-4 md:text-2xl"
+                            className={`w-full min-h-[120px] resize-none rounded-[22px] border bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] md:min-h-[140px] md:px-5 md:py-4 md:text-2xl ${
+                                errorMessage ? "border-red-500/60 focus:border-red-500" : "border-white/10 focus:border-[#7b8c69]/45 focus:bg-[#0f130f]"
+                            }`}
                         />
+                    )}
+
+                    {/* Alerta de validación en tiempo real */}
+                    {errorMessage && (
+                        <div className="mt-3.5 flex items-start gap-2.5 rounded-2xl border border-red-500/35 bg-red-500/12 p-3.5 text-xs md:text-sm font-medium text-red-200 shadow-sm text-left">
+                            <span className="text-base select-none shrink-0 leading-none mt-0.5">⚠️</span>
+                            <p className="leading-snug">{errorMessage}</p>
+                        </div>
+                    )}
+
+                    {/* Texto de ayuda contextual cuando no hay error */}
+                    {!errorMessage && current.helper && (
+                        <p className="mt-2.5 text-xs text-[#8e9c82] leading-normal text-left">
+                            💡 {current.helper}
+                        </p>
                     )}
 
                     {current.type === "select" && (
@@ -441,9 +679,10 @@ export default function Form({ onComplete }) {
                                                                     <button
                                                                         key={timeStr}
                                                                         type="button"
-                                                                        onClick={() => {
+                                                                         onClick={() => {
                                                                             setSelectedTime(timeStr);
                                                                             setData(d => ({ ...d, time: timeStr }));
+                                                                            setErrorMessage("");
                                                                         }}
                                                                         className={`py-2.5 rounded-2xl border font-semibold text-[10px] md:py-3 md:text-sm transition-all text-center cursor-pointer ${
                                                                             isSelected 
@@ -467,6 +706,12 @@ export default function Form({ onComplete }) {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            )}
+                            {errorMessage && (
+                                <div className="mt-4 flex items-start gap-2.5 rounded-2xl border border-red-500/35 bg-red-500/12 p-3.5 text-xs md:text-sm font-medium text-red-200 shadow-sm text-left">
+                                    <span className="text-base select-none shrink-0 leading-none mt-0.5">⚠️</span>
+                                    <p className="leading-snug">{errorMessage}</p>
                                 </div>
                             )}
                         </div>
