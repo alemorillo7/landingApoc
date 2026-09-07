@@ -19,7 +19,7 @@ const steps = [
         question: "Tu correo electrónico corporativo o personal",
         field: "email",
         type: "email",
-        placeholder: "contacto@tuempresa.com o tu-email@gmail.com",
+        placeholder: "nombre@gmail.com o gerencia@tumarca.com",
         helper: "Te llegará la invitación formal de Google Meet y los detalles de la sesión."
     },
     {
@@ -101,6 +101,38 @@ const FAKE_DOMAINS = new Set([
     "getairmail.com",
     "mytemp.email",
 ]);
+
+const FORBIDDEN_DOMAIN_KEYWORDS = [
+    "tuempresa",
+    "miempresa",
+    "empresa",
+    "tudominio",
+    "midominio",
+    "dominio",
+    "tucorreo",
+    "micorreo",
+    "yourcompany",
+    "mycompany",
+    "yourdomain",
+    "example",
+    "ejemplo",
+    "test",
+    "prueba",
+    "fake",
+    "dummy",
+    "sample",
+    "correo",
+    "mailinator",
+    "tempmail",
+    "10minutemail",
+    "yopmail",
+    "dispostable",
+    "trashmail",
+    "guerrillamail",
+    "sharklasers",
+    "getairmail",
+    "mytemp",
+];
 
 const validateField = (field, value) => {
     const val = (value || "").trim();
@@ -188,7 +220,7 @@ const validateField = (field, value) => {
         if (!val) return "Por favor, ingresá tu correo electrónico.";
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(val)) {
-            return "Ingresá un correo electrónico válido (ej: contacto@tuempresa.com o tu-email@gmail.com).";
+            return "Ingresá un correo electrónico válido (ej: nombre@gmail.com o contacto@tumarca.com).";
         }
 
         const [userPart, domainPart] = val.toLowerCase().split("@");
@@ -196,12 +228,21 @@ const validateField = (field, value) => {
             return "El dominio del correo es inválido.";
         }
 
-        if (FAKE_DOMAINS.has(domainPart)) {
-            return `El dominio @${domainPart} no es válido. Ingresá tu correo real para poder enviarte el enlace de Google Meet.`;
+        // Bloqueo si el dominio coincide con la lista negra o contiene palabras clave de ejemplo (tuempresa, empresa, ejemplo, test, etc.)
+        if (
+            FAKE_DOMAINS.has(domainPart) ||
+            FORBIDDEN_DOMAIN_KEYWORDS.some(keyword => domainPart.includes(keyword))
+        ) {
+            return `El dominio @${domainPart} no es válido. Por favor ingresá un correo corporativo o personal real (ej: tu-nombre@gmail.com).`;
         }
 
-        if (["asdf", "test", "testing", "fake", "prueba", "none", "no", "admin", "null"].includes(userPart)) {
-            return "Por favor, ingresá un correo corporativo o personal real.";
+        // Bloqueo de usuarios ficticios comunes
+        const FAKE_USERS = [
+            "asdf", "test", "testing", "fake", "prueba", "none", "no", "admin", "null",
+            "pedrito", "pepito", "fulano", "mengano", "juanito", "usuario", "user", "demo", "xxx"
+        ];
+        if (FAKE_USERS.includes(userPart)) {
+            return "Por favor ingresá un correo personal o corporativo real para recibir el enlace de la reunión.";
         }
 
         return null;
