@@ -626,7 +626,6 @@ export default function Landing({ onStart }) {
                 title="Tu empresa necesita un sistema que pueda crecer con ella."
                 description={heroVideo.heading}
               />
-              <p className="mt-4 max-w-xl text-[15px] leading-7 text-gris-claro/85">{heroVideo.description}</p>
             </div>
             <div className="overflow-hidden rounded-xl border border-white/10 bg-black shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)]">
               <div className="aspect-[16/9] w-full">
@@ -715,7 +714,7 @@ export default function Landing({ onStart }) {
                   key={item.company}
                   className={`card-light flex flex-col justify-between rounded-xl p-6 ${
                     index === 0 ? "md:col-span-2 lg:col-span-2" : ""
-                  }`}
+                  } ${index === 3 ? "lg:col-span-2" : ""}`}
                 >
                   <blockquote
                     className={`text-tinta ${
