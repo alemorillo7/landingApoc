@@ -122,7 +122,7 @@ function CaseStudyMedia({ caseStudy }) {
 
             <div className="absolute left-3 right-3 top-3 flex items-center justify-between gap-3">
               <span className="rounded-full border border-white/10 bg-black/45 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[#e5eadf] backdrop-blur">
-                Galeria del proyecto
+                Galería del proyecto
               </span>
               <span className="rounded-full border border-white/10 bg-black/45 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[#cfd7c6] backdrop-blur">
                 {activeIndex + 1} / {galleryImages.length}
@@ -257,9 +257,9 @@ function ScrollToTop() {
 
 function LoadingScreen() {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.18),transparent_24%),linear-gradient(180deg,#070908_0%,#0b0f0c_100%)] flex flex-col items-center justify-center text-[#F5F7F6] p-6 text-center">
-      <div className="mb-8 h-16 w-16 rounded-full border-4 border-[#7b8b69]/35 border-t-[#dbe3d1] animate-spin"></div>
-      <h2 className="text-xl font-semibold tracking-[0.14em] uppercase text-[#dfe5d8] md:text-2xl md:tracking-[0.18em]">
+    <div className="min-h-screen bg-grafito flex flex-col items-center justify-center text-[#F5F7F6] p-6 text-center">
+      <div className="mb-8 h-16 w-16 rounded-full border-4 border-verde/40 border-t-verde-300 animate-spin"></div>
+      <h2 className="font-display text-xl text-white md:text-2xl">
         Preparando tu reunión estratégica...
       </h2>
     </div>
@@ -291,27 +291,29 @@ function Success({ data }) {
   return (
     <>
       <Seo
-        title="Reunion confirmada | APOC Automation"
+        title="Reunión confirmada | APOC Automation"
         description="Tu reunión estratégica con APOC Automation ya fue confirmada. Revisaremos contexto, oportunidad y siguientes pasos con foco técnico y de negocio."
         pathname="/reunión-confirmada"
         schema={schema}
       />
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.18),transparent_24%),linear-gradient(180deg,#070908_0%,#0b0f0c_100%)] flex flex-col items-center justify-center text-[#F5F7F6] p-4 md:p-6 text-center selection:bg-[#8a9979] selection:text-[#0b0f0c]">
-        <div className="w-full max-w-2xl rounded-[28px] border border-white/10 bg-white/5 p-5 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-2xl md:rounded-[36px] md:p-12">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[#7a8868]/25 bg-[#6f7d61]/12 md:mb-8 md:h-20 md:w-20">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#dce3d3]">OK</span>
+      <div className="min-h-screen bg-grafito flex flex-col items-center justify-center text-[#F5F7F6] p-4 md:p-6 text-center selection:bg-verde-300 selection:text-tinta">
+        <div className="w-full max-w-2xl rounded-2xl border border-white/10 bg-grafito-800 p-5 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.8)] md:p-12">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-verde md:mb-8 md:h-20 md:w-20">
+            <svg viewBox="0 0 24 24" className="h-8 w-8 text-white" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12.5l4.5 4.5L19 7.5" />
+            </svg>
           </div>
-          <p className="text-xs uppercase tracking-[0.28em] text-[#91a082]">Agenda confirmada</p>
-          <h1 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-[#f5f6f2] md:text-6xl">
-            Reunion confirmada.
+          <p className="text-sm font-semibold text-verde-300">Agenda confirmada</p>
+          <h1 className="mt-4 font-display text-3xl text-white md:text-6xl">
+            Reunión confirmada.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-[#b7c0ae] md:mt-6 md:text-xl md:leading-8">
-            Tu reunión estratégica con APOC Automation ya quedo reservada. Vamos a revisar contexto, oportunidad y siguientes pasos con foco técnico y de negocio.
+            Tu reunión estratégica con APOC Automation ya quedó reservada. Vamos a revisar contexto, oportunidad y siguientes pasos con foco técnico y de negocio.
           </p>
 
           {data?.date && data?.time && (
             <div className="mx-auto mt-6 max-w-md rounded-[24px] border border-white/10 bg-black/20 p-5 md:mt-8 md:rounded-[28px] md:p-6">
-              <p className="mb-2 text-xs uppercase tracking-[0.24em] text-[#8f9a84]">Dia y horario seleccionado</p>
+              <p className="mb-2 text-xs uppercase tracking-[0.24em] text-[#8f9a84]">Día y horario seleccionado</p>
               <p className="text-xl font-semibold capitalize text-[#f2f4ee] md:text-2xl">{formattedDate}</p>
               <p className="mt-1 text-base text-[#c6cdbd]">{data.time} hs</p>
             </div>
@@ -324,7 +326,7 @@ function Success({ data }) {
           <div className="mx-auto mb-6 mt-8 h-px w-20 bg-white/10 md:mb-8 md:mt-10"></div>
           <button
             onClick={() => navigate("/")}
-            className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#d8dfcf] transition hover:border-[#7a8868]/30 hover:text-white cursor-pointer md:px-6 md:text-xs md:tracking-[0.24em]"
+            className="btn-press min-h-12 rounded-lg bg-verde px-6 text-[15px] font-semibold text-white hover:bg-verde-500 cursor-pointer"
           >
             Volver al inicio
           </button>
@@ -369,7 +371,7 @@ function CaseStudyPage({ onStart }) {
   return (
     <>
       <Seo title={title} description={description} pathname={pathname} schema={schema} />
-      <div className="apoc-shell min-h-screen selection:bg-[#83926f] selection:text-[#0a0d0b]">
+      <div className="apoc-shell min-h-screen selection:bg-verde-300 selection:text-tinta">
         <div className="apoc-noise" />
         <div className="hero-orb hero-orb-top" />
         <div className="hero-orb hero-orb-bottom" />
@@ -379,13 +381,13 @@ function CaseStudyPage({ onStart }) {
             <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <Link
                 to="/"
-                className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-xs uppercase tracking-[0.22em] text-[#d7ddd0] transition hover:border-[#7b8c69]/30 hover:text-white"
+                className="inline-flex items-center rounded-lg border border-white/10 bg-white/5 px-5 py-3 text-xs  text-[#d7ddd0] transition hover:border-[#7b8c69]/30 hover:text-white"
               >
                 Volver al inicio
               </Link>
               <button
                 onClick={onStart}
-                className="magnetic-button inline-flex items-center justify-center rounded-full border border-[#758464]/30 bg-[#6d7c5e] px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#f7f8f3] transition hover:bg-[#7b8a6a]"
+                className="magnetic-button inline-flex items-center justify-center rounded-lg border border-verde bg-verde px-6 py-3 text-xs font-semibold  text-[#f7f8f3] transition hover:bg-verde-500"
               >
                 Agendar reunión
               </button>
@@ -393,7 +395,7 @@ function CaseStudyPage({ onStart }) {
 
             <div className="glass-card rounded-[40px] p-8 md:p-10">
               <p className="text-xs uppercase tracking-[0.24em] text-[#95a085]">Caso de éxito</p>
-              <h1 className="mt-5 text-4xl font-semibold tracking-[-0.05em] text-[#f5f6f2] md:text-6xl">
+              <h1 className="mt-5 font-display text-4xl text-white md:text-6xl">
                 {caseStudy.client}
               </h1>
               <div className="mt-4">
@@ -471,22 +473,22 @@ function CaseStudyPage({ onStart }) {
 
               <div className="mt-8 rounded-[30px] border border-[#7d8d6a]/20 bg-[linear-gradient(180deg,rgba(111,126,96,0.12),rgba(255,255,255,0.04))] p-7">
                 <p className="text-xs uppercase tracking-[0.22em] text-[#96a287]">7. CTA</p>
-                <h2 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-[#f6f7f3]">
+                <h2 className="mt-4 font-display text-3xl text-white">
                   Comenzá tu proyecto
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-8 text-[#d5dccd]">
-                  Si necesitas un sistema serio, mantenible y preparado para crecer, el siguiente paso es una reunión estratégica para evaluar alcance, riesgo y oportunidad.
+                  Si necesitás un sistema serio, mantenible y preparado para crecer, el siguiente paso es una reunión estratégica para evaluar alcance, riesgo y oportunidad.
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                   <button
                     onClick={onStart}
-                    className="magnetic-button inline-flex items-center justify-center rounded-full border border-[#758464]/30 bg-[#6d7c5e] px-7 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#f7f8f3] transition hover:bg-[#7b8a6a]"
+                    className="magnetic-button inline-flex items-center justify-center rounded-lg border border-verde bg-verde px-7 py-4 text-sm font-semibold  text-[#f7f8f3] transition hover:bg-verde-500"
                   >
                     Comenzá tu proyecto
                   </button>
                   <Link
                     to="/"
-                    className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/5 px-7 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#d7ddd0]"
+                    className="inline-flex items-center justify-center rounded-lg border border-white/12 bg-white/5 px-7 py-4 text-sm font-semibold  text-[#d7ddd0]"
                   >
                     Volver a inicio
                   </Link>
@@ -503,7 +505,7 @@ function CaseStudyPage({ onStart }) {
 function PortfolioPage({ onStart }) {
   const title = "Casos de éxito | APOC Automation";
   const description =
-    "Portfolio completo de APOC Automation con proyectos reales de automatizacion, agentes IA y software a medida para múltiples industrias y paises.";
+    "Portfolio completo de APOC Automation con proyectos reales de automatización, agentes IA y software a medida para múltiples industrias y países.";
   const pathname = "/casos-de-éxito";
   const schema = {
     "@context": "https://schema.org",
@@ -516,7 +518,7 @@ function PortfolioPage({ onStart }) {
   return (
     <>
       <Seo title={title} description={description} pathname={pathname} schema={schema} />
-      <div className="apoc-shell min-h-screen selection:bg-[#83926f] selection:text-[#0a0d0b]">
+      <div className="apoc-shell min-h-screen selection:bg-verde-300 selection:text-tinta">
         <div className="apoc-noise" />
         <div className="hero-orb hero-orb-top" />
         <div className="hero-orb hero-orb-bottom" />
@@ -526,13 +528,13 @@ function PortfolioPage({ onStart }) {
             <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <Link
                 to="/"
-                className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-xs uppercase tracking-[0.22em] text-[#d7ddd0] transition hover:border-[#7b8c69]/30 hover:text-white"
+                className="inline-flex items-center rounded-lg border border-white/10 bg-white/5 px-5 py-3 text-xs  text-[#d7ddd0] transition hover:border-[#7b8c69]/30 hover:text-white"
               >
                 Volver al inicio
               </Link>
               <button
                 onClick={onStart}
-                className="magnetic-button inline-flex items-center justify-center rounded-full border border-[#758464]/30 bg-[#6d7c5e] px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#f7f8f3] transition hover:bg-[#7b8a6a]"
+                className="magnetic-button inline-flex items-center justify-center rounded-lg border border-verde bg-verde px-6 py-3 text-xs font-semibold  text-[#f7f8f3] transition hover:bg-verde-500"
               >
                 Agendar reunión
               </button>
@@ -540,8 +542,8 @@ function PortfolioPage({ onStart }) {
 
             <div className="max-w-4xl">
               <p className="text-xs uppercase tracking-[0.24em] text-[#95a085]">Portfolio completo</p>
-              <h1 className="mt-5 text-4xl font-semibold tracking-[-0.05em] text-[#f5f6f2] md:text-6xl">
-                Casos de éxito reales en automatizacion, agentes IA y software a medida.
+              <h1 className="mt-5 font-display text-4xl text-white md:text-6xl">
+                Casos de éxito reales en automatización, agentes IA y software a medida.
               </h1>
               <p className="mt-6 text-base leading-8 text-[#aab3a1] md:text-lg">
                 Esta vista concentra todos los proyectos no tercerizados cargados hasta ahora, con los casos destacados primero y el resto del portfolio ordenado después.
@@ -550,7 +552,7 @@ function PortfolioPage({ onStart }) {
 
             <div className="mt-8 flex flex-wrap gap-3 text-sm text-[#b9c2af]">
               <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/16 px-4 py-2">Destacado</span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">Automatizacion</span>
+              <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">Automatización</span>
               <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">Agente IA</span>
               <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">Software a medida</span>
             </div>
@@ -569,7 +571,7 @@ function PortfolioPage({ onStart }) {
                     <ProjectTags tags={study.tags || []} />
                     <ProjectCover study={study} />
                     <p className="mt-4 text-xs uppercase tracking-[0.24em] text-[#8d9882]">{study.industry}</p>
-                    <h2 className="mt-4 break-words text-2xl font-semibold leading-tight tracking-[-0.05em] text-[#f5f6f2] md:text-3xl">
+                    <h2 className="mt-4 break-words font-display text-2xl leading-tight text-white md:text-3xl">
                       {study.client}
                     </h2>
                     <p className="mt-4 text-sm leading-7 text-[#acb5a4]">{study.clientSummary}</p>
@@ -605,7 +607,7 @@ function HomePage({ onStart }) {
     telephone: contactInfo.phone,
     email: contactInfo.email,
     sameAs: [contactInfo.instagramHref, contactInfo.linkedinHref],
-    areaServed: ["Argentina", "Latam", "Espana"],
+    areaServed: ["Argentina", "Latam", "España"],
   };
 
   return (
@@ -665,11 +667,11 @@ function AppRoutes() {
             date: data.date,
             start_time: data.time,
             end_time: endTime,
-            description: `Reunion de diagnóstico agendada automáticamente desde la landing page.
+            description: `Reunión de diagnóstico agendada automáticamente desde la landing page.
 
 Detalles del lead:
 - Rubro / Industria: ${data.industry || "No especificado"}
-- Proceso critico: ${data.problem || "No especificado"}
+- Proceso crítico: ${data.problem || "No especificado"}
 - Urgencia: ${data.urgency || "No especificada"}
 - Facturación: ${data.revenue || "No especificada"}
 - Presupuesto: ${data.budget || "No especificado"}
@@ -713,8 +715,8 @@ Detalles del lead:
           element={
             <>
               <Seo
-                title="Agenda una reunión estratégica | APOC Automation"
-                description="Reserva una reunión estratégica con APOC para evaluar arquitectura, seguridad, automatizacion y oportunidad de negocio."
+                title="Agendá una reunión estratégica | APOC Automation"
+                description="Reservá una reunión estratégica con APOC para evaluar arquitectura, seguridad, automatización y oportunidad de negocio."
                 pathname="/agenda"
                 schema={null}
               />

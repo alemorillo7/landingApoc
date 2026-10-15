@@ -17,12 +17,12 @@ export const heroStats = [
   {
     value: "32",
     label: "proyectos",
-    detail: "Casos desarrollados en el ÚLTIMO año.",
+    detail: "Casos desarrollados en el último año.",
   },
   {
     value: "6",
     label: "países y regiones",
-    detail: "Argentina, Peru, Ecuador, Bolivia, Mexico y más operación remota.",
+    detail: "Argentina, Perú, Ecuador, Bolivia, México y más operación remota.",
   },
   {
     value: "10+",
@@ -197,6 +197,15 @@ export const team = [
       "Programador experto en sistemas escalables. Su enfoque principal es garantizar que cada pieza de código sea sólida y segura desde el principio.",
   },
   {
+    name: "Rolando",
+    initials: "RB",
+    image: "/rolando-brandan.webp",
+    fullName: "Rolando Brandan",
+    role: "Desarrollador Full Stack",
+    detail:
+      "Construye cada sistema de punta a punta: interfaces, lógica de negocio, bases de datos e integraciones, con código prolijo y fácil de mantener.",
+  },
+  {
     name: "Elian",
     initials: "EL",
     image: "/elian.webp",
@@ -233,7 +242,7 @@ export const methodology = [
   {
     step: "01",
     title: "Discovery",
-    text: "Entendemos negocio, riesgos, procesos criticos y alcance real.",
+    text: "Entendemos negocio, riesgos, procesos críticos y alcance real.",
     deliverable: "Mapa de procesos, objetivos y prioridades.",
   },
   {
@@ -510,7 +519,7 @@ export const seoConfig = {
   siteName: "APOC Automation",
   baseTitle: "APOC Automation | Software seguro, escalable y estable",
   baseDescription:
-    "APOC Automation desarrolla automatización, agentes IA y software a medida para empresas de Argentina, Peru, Ecuador, Bolivia y Mexico, con foco en problemas reales y resultados concretos.",
+    "APOC Automation desarrolla automatización, agentes IA y software a medida para empresas de Argentina, Perú, Ecuador, Bolivia y México, con foco en problemas reales y resultados concretos.",
   baseUrl: "https://apocautomation.site",
 };
 

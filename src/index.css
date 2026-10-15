@@ -1,9 +1,33 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   APOC — tokens de marca (derivados del logo: grafito, blanco y verde APOC)
+   ========================================================================== */
+@theme {
+  --color-grafito: #2a2a2a;
+  --color-grafito-900: #1e1f1e;
+  --color-grafito-800: #242524;
+  --color-grafito-700: #333433;
+  --color-grafito-600: #3d3f3d;
+  --color-niebla: #f2f3f1;
+  --color-linea: #dbe0db;
+  --color-tinta: #1b211d;
+  --color-gris: #59625b;
+  --color-gris-claro: #b9bfba;
+  --color-verde: #435b47;
+  --color-verde-700: #36493a;
+  --color-verde-500: #557459;
+  --color-verde-300: #9dbba2;
+  --color-verde-100: #e3ece4;
+  --color-alerta: #b3412f;
+
+  --font-sans: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
 :root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   scroll-behavior: smooth;
   color-scheme: dark;
+  scroll-padding-top: 6rem;
 }
 
 * {
@@ -11,18 +35,18 @@
 }
 
 html {
-  background: #070908;
+  background: var(--color-grafito);
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  background:
-    radial-gradient(circle at top, rgba(115, 130, 96, 0.14), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(96, 110, 82, 0.12), transparent 24%),
-    linear-gradient(180deg, #070908 0%, #0a0d0b 48%, #080a09 100%);
-  color: #eef2eb;
+  background: var(--color-grafito);
+  color: #f4f5f3;
   overflow-x: hidden;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -41,120 +65,127 @@ select {
   min-height: 100vh;
 }
 
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Titulares: Archivo ancho y pesado, eco directo del "APOC" del logo */
+.font-display {
+  font-family: var(--font-sans);
+  font-stretch: 118%;
+  font-weight: 760;
+  letter-spacing: -0.022em;
+}
+
+/* Wordmark: el "AUTOMATION" espaciado del logo (único lugar con mayúsculas espaciadas) */
+.wordmark-sub {
+  letter-spacing: 0.42em;
+  font-weight: 500;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-verde-300);
+  outline-offset: 3px;
+}
+
+.on-light :focus-visible {
+  outline-color: var(--color-verde);
+}
+
+/* ==========================================================================
+   Superficies compartidas (también usadas por portfolio y casos)
+   ========================================================================== */
 .apoc-shell {
   position: relative;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 15% 10%, rgba(113, 126, 97, 0.16), transparent 22%),
-    radial-gradient(circle at 85% 75%, rgba(102, 117, 86, 0.12), transparent 20%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0)),
-    #070908;
+  background: var(--color-grafito);
 }
 
-.apoc-noise {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  opacity: 0.045;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
-  background-size: 4px 4px;
-  mix-blend-mode: soft-light;
-}
-
-.apoc-grid {
-  border: 1px solid rgba(155, 174, 133, 0.09);
-  background-image:
-    linear-gradient(rgba(164, 180, 142, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(164, 180, 142, 0.08) 1px, transparent 1px);
-  background-size: 42px 42px;
-  mask-image: radial-gradient(circle at center, black 35%, transparent 78%);
-  animation: gridDrift 18s linear infinite;
-}
-
-.hero-grid-layer {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 25% 22%, rgba(125, 140, 105, 0.16), transparent 18%),
-    radial-gradient(circle at 76% 30%, rgba(255, 255, 255, 0.05), transparent 20%),
-    radial-gradient(circle at 70% 70%, rgba(109, 124, 94, 0.12), transparent 20%);
-}
-
-.hero-canvas-wrap,
-.hero-canvas-fallback {
-  position: absolute;
-  inset: 0;
-}
-
-.hero-canvas-wrap canvas {
-  width: 100% !important;
-  height: 100% !important;
-  opacity: 0.95;
-}
-
-.hero-canvas-fallback {
-  background:
-    radial-gradient(circle at center, rgba(123, 140, 105, 0.18), transparent 32%),
-    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.05), transparent 18%);
-}
-
+/* Se mantienen como no-ops para no romper vistas que las referencian */
+.apoc-noise,
 .hero-orb {
-  pointer-events: none;
-  position: fixed;
-  z-index: 0;
-  border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.55;
-  transform: translateZ(0);
-}
-
-.hero-orb-top {
-  top: -120px;
-  right: -80px;
-  width: 320px;
-  height: 320px;
-  background: rgba(118, 132, 99, 0.18);
-  animation: floatOrb 14s ease-in-out infinite;
-}
-
-.hero-orb-bottom {
-  bottom: 10%;
-  left: -100px;
-  width: 360px;
-  height: 360px;
-  background: rgba(88, 98, 76, 0.14);
-  animation: floatOrb 18s ease-in-out infinite reverse;
+  display: none;
 }
 
 .glass-card {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: var(--color-grafito-800);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 20px 60px rgba(0, 0, 0, 0.18);
-  backdrop-filter: blur(24px);
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 18px 40px -24px rgba(0, 0, 0, 0.6);
+}
+
+.card-light {
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(27, 33, 29, 0.08),
+    0 1px 2px rgba(27, 33, 29, 0.05),
+    0 12px 32px -18px rgba(27, 33, 29, 0.22);
+}
+
+.img-outline {
+  outline: 1px solid rgba(0, 0, 0, 0.08);
+  outline-offset: -1px;
+}
+
+.img-outline-dark {
+  outline: 1px solid rgba(255, 255, 255, 0.1);
+  outline-offset: -1px;
+}
+
+/* Botones: tacto al presionar */
+.btn-press {
+  transition-property: background-color, border-color, color, box-shadow, scale;
+  transition-duration: 160ms;
+  transition-timing-function: ease-out;
+}
+
+.btn-press:active {
+  scale: 0.97;
 }
 
 .magnetic-button {
   position: relative;
-  overflow: hidden;
 }
 
-.magnetic-button::before {
-  content: "";
-  position: absolute;
-  inset: -120%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, transparent 48%);
-  transform: translateX(-34%);
-  transition: transform 0.45s ease;
+/* Fondo técnico del hero: grilla de plano muy tenue */
+.blueprint {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, black 0%, black 55%, transparent 100%);
 }
 
-.magnetic-button:hover::before {
-  transform: translateX(18%);
+/* Variante sin máscara para tarjetas (ej. integrantes sin foto) */
+.blueprint-static {
+  background-color: var(--color-grafito);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Nota "a mano" del hero */
+.note-paper {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 27px, rgba(67, 91, 71, 0.16) 27px 28px),
+    #f7f8f5;
+}
+
+input[type="range"] {
+  accent-color: var(--color-verde);
 }
 
 ::-webkit-scrollbar {
@@ -163,38 +194,24 @@ select {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--color-grafito-900);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 9999px;
-  background: rgba(122, 138, 104, 0.35);
+  background: #4a4c4a;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(145, 160, 123, 0.48);
+  background: #5d605d;
 }
 
-@keyframes floatOrb {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(24px, 28px, 0) scale(1.08);
-  }
+.on-light ::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-@keyframes gridDrift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -16px, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
+.on-light ::-webkit-scrollbar-thumb {
+  background: #c9cfca;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -202,13 +219,7 @@ select {
     scroll-behavior: auto;
   }
 
-  .hero-orb-top,
-  .hero-orb-bottom,
-  .apoc-grid {
-    animation: none;
-  }
-
-  .magnetic-button::before {
-    transition: none;
+  .btn-press:active {
+    scale: 1;
   }
 }
