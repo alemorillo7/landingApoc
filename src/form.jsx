@@ -4,6 +4,7 @@ const steps = [
     {
         question: "Tu nombre y apellido completos",
         field: "name",
+        label: "Nombre",
         type: "text",
         placeholder: "Ej: Horacio López",
         helper: "Para saber con quién vamos a reunirnos en la sesión estratégica."
@@ -11,6 +12,7 @@ const steps = [
     {
         question: "Tu número de WhatsApp con código de país",
         field: "phone",
+        label: "WhatsApp",
         type: "text",
         placeholder: "+54 9 11 1234 5678 o +56 9 1234 5678",
         helper: "Te enviaremos la confirmación directa y el enlace por WhatsApp antes de la reunión."
@@ -18,6 +20,7 @@ const steps = [
     {
         question: "Tu correo electrónico corporativo o personal",
         field: "email",
+        label: "Correo",
         type: "email",
         placeholder: "nombre@gmail.com o gerencia@tumarca.com",
         helper: "Te llegará la invitación formal de Google Meet y los detalles de la sesión."
@@ -25,6 +28,7 @@ const steps = [
     {
         question: "Nombre de tu empresa y qué procesos necesitan resolver",
         field: "industry",
+        label: "Empresa y procesos",
         type: "textarea",
         placeholder: "Ej: Somos una ferretería con 8 empleados y queremos automatizar respuestas de WhatsApp, pedidos y control de stock...",
         helper: "Nos permite estudiar tu caso antes de la llamada y presentarte soluciones específicas de tu rubro."
@@ -32,6 +36,7 @@ const steps = [
     {
         question: "¿Cuánto estás dispuesto a invertir en tu software o plataforma?",
         field: "budget",
+        label: "Inversión",
         type: "select",
         options: [
             "Entre USD 5.000 y 10.000",
@@ -43,6 +48,7 @@ const steps = [
     {
         question: "¿Qué tan urgente es resolver esto?",
         field: "urgency",
+        label: "Urgencia",
         type: "select",
         options: [
             "Extremadamente Urgente (Estamos perdiendo dinero)",
@@ -53,6 +59,7 @@ const steps = [
     {
         question: "Elegí el día y la hora para tu diagnóstico en vivo",
         field: "appointment",
+        label: "Día y horario",
         type: "calendar"
     }
 ];
@@ -432,358 +439,505 @@ export default function Form({ onComplete }) {
         setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
     };
 
+
     const progress = ((step + 1) / steps.length) * 100;
 
+    const retrySlots = () => {
+        const today = new Date().toISOString().split('T')[0];
+        setLoadingSlots(true);
+        fetch(`https://apocrm-one.vercel.app/api/calendar/slots?start_date=${today}`)
+            .then(res => res.json())
+            .then(resData => {
+                if (resData.success && resData.data) {
+                    setSlots(resData.data.available_slots || {});
+                }
+            })
+            .catch(err => console.error("Error:", err))
+            .finally(() => setLoadingSlots(false));
+    };
+
+    const inputClass = `w-full rounded-lg border bg-white px-4 py-3.5 text-[17px] font-medium text-tinta outline-none transition-[border-color,box-shadow] duration-150 placeholder:font-normal placeholder:text-[#959d97] md:px-5 md:py-4 md:text-xl ${
+        errorMessage
+            ? "border-alerta focus:shadow-[0_0_0_3px_rgba(179,65,47,0.14)]"
+            : "border-linea focus:border-verde focus:shadow-[0_0_0_3px_rgba(67,91,71,0.16)]"
+    }`;
+
+    const isLastStep = step === steps.length - 1;
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.16),transparent_24%),linear-gradient(180deg,#070908_0%,#0b0f0c_100%)] p-3 md:p-6 selection:bg-[#8a9979] selection:text-[#0b0f0c]">
-            <div className="w-full max-w-3xl relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-4 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-2xl sm:p-5 md:rounded-[36px] md:p-12">
-                
-                {/* PROGRESS BAR */}
-                <div className="absolute top-0 left-0 w-full h-1.5 bg-white/5">
-                    <div 
-                        className="h-full bg-[#738261] transition-all duration-500 ease-out"
-                        style={{ width: `${progress}%` }}
-                    ></div>
-                </div>
+        <div className="min-h-screen bg-niebla text-tinta lg:grid lg:grid-cols-[minmax(360px,0.82fr)_1.18fr] selection:bg-verde-300 selection:text-tinta">
 
-                {/* TOP HEADER: Back button and Step indicator */}
-                <div className="mb-6 flex items-center justify-between gap-3 border-b border-white/8 pb-4">
-                    {step > 0 ? (
-                        <button 
-                            type="button"
-                            onClick={prevStep}
-                            className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#d6ded0] transition hover:bg-white/12 hover:text-white cursor-pointer"
-                            aria-label="Paso anterior"
-                        >
-                            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                            </svg>
-                            <span>Atrás</span>
-                        </button>
-                    ) : (
-                        <button 
-                            type="button"
-                            onClick={() => window.location.href = "/"}
-                            className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#d6ded0] transition hover:bg-white/12 hover:text-white cursor-pointer"
-                            aria-label="Volver al inicio"
-                        >
-                            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                            </svg>
-                            <span>Inicio</span>
-                        </button>
-                    )}
+            {/* PANEL LATERAL (desktop): marca, eslogan y recorrido de pasos */}
+            <aside className="relative hidden overflow-hidden bg-grafito text-white lg:flex lg:min-h-screen lg:flex-col lg:justify-between lg:px-12 lg:py-12 xl:px-16">
+                <div className="blueprint pointer-events-none absolute inset-0" aria-hidden="true" />
 
-                    <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/15 px-3 py-1 text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] text-[#c9d4bf]">
-                        Paso {step + 1} de {steps.length}
-                    </span>
-                </div>
+                <div className="relative">
+                    <a href="/" className="inline-flex flex-col leading-none" aria-label="APOC Automation, volver al inicio">
+                        <span className="font-display text-[22px]">APOC</span>
+                        <span className="wordmark-sub mt-1 text-[8.5px] text-verde-300">AUTOMATION</span>
+                    </a>
 
-                <div className="mb-6 md:mb-8">
-                   <h2 className="text-[1.65rem] md:text-4xl font-semibold tracking-[-0.04em] text-[#f3f5ef] leading-tight">
-                        {current.question}
-                    </h2>
-                </div>
+                    <p className="font-display mt-14 max-w-sm text-[2.15rem] leading-[1.06] xl:text-[2.5rem]">
+                        Lo que tenés en la cabeza, lo ponemos en un sistema.
+                    </p>
+                    <p className="mt-5 max-w-sm text-[15.5px] leading-7 text-gris-claro">
+                        Agendá una reunión estratégica con el equipo técnico de APOC. Revisamos tu operación y te proponemos el sistema que tu empresa necesita.
+                    </p>
 
-                <div className="mb-6 md:mb-8">
-                    {current.field === "phone" && (
-                        <div className="mb-3.5 text-left">
-                            <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8e9984]">
-                                Elegí tu país para autocompletar el código:
-                            </p>
-                            <div className="flex flex-wrap gap-1.5">
-                                {countryPills.map(p => (
-                                    <button
-                                        key={p.label}
-                                        type="button"
-                                        onClick={() => {
-                                            setData(prev => ({ ...prev, phone: p.code }));
-                                            setErrorMessage("");
-                                        }}
-                                        className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-[#cdd5c6] transition hover:border-[#7b8c69]/50 hover:bg-[#6f7d61]/20 hover:text-white cursor-pointer"
+                    <ol className="mt-10 space-y-1">
+                        {steps.map((s, i) => {
+                            const done = i < step;
+                            const active = i === step;
+                            return (
+                                <li key={s.field} className="flex items-center gap-3.5 py-1.5" aria-current={active ? "step" : undefined}>
+                                    <span
+                                        className={`tabular flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[12.5px] font-semibold transition-colors duration-200 ${
+                                            done
+                                                ? "bg-verde text-white"
+                                                : active
+                                                ? "bg-white text-tinta"
+                                                : "border border-white/15 text-gris-claro"
+                                        }`}
                                     >
-                                        {p.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                                        {done ? <CheckMark /> : i + 1}
+                                    </span>
+                                    <span className={`text-[15px] transition-colors duration-200 ${active ? "font-semibold text-white" : done ? "text-white/80" : "text-gris-claro"}`}>
+                                        {s.label}
+                                    </span>
+                                </li>
+                            );
+                        })}
+                    </ol>
+                </div>
 
-                    {current.type === "text" && (
-                        <input
-                            type="text"
-                            placeholder={current.placeholder}
-                            value={data[current.field] || ""}
-                            onChange={handleChange}
-                            onKeyDown={(e) => { if (e.key === "Enter") nextStep(); }}
-                            autoFocus
-                            className={`w-full rounded-[22px] border bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] md:px-5 md:py-4 md:text-2xl ${
-                                errorMessage ? "border-red-500/60 focus:border-red-500" : "border-white/10 focus:border-[#7b8c69]/45 focus:bg-[#0f130f]"
-                            }`}
-                        />
-                    )}
+                <ul className="relative mt-12 grid grid-cols-3 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 text-[13px]">
+                    {[
+                        ["Sin costo", "Diagnóstico estratégico"],
+                        ["30 minutos", "Por Google Meet"],
+                        ["Equipo técnico", "Sin intermediarios"],
+                    ].map(([title, sub]) => (
+                        <li key={title} className="bg-grafito px-3.5 py-3">
+                            <p className="font-semibold text-white">{title}</p>
+                            <p className="mt-0.5 text-gris-claro">{sub}</p>
+                        </li>
+                    ))}
+                </ul>
+            </aside>
 
-                    {current.type === "email" && (
-                        <input
-                            type="email"
-                            placeholder={current.placeholder}
-                            value={data[current.field] || ""}
-                            onChange={handleChange}
-                            onKeyDown={(e) => { if (e.key === "Enter") nextStep(); }}
-                            autoFocus
-                            className={`w-full rounded-[22px] border bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] md:px-5 md:py-4 md:text-2xl ${
-                                errorMessage ? "border-red-500/60 focus:border-red-500" : "border-white/10 focus:border-[#7b8c69]/45 focus:bg-[#0f130f]"
-                            }`}
-                        />
-                    )}
+            {/* ÁREA DEL FORMULARIO */}
+            <main className="on-light flex min-h-screen flex-col">
+                {/* Barra superior mobile con marca */}
+                <div className="flex items-center justify-between bg-grafito px-4 py-3.5 lg:hidden">
+                    <a href="/" className="inline-flex flex-col leading-none" aria-label="APOC Automation, volver al inicio">
+                        <span className="font-display text-[19px] text-white">APOC</span>
+                        <span className="wordmark-sub mt-1 text-[7.5px] text-verde-300">AUTOMATION</span>
+                    </a>
+                    <span className="text-[13px] text-gris-claro">Reunión estratégica gratuita</span>
+                </div>
 
-                    {current.type === "textarea" && (
-                        <textarea
-                            placeholder={current.placeholder}
-                            value={data[current.field] || ""}
-                            onChange={handleChange}
-                            autoFocus
-                            className={`w-full min-h-[120px] resize-none rounded-[22px] border bg-black/20 px-4 py-3.5 text-lg font-semibold text-[#f3f5ef] outline-none transition placeholder:text-[#7f8978] md:min-h-[140px] md:px-5 md:py-4 md:text-2xl ${
-                                errorMessage ? "border-red-500/60 focus:border-red-500" : "border-white/10 focus:border-[#7b8c69]/45 focus:bg-[#0f130f]"
-                            }`}
-                        />
-                    )}
+                {/* Progreso */}
+                <div className="h-1 w-full bg-linea" role="progressbar" aria-valuemin={1} aria-valuemax={steps.length} aria-valuenow={step + 1} aria-label="Progreso del formulario">
+                    <div className="h-full bg-verde transition-[width] duration-500 ease-out" style={{ width: `${progress}%` }} />
+                </div>
 
-                    {/* Alerta de validación en tiempo real */}
-                    {errorMessage && (
-                        <div className="mt-3.5 flex items-start gap-2.5 rounded-2xl border border-red-500/35 bg-red-500/12 p-3.5 text-xs md:text-sm font-medium text-red-200 shadow-sm text-left">
-                            <span className="text-base select-none shrink-0 leading-none mt-0.5">⚠️</span>
-                            <p className="leading-snug">{errorMessage}</p>
-                        </div>
-                    )}
+                <div className="flex flex-1 items-start justify-center px-4 py-8 sm:px-8 md:py-14 lg:items-center lg:px-14">
+                    <div className="w-full max-w-2xl">
 
-                    {/* Texto de ayuda contextual cuando no hay error */}
-                    {!errorMessage && current.helper && (
-                        <p className="mt-2.5 text-xs text-[#8e9c82] leading-normal text-left">
-                            💡 {current.helper}
-                        </p>
-                    )}
-
-                    {current.type === "select" && (
-                        <div className="grid gap-3">
-                            {current.options.map((opt, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => {
-                                        setData({ ...data, [current.field]: opt });
-                                        setTimeout(nextStep, 200);
-                                    }}
-                                    className={`text-left p-3.5 rounded-[20px] border transition-all font-semibold text-sm leading-6 md:p-4 md:text-lg cursor-pointer ${
-                                        data[current.field] === opt 
-                                        ? "bg-[#6f7d61]/16 text-white border-[#7b8c69]/35" 
-                                        : "bg-white/4 text-[#d8dfcf] border-white/10 hover:border-white/16"
-                                    }`}
-                                >
-                                    {opt}
-                                </button>
-                            ))}
-                            {step > 0 && (
+                        {/* Encabezado: volver + indicador de paso */}
+                        <div className="mb-8 flex items-center justify-between gap-3">
+                            {step > 0 ? (
                                 <button
                                     type="button"
                                     onClick={prevStep}
-                                    className="mt-2 text-left text-xs font-semibold uppercase tracking-[0.16em] text-[#8ea080] hover:text-white transition cursor-pointer py-1"
+                                    className="btn-press -ml-3 inline-flex min-h-10 items-center gap-2 rounded-lg px-3 text-[14px] font-semibold text-gris hover:bg-tinta/5 hover:text-tinta cursor-pointer"
+                                    aria-label="Paso anterior"
                                 >
-                                    ← Volver al paso anterior
+                                    <ArrowLeft />
+                                    <span>Atrás</span>
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    onClick={() => window.location.href = "/"}
+                                    className="btn-press -ml-3 inline-flex min-h-10 items-center gap-2 rounded-lg px-3 text-[14px] font-semibold text-gris hover:bg-tinta/5 hover:text-tinta cursor-pointer"
+                                    aria-label="Volver al inicio"
+                                >
+                                    <ArrowLeft />
+                                    <span>Inicio</span>
                                 </button>
                             )}
-                        </div>
-                    )}
 
-                    {current.type === "calendar" && (
-                        <div>
-                            {loadingSlots ? (
-                                    <div className="flex flex-col items-center justify-center py-12">
-                                    <div className="w-12 h-12 border-4 border-[#7b8c69]/30 border-t-[#dce4d2] rounded-full animate-spin mb-4"></div>
-                                    <p className="text-[#d8dfcf] font-semibold text-center">Buscando disponibilidad en tiempo real...</p>
+                            <span className="tabular text-[14px] font-medium text-gris">
+                                Paso <strong className="font-semibold text-tinta">{step + 1}</strong> de {steps.length}
+                                <span className="text-gris lg:hidden">: {current.label}</span>
+                            </span>
+                        </div>
+
+                        <h2 className="font-display text-[1.75rem] leading-[1.12] text-tinta md:text-[2.4rem]">
+                            {current.question}
+                        </h2>
+
+                        <div className="mt-7 md:mt-8">
+                            {current.field === "phone" && (
+                                <div className="mb-4">
+                                    <p className="mb-2.5 text-[14px] font-medium text-gris">
+                                        Elegí tu país para autocompletar el código:
+                                    </p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {countryPills.map(p => {
+                                            const selected = (data.phone || "").startsWith(p.code.trim());
+                                            return (
+                                                <button
+                                                    key={p.label}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setData(prev => ({ ...prev, phone: p.code }));
+                                                        setErrorMessage("");
+                                                    }}
+                                                    className={`btn-press min-h-10 rounded-lg border px-3 text-[14px] font-medium cursor-pointer ${
+                                                        selected
+                                                            ? "border-verde bg-verde-100 text-verde-700"
+                                                            : "border-linea bg-white text-tinta hover:border-verde/50"
+                                                    }`}
+                                                >
+                                                    {p.label}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
-                            ) : Object.keys(slots).length === 0 ? (
-                                <div className="text-center py-8">
-                                    <p className="text-red-300 font-semibold mb-4">No hay turnos disponibles configurados.</p>
-                                    <button 
-                                        type="button"
-                                        onClick={() => {
-                                            const today = new Date().toISOString().split('T')[0];
-                                            setLoadingSlots(true);
-                                            fetch(`https://apocrm-one.vercel.app/api/calendar/slots?start_date=${today}`)
-                                                .then(res => res.json())
-                                                .then(resData => {
-                                                    if (resData.success && resData.data) {
-                                                        setSlots(resData.data.available_slots || {});
-                                                    }
-                                                })
-                                                .catch(err => console.error("Error:", err))
-                                                .finally(() => setLoadingSlots(false));
-                                        }}
-                                        className="bg-[#6f7d61] text-white px-6 py-3 rounded-full font-semibold uppercase tracking-[0.18em] cursor-pointer transition-all hover:opacity-90 active:scale-95"
-                                    >
-                                        Reintentar
-                                    </button>
+                            )}
+
+                            {current.type === "text" && (
+                                <input
+                                    type="text"
+                                    placeholder={current.placeholder}
+                                    value={data[current.field] || ""}
+                                    onChange={handleChange}
+                                    onKeyDown={(e) => { if (e.key === "Enter") nextStep(); }}
+                                    autoFocus
+                                    aria-invalid={Boolean(errorMessage)}
+                                    aria-label={current.question}
+                                    className={inputClass}
+                                />
+                            )}
+
+                            {current.type === "email" && (
+                                <input
+                                    type="email"
+                                    placeholder={current.placeholder}
+                                    value={data[current.field] || ""}
+                                    onChange={handleChange}
+                                    onKeyDown={(e) => { if (e.key === "Enter") nextStep(); }}
+                                    autoFocus
+                                    aria-invalid={Boolean(errorMessage)}
+                                    aria-label={current.question}
+                                    className={inputClass}
+                                />
+                            )}
+
+                            {current.type === "textarea" && (
+                                <textarea
+                                    placeholder={current.placeholder}
+                                    value={data[current.field] || ""}
+                                    onChange={handleChange}
+                                    autoFocus
+                                    aria-invalid={Boolean(errorMessage)}
+                                    aria-label={current.question}
+                                    className={`${inputClass} min-h-[140px] resize-none leading-relaxed md:min-h-[160px]`}
+                                />
+                            )}
+
+                            {/* Alerta de validación en tiempo real */}
+                            {errorMessage && current.type !== "calendar" && current.type !== "select" && <FieldError message={errorMessage} />}
+
+                            {/* Texto de ayuda contextual cuando no hay error */}
+                            {!errorMessage && current.helper && (
+                                <p className="mt-3 flex items-start gap-2 text-[14px] leading-6 text-gris">
+                                    <InfoIcon />
+                                    <span>{current.helper}</span>
+                                </p>
+                            )}
+
+                            {current.type === "select" && (
+                                <div className="grid gap-3" role="radiogroup" aria-label={current.question}>
+                                    {current.options.map((opt, i) => {
+                                        const selected = data[current.field] === opt;
+                                        return (
+                                            <button
+                                                key={i}
+                                                type="button"
+                                                role="radio"
+                                                aria-checked={selected}
+                                                onClick={() => {
+                                                    // Avanza con la opción recién elegida (evita leer el estado viejo
+                                                    // y que el primer clic muestre "seleccioná una opción").
+                                                    const fromStep = step;
+                                                    setData(prev => ({ ...prev, [current.field]: opt }));
+                                                    setErrorMessage("");
+                                                    setTimeout(() => {
+                                                        setStep(s => (s === fromStep && s < steps.length - 1 ? s + 1 : s));
+                                                    }, 200);
+                                                }}
+                                                className={`btn-press flex min-h-14 items-center gap-4 rounded-lg border px-4 py-3.5 text-left text-[16px] font-medium leading-6 cursor-pointer md:px-5 md:text-[17px] ${
+                                                    selected
+                                                        ? "border-verde bg-verde-100 text-tinta shadow-[0_0_0_1px_var(--color-verde)]"
+                                                        : "border-linea bg-white text-tinta hover:border-verde/50"
+                                                }`}
+                                            >
+                                                <span
+                                                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-150 ${
+                                                        selected ? "border-verde" : "border-[#b9c0ba]"
+                                                    }`}
+                                                    aria-hidden="true"
+                                                >
+                                                    {selected && <span className="h-2.5 w-2.5 rounded-full bg-verde" />}
+                                                </span>
+                                                {opt}
+                                            </button>
+                                        );
+                                    })}
+                                    {errorMessage && <FieldError message={errorMessage} />}
+                                    {step > 0 && (
+                                        <button
+                                            type="button"
+                                            onClick={prevStep}
+                                            className="mt-1 inline-flex min-h-10 w-fit items-center gap-2 text-[14px] font-semibold text-gris hover:text-tinta cursor-pointer"
+                                        >
+                                            <ArrowLeft />
+                                            Volver al paso anterior
+                                        </button>
+                                    )}
                                 </div>
-                            ) : (
+                            )}
+
+                            {current.type === "calendar" && (
                                 <div>
-                                    {/* ALERTA DE ZONA HORARIA */}
-                                    <div className="bg-white/5 border border-white/10 rounded-[20px] p-3 mb-5 flex items-center gap-3 shadow-sm text-left animate-fade-in md:rounded-[24px] md:p-4 md:mb-6 md:gap-3.5">
-                                        <span className="text-2xl animate-bounce select-none">🇦🇷</span>
+                                    {loadingSlots ? (
+                                        <div className="flex flex-col items-center justify-center rounded-xl border border-linea bg-white py-14">
+                                            <div className="mb-4 h-10 w-10 animate-spin rounded-full border-[3px] border-verde/20 border-t-verde"></div>
+                                            <p className="text-center text-[15px] font-medium text-tinta">Buscando disponibilidad en tiempo real...</p>
+                                        </div>
+                                    ) : Object.keys(slots).length === 0 ? (
+                                        <div className="rounded-xl border border-linea bg-white px-6 py-10 text-center">
+                                            <p className="mb-5 text-[15px] font-medium text-alerta">No hay turnos disponibles configurados.</p>
+                                            <button
+                                                type="button"
+                                                onClick={retrySlots}
+                                                className="btn-press min-h-12 rounded-lg bg-verde px-6 text-[15px] font-semibold text-white hover:bg-verde-500 cursor-pointer"
+                                            >
+                                                Reintentar
+                                            </button>
+                                        </div>
+                                    ) : (
                                         <div>
-                                            <h5 className="text-[10px] font-semibold text-[#dce3d3] uppercase tracking-[0.2em] mb-0.5 md:text-xs md:tracking-[0.22em]">Zona Horaria: Argentina (GMT-3)</h5>
-                                            <p className="text-xs text-[#aeb7a6] font-medium leading-normal">
-                                                Todos los horarios se muestran en hora de Argentina. Por favor, ten en cuenta la diferencia horaria si te encuentras en otro país.
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start">
-                                        {/* CALENDAR MONTH GRID */}
-                                        <div className="bg-black/18 p-3 rounded-[20px] border border-white/10 shadow-sm md:p-4 md:rounded-[24px]">
-                                            <div className="flex items-center justify-between mb-4">
-                                                <button 
-                                                    type="button"
-                                                    onClick={prevMonth}
-                                                    className="rounded-lg px-2.5 py-1 text-[#d7ddd0] hover:bg-white/6 transition-colors cursor-pointer font-semibold"
-                                                >
-                                                    &larr;
-                                                </button>
-                                                <h4 className="font-semibold text-[#f3f5ef] text-xs md:text-base capitalize">
-                                                    {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-                                                </h4>
-                                                <button 
-                                                    type="button"
-                                                    onClick={nextMonth}
-                                                    className="rounded-lg px-2.5 py-1 text-[#d7ddd0] hover:bg-white/6 transition-colors cursor-pointer font-semibold"
-                                                >
-                                                    &rarr;
-                                                </button>
+                                            {/* ZONA HORARIA */}
+                                            <div className="mb-5 flex items-start gap-3 rounded-lg border border-verde/20 bg-verde-100/60 p-3.5 md:p-4">
+                                                <ClockIcon />
+                                                <div>
+                                                    <p className="text-[14px] font-semibold text-tinta">Zona horaria: Argentina (GMT-3)</p>
+                                                    <p className="mt-0.5 text-[13.5px] leading-normal text-gris">
+                                                        Todos los horarios se muestran en hora de Argentina. Por favor, tené en cuenta la diferencia horaria si te encontrás en otro país.
+                                                    </p>
+                                                </div>
                                             </div>
 
-                                            {/* Weekdays Header */}
-                                            <div className="grid grid-cols-7 gap-1 text-center text-[9px] font-semibold text-[#7f8978] uppercase mb-2 md:text-[10px]">
-                                                {weekDays.map(d => <div key={d}>{d}</div>)}
-                                            </div>
-
-                                            {/* Days Grid */}
-                                            <div className="grid grid-cols-7 gap-1">
-                                                {getDaysInMonth(currentMonth).map((day, index) => {
-                                                    if (!day) {
-                                                        return <div key={`empty-${index}`} className="aspect-square"></div>;
-                                                    }
-                                                    const dayKey = formatDateKey(day);
-                                                    const daySlots = getAvailableTimes(dayKey);
-                                                    const hasSlots = daySlots.length > 0;
-                                                    const isSelected = selectedDate === dayKey;
-                                                    
-                                                    return (
+                                            <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-5">
+                                                {/* CALENDARIO MENSUAL */}
+                                                <div className="card-light rounded-xl p-3.5 md:p-4">
+                                                    <div className="mb-4 flex items-center justify-between">
                                                         <button
-                                                            key={dayKey}
                                                             type="button"
-                                                            disabled={!hasSlots}
-                                                            onClick={() => {
-                                                                setSelectedDate(dayKey);
-                                                                setSelectedTime("");
-                                                                setData(d => ({ ...d, date: dayKey, time: "" }));
-                                                            }}
-                                                            className={`aspect-square w-full rounded-xl text-[10px] md:text-sm font-bold flex flex-col items-center justify-center relative transition-all ${
-                                                                isSelected
-                                                                ? "bg-[#6f7d61] text-white shadow-md shadow-[#435B47]/20 scale-105"
-                                                                : hasSlots
-                                                                ? "bg-white/6 text-[#d8dfcf] hover:bg-white/10 cursor-pointer"
-                                                                : "text-white/10 cursor-not-allowed"
-                                                            }`}
+                                                            onClick={prevMonth}
+                                                            className="flex h-10 w-10 items-center justify-center rounded-lg text-tinta hover:bg-niebla cursor-pointer"
+                                                            aria-label="Mes anterior"
                                                         >
-                                                            <span>{day.getDate()}</span>
-                                                            {hasSlots && !isSelected && (
-                                                                <span className="w-1 h-1 rounded-full bg-[#91a082] absolute bottom-1"></span>
-                                                            )}
+                                                            <ArrowLeft />
                                                         </button>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-
-                                        {/* TIME SLOTS PANEL */}
-                                        <div className="bg-white/4 p-3 rounded-[20px] border border-white/10 min-h-[220px] flex flex-col justify-between md:p-4 md:rounded-[24px] md:min-h-[260px]">
-                                            <div className="w-full">
-                                                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#8e9984] mb-3 text-left">
-                                                    {selectedDate ? `Horarios para el ${formatDateLabel(selectedDate)}` : "Seleccioná un día"}
-                                                </p>
-                                                
-                                                {selectedDate ? (
-                                                    getAvailableTimes(selectedDate).length > 0 ? (
-                                                        <div className="grid grid-cols-2 gap-2 max-h-[190px] overflow-y-auto pr-1">
-                                                            {getAvailableTimes(selectedDate).map(timeStr => {
-                                                                const isSelected = selectedTime === timeStr;
-                                                                return (
-                                                                    <button
-                                                                        key={timeStr}
-                                                                        type="button"
-                                                                         onClick={() => {
-                                                                            setSelectedTime(timeStr);
-                                                                            setData(d => ({ ...d, time: timeStr }));
-                                                                            setErrorMessage("");
-                                                                        }}
-                                                                        className={`py-2.5 rounded-2xl border font-semibold text-[10px] md:py-3 md:text-sm transition-all text-center cursor-pointer ${
-                                                                            isSelected 
-                                                                            ? "bg-[#6f7d61] text-white border-[#7b8c69]/35" 
-                                                                            : "bg-white/5 text-[#dce3d3] border-white/10 hover:border-white/16"
-                                                                        }`}
-                                                                    >
-                                                                        {timeStr} hs
-                                                                    </button>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    ) : (
-                                                        <p className="text-sm font-medium text-red-300 text-left">No hay horarios disponibles.</p>
-                                                    )
-                                                ) : (
-                                                    <div className="text-center py-8">
-                                                        <p className="text-xs md:text-sm font-semibold text-[#aab3a0]">Hacé clic en un día destacado del calendario para ver los horarios disponibles.</p>
+                                                        <h4 className="text-[15px] font-semibold capitalize text-tinta md:text-base">
+                                                            {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                                                        </h4>
+                                                        <button
+                                                            type="button"
+                                                            onClick={nextMonth}
+                                                            className="flex h-10 w-10 items-center justify-center rounded-lg text-tinta hover:bg-niebla cursor-pointer"
+                                                            aria-label="Mes siguiente"
+                                                        >
+                                                            <ArrowLeft className="rotate-180" />
+                                                        </button>
                                                     </div>
-                                                )}
+
+                                                    <div className="mb-2 grid grid-cols-7 gap-1 text-center text-[11.5px] font-medium text-gris">
+                                                        {weekDays.map(d => <div key={d}>{d}</div>)}
+                                                    </div>
+
+                                                    <div className="grid grid-cols-7 gap-1">
+                                                        {getDaysInMonth(currentMonth).map((day, index) => {
+                                                            if (!day) {
+                                                                return <div key={`empty-${index}`} className="aspect-square"></div>;
+                                                            }
+                                                            const dayKey = formatDateKey(day);
+                                                            const daySlots = getAvailableTimes(dayKey);
+                                                            const hasSlots = daySlots.length > 0;
+                                                            const isSelected = selectedDate === dayKey;
+
+                                                            return (
+                                                                <button
+                                                                    key={dayKey}
+                                                                    type="button"
+                                                                    disabled={!hasSlots}
+                                                                    aria-pressed={isSelected}
+                                                                    onClick={() => {
+                                                                        setSelectedDate(dayKey);
+                                                                        setSelectedTime("");
+                                                                        setData(d => ({ ...d, date: dayKey, time: "" }));
+                                                                    }}
+                                                                    className={`tabular relative flex aspect-square w-full items-center justify-center rounded-md text-[13px] font-semibold transition-colors duration-150 md:text-[14px] ${
+                                                                        isSelected
+                                                                            ? "bg-verde text-white"
+                                                                            : hasSlots
+                                                                            ? "bg-verde-100 text-verde-700 hover:bg-verde-300/60 cursor-pointer"
+                                                                            : "cursor-not-allowed text-tinta/25"
+                                                                    }`}
+                                                                >
+                                                                    {day.getDate()}
+                                                                </button>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+
+                                                {/* HORARIOS */}
+                                                <div className="card-light flex min-h-[220px] flex-col rounded-xl p-3.5 md:min-h-[300px] md:p-4">
+                                                    <p className="mb-3 text-[14px] font-semibold text-tinta">
+                                                        {selectedDate ? `Horarios para el ${formatDateLabel(selectedDate)}` : "Seleccioná un día"}
+                                                    </p>
+
+                                                    {selectedDate ? (
+                                                        getAvailableTimes(selectedDate).length > 0 ? (
+                                                            <div className="grid max-h-[236px] grid-cols-2 gap-2 overflow-y-auto pr-1">
+                                                                {getAvailableTimes(selectedDate).map(timeStr => {
+                                                                    const isSelected = selectedTime === timeStr;
+                                                                    return (
+                                                                        <button
+                                                                            key={timeStr}
+                                                                            type="button"
+                                                                            aria-pressed={isSelected}
+                                                                            onClick={() => {
+                                                                                setSelectedTime(timeStr);
+                                                                                setData(d => ({ ...d, time: timeStr }));
+                                                                                setErrorMessage("");
+                                                                            }}
+                                                                            className={`btn-press tabular min-h-11 rounded-lg border text-center text-[14px] font-semibold cursor-pointer ${
+                                                                                isSelected
+                                                                                    ? "border-verde bg-verde text-white"
+                                                                                    : "border-linea bg-white text-tinta hover:border-verde/50"
+                                                                            }`}
+                                                                        >
+                                                                            {timeStr} hs
+                                                                        </button>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        ) : (
+                                                            <p className="text-[14px] font-medium text-alerta">No hay horarios disponibles.</p>
+                                                        )
+                                                    ) : (
+                                                        <div className="flex flex-1 items-center justify-center px-4 text-center">
+                                                            <p className="text-[14px] leading-6 text-gris">Hacé clic en un día destacado del calendario para ver los horarios disponibles.</p>
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            )}
-                            {errorMessage && (
-                                <div className="mt-4 flex items-start gap-2.5 rounded-2xl border border-red-500/35 bg-red-500/12 p-3.5 text-xs md:text-sm font-medium text-red-200 shadow-sm text-left">
-                                    <span className="text-base select-none shrink-0 leading-none mt-0.5">⚠️</span>
-                                    <p className="leading-snug">{errorMessage}</p>
+                                    )}
+                                    {errorMessage && <FieldError message={errorMessage} />}
                                 </div>
                             )}
                         </div>
-                    )}
-                </div>
 
-                {current.type !== "select" && (
-                    <div className="flex items-center gap-3">
-                        {step > 0 && (
-                            <button
-                                type="button"
-                                onClick={prevStep}
-                                className="rounded-[20px] md:rounded-full border border-white/12 bg-white/6 px-5 py-3 md:px-8 md:py-5 text-[11px] md:text-lg font-semibold uppercase tracking-[0.14em] text-[#d6ded0] transition hover:bg-white/12 hover:text-white cursor-pointer shrink-0"
-                            >
-                                ← Atrás
-                            </button>
+                        {current.type !== "select" && (
+                            <div className="mt-8 flex items-center gap-3">
+                                {step > 0 && (
+                                    <button
+                                        type="button"
+                                        onClick={prevStep}
+                                        className="btn-press min-h-13 shrink-0 rounded-lg border border-tinta/15 bg-white px-5 text-[15px] font-semibold text-tinta hover:border-tinta/30 cursor-pointer md:px-7"
+                                    >
+                                        Atrás
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={nextStep}
+                                    className="btn-press min-h-13 flex-1 rounded-lg bg-verde px-5 text-[15px] font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_12px_28px_-14px_rgba(67,91,71,0.95)] hover:bg-verde-500 cursor-pointer md:text-[16px]"
+                                >
+                                    {isLastStep ? "Confirmar y agendar cita" : "Continuar"}
+                                </button>
+                            </div>
                         )}
-                        <button
-                            onClick={nextStep}
-                            className="bg-[#6f7d61] text-white px-5 py-3 rounded-[20px] flex-1 text-[11px] md:px-10 md:py-5 md:rounded-full md:text-xl font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] hover:scale-[1.01] transition-transform shadow-xl shadow-[#435B47]/20 cursor-pointer"
-                        >
-                            {step === steps.length - 1 ? "CONFIRMAR Y AGENDAR CITA →" : "CONTINUAR →"}
-                        </button>
+
+                        <p className="mt-8 flex items-center gap-2 text-[13px] text-gris">
+                            <LockIcon />
+                            Tus datos se usan solo para preparar la reunión y evaluar tu caso con criterio.
+                        </p>
                     </div>
-                )}
-
-                <p className="text-[10px] mt-6 md:mt-8 text-[#91a082] font-semibold uppercase tracking-[0.14em] md:tracking-[0.18em] text-center">
-                    Tus datos se usan solo para preparar la reunión y evaluar tu caso con criterio.
-                </p>
-
-            </div>
+                </div>
+            </main>
         </div>
+    );
+}
+
+function FieldError({ message }) {
+    return (
+        <div role="alert" className="mt-3 flex items-start gap-2.5 rounded-lg border border-alerta/25 bg-[#fbefec] p-3.5 text-left text-[14px] font-medium text-[#8f3122]">
+            <svg viewBox="0 0 20 20" className="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" aria-hidden="true">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.25 6a.75.75 0 011.5 0v4.5a.75.75 0 01-1.5 0V6zM10 14.75a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+            </svg>
+            <p className="leading-snug">{message}</p>
+        </div>
+    );
+}
+
+function ArrowLeft({ className = "" }) {
+    return (
+        <svg viewBox="0 0 20 20" className={`h-4 w-4 ${className}`} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12.5 15L7.5 10l5-5" />
+        </svg>
+    );
+}
+
+function CheckMark() {
+    return (
+        <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.5 8.5l3 3 6-7" />
+        </svg>
+    );
+}
+
+function InfoIcon() {
+    return (
+        <svg viewBox="0 0 20 20" className="mt-1 h-4 w-4 shrink-0 text-verde" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+            <circle cx="10" cy="10" r="7.25" />
+            <path strokeLinecap="round" d="M10 9v4.5M10 6.5v.01" />
+        </svg>
+    );
+}
+
+function ClockIcon() {
+    return (
+        <svg viewBox="0 0 20 20" className="mt-0.5 h-5 w-5 shrink-0 text-verde" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+            <circle cx="10" cy="10" r="7.25" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6v4l2.5 1.5" />
+        </svg>
+    );
+}
+
+function LockIcon() {
+    return (
+        <svg viewBox="0 0 20 20" className="h-4 w-4 shrink-0 text-verde" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+            <rect x="4" y="9" width="12" height="8" rx="1.5" />
+            <path d="M7 9V6.5a3 3 0 016 0V9" />
+        </svg>
     );
 }

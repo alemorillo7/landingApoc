@@ -17,12 +17,12 @@ export const heroStats = [
   {
     value: "32",
     label: "proyectos",
-    detail: "Casos desarrollados en el ÚLTIMO año.",
+    detail: "Casos desarrollados en el último año.",
   },
   {
     value: "6",
     label: "países y regiones",
-    detail: "Argentina, Peru, Ecuador, Bolivia, Mexico y más operación remota.",
+    detail: "Argentina, Perú, Ecuador, Bolivia, México y más operación remota.",
   },
   {
     value: "10+",
@@ -42,6 +42,8 @@ export const clientLogos = [
   "Beyond Fit",
   "RC Autopartes",
   "Realt IA",
+  "Krokanticas",
+  "HABA",
 ];
 
 export const differentiators = [
@@ -107,7 +109,6 @@ export const caseStudies = [
     id: "beyond-fit",
     client: "Beyond Fit",
     industry: "Gimnasios / Acceso inteligente - Argentina",
-    image: "/benefyt.webp",
     tags: ["Automatización", "Software a medida"],
     problem:
       "El ingreso de socios y el control diario del gimnasio dependían de una gestión poco integrada y sin una solución propia conectada al acceso físico.",
@@ -142,6 +143,25 @@ export const caseStudies = [
       "Proyecto para inmobiliarias en España que combina agente IA y CRM propio para ordenar captación, seguimiento y conversión.",
   },
   {
+    id: "krokanticas",
+    client: "Krokanticas",
+    industry: "Gastronomía / Comida rápida - Argentina",
+    image: "/krokanticas.webp",
+    tags: ["Destacado", "Agente IA", "Software a medida"],
+    problem:
+      "El local recibía los pedidos y consultas por WhatsApp de forma manual, y la atención, la cocina y el control del negocio estaban separados.",
+    solution:
+      "Desarrollamos un panel operativo a medida con atención por WhatsApp Business, bot de IA con derivación a humano, pantalla de cocina, stock, finanzas y contactos en un solo sistema.",
+    result:
+      "La atención quedó centralizada: el bot responde al instante, el equipo toma la conversación cuando hace falta y la cocina recibe cada pedido en tiempo real.",
+    metrics: ["800+ conversaciones", "Bot IA + atención humana", "Panel de cocina", "Stock y finanzas"],
+    technologies: ["WhatsApp Business API", "Agente IA", "Panel web a medida"],
+    feedback:
+      "Hicieron un programa para atención en un local de comida rápida. Muy claros y rápidos. ¡Están en todo momento!",
+    clientSummary:
+      "Local de comida rápida que necesitaba agilizar la atención de pedidos por WhatsApp y coordinar mejor el trabajo de cocina.",
+  },
+  {
     id: "rc-autopartes",
     client: "RC Autopartes",
     industry: "Autopartes / Stock y venta interna - Argentina",
@@ -165,7 +185,7 @@ export const caseStudies = [
 export const featuredCaseStudyIds = [
   "taller-german-lucero",
   "ramayo-propiedades",
-  "beyond-fit",
+  "krokanticas",
   "realt-ia",
   "rc-autopartes",
 ];
@@ -195,6 +215,15 @@ export const team = [
     role: "Socio Fundador & Referente de Arquitectura",
     detail:
       "Programador experto en sistemas escalables. Su enfoque principal es garantizar que cada pieza de código sea sólida y segura desde el principio.",
+  },
+  {
+    name: "Rolando",
+    initials: "RB",
+    image: "/rolando-brandan.webp",
+    fullName: "Rolando Brandan",
+    role: "Desarrollador Full Stack",
+    detail:
+      "Construye cada sistema de punta a punta: interfaces, lógica de negocio, bases de datos e integraciones, con código prolijo y fácil de mantener.",
   },
   {
     name: "Elian",
@@ -233,7 +262,7 @@ export const methodology = [
   {
     step: "01",
     title: "Discovery",
-    text: "Entendemos negocio, riesgos, procesos criticos y alcance real.",
+    text: "Entendemos negocio, riesgos, procesos críticos y alcance real.",
     deliverable: "Mapa de procesos, objetivos y prioridades.",
   },
   {
@@ -312,34 +341,23 @@ export const testimonials = [
   {
     company: "Beyond Fit",
     quote:
-      "El sistema nos ordenó el ingreso de socios con DNI y dejó toda la administración de cuotas y accesos automatizada en una plataforma propia.",
-    source: "Caso real - Beyond Fit",
-    proof: "Ver caso",
+      "El sistema nos dio mucha más rapidez a la hora de las cobranzas y mejoró la atención a los padres.",
+    source: "Caso real - Beyond Fit (comedor escolar)",
     initials: "BF",
-    projectId: "beyond-fit",
   },
   {
-    company: "Realt IA",
+    company: "Krokanticas",
     quote:
-      "Centralizamos la entrada comercial de leads inmobiliarios sincronizados en tiempo real con el agente de IA dentro de nuestro CRM propio.",
-    source: "Caso real - Realt IA (España)",
+      "Hicieron un programa para atención en un local de comida rápida. Muy claros y rápidos. ¡Están en todo momento!",
+    source: "Caso real - Krokanticas (comida rápida)",
     proof: "Ver caso",
-    initials: "RI",
-    projectId: "realt-ia",
-  },
-  {
-    company: "RC Autopartes",
-    quote:
-      "Integramos el inventario de stock, ventas internas y gestión de vendedores en una sola base confiable que agilizó toda la administración.",
-    source: "Caso real - RC Autopartes",
-    proof: "Ver caso",
-    initials: "RC",
-    projectId: "rc-autopartes",
+    initials: "KR",
+    projectId: "krokanticas",
   },
 ];
 
-export const featuredTestimonials = featuredCaseStudyIds
-  .map((id) => testimonials.find((item) => item.projectId === id))
+export const featuredTestimonials = ["Taller Lucero", "Ramayo Propiedades", "Beyond Fit", "Krokanticas"]
+  .map((company) => testimonials.find((item) => item.company === company))
   .filter(Boolean);
 
 export const challengeOptions = [
@@ -510,7 +528,7 @@ export const seoConfig = {
   siteName: "APOC Automation",
   baseTitle: "APOC Automation | Software seguro, escalable y estable",
   baseDescription:
-    "APOC Automation desarrolla automatización, agentes IA y software a medida para empresas de Argentina, Peru, Ecuador, Bolivia y Mexico, con foco en problemas reales y resultados concretos.",
+    "APOC Automation desarrolla automatización, agentes IA y software a medida para empresas de Argentina, Perú, Ecuador, Bolivia y México, con foco en problemas reales y resultados concretos.",
   baseUrl: "https://apocautomation.site",
 };
 

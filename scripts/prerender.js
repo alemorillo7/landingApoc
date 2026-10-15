@@ -56,16 +56,16 @@ const routes = [
   },
   {
     path: "/agenda",
-    title: "Agenda una reunión estratégica | APOC Automation",
+    title: "Agendá una reunión estratégica | APOC Automation",
     description:
-      "Reserva una reunión estratégica con APOC para evaluar arquitectura, seguridad, automatización y oportunidad de negocio para tu empresa.",
+      "Reservá una reunión estratégica con APOC para evaluar arquitectura, seguridad, automatización y oportunidad de negocio para tu empresa.",
     image: `${seoConfig.baseUrl}/og-image.jpg`,
     schema: {
       "@context": "https://schema.org",
       "@type": "ContactPage",
       name: "Agendar reunión estratégica | APOC Automation",
       url: `${seoConfig.baseUrl}/agenda`,
-      description: "Reserva una reunión estratégica con APOC Automation.",
+      description: "Reservá una reunión estratégica con APOC Automation.",
     },
     contentHtml: `
       <main>

@@ -1,8 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   bfitTestimonial,
@@ -20,100 +17,127 @@ import {
   videoTestimonial,
 } from "./siteData.js";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+const EASE_OUT = [0.22, 1, 0.36, 1];
 
-const reveal = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0 },
-};
+/* ========================================================================== */
+/* Piezas base                                                                 */
+/* ========================================================================== */
 
-function SectionTag({ children }) {
+function Wordmark({ compact = false }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#c4ccb9] backdrop-blur-xl">
-      <span className="h-2 w-2 rounded-full bg-[#6f7e60] shadow-[0_0_14px_rgba(133,154,113,0.8)]" />
-      {children}
+    <span className="flex flex-col leading-none">
+      <span className={`font-display text-white ${compact ? "text-[19px]" : "text-[22px]"}`}>APOC</span>
+      <span className={`wordmark-sub mt-1 text-verde-300 ${compact ? "text-[7.5px]" : "text-[8.5px]"}`}>
+        AUTOMATION
+      </span>
+    </span>
+  );
+}
+
+function SectionHeading({ eyebrow, title, description, tone = "light", align = "split" }) {
+  const dark = tone === "dark";
+  const eyebrowColor = dark ? "text-verde-300" : "text-verde";
+  const ruleColor = dark ? "bg-verde-300" : "bg-verde";
+  const titleColor = dark ? "text-white" : "text-tinta";
+  const bodyColor = dark ? "text-gris-claro" : "text-gris";
+
+  const head = (
+    <div>
+      <p
+        className={`flex items-center gap-3 text-sm font-semibold ${eyebrowColor} ${
+          align === "center" ? "justify-center" : ""
+        }`}
+      >
+        <span className={`h-px w-8 ${ruleColor}`} aria-hidden="true" />
+        {eyebrow}
+      </p>
+      <h2 className={`font-display mt-4 text-[1.95rem] leading-[1.08] md:text-[2.7rem] ${titleColor}`}>
+        {title}
+      </h2>
+    </div>
+  );
+
+  if (align === "center") {
+    return (
+      <div className="mx-auto max-w-3xl text-center">
+        {head}
+        {description && (
+          <p className={`mx-auto mt-5 max-w-2xl text-base leading-7 md:text-lg md:leading-8 ${bodyColor}`}>
+            {description}
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  if (align === "stack") {
+    return (
+      <div className="max-w-xl">
+        {head}
+        {description && (
+          <p className={`mt-5 text-base leading-7 md:text-lg md:leading-8 ${bodyColor}`}>{description}</p>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-16">
+      {head}
+      {description && (
+        <p className={`max-w-xl text-base leading-7 md:text-lg md:leading-8 ${bodyColor}`}>{description}</p>
+      )}
     </div>
   );
 }
 
-function SectionHeading({ eyebrow, title, description, align = "left" }) {
-  return (
-    <motion.div
-      variants={reveal}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}
-    >
-      <SectionTag>{eyebrow}</SectionTag>
-      <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-[#f3f4ef] md:text-5xl">
-        {title}
-      </h2>
-      {description && (
-        <p className="mt-4 text-base leading-7 text-[#aab3a0] md:text-lg">{description}</p>
-      )}
-    </motion.div>
-  );
-}
+const buttonBase =
+  "btn-press inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-6 py-3 text-center text-[15px] font-semibold leading-tight";
 
-function PrimaryButton({ children, onClick, className = "" }) {
+const buttonTones = {
+  verde:
+    "bg-verde text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_12px_28px_-14px_rgba(67,91,71,0.95)] hover:bg-verde-500",
+  white: "bg-white text-tinta shadow-[0_12px_28px_-14px_rgba(0,0,0,0.5)] hover:bg-niebla",
+};
+
+function PrimaryButton({ children, onClick, className = "", tone = "verde" }) {
   return (
-    <button
-      onClick={onClick}
-      className={`magnetic-button inline-flex items-center justify-center rounded-full border border-[#758464]/30 bg-[#6d7c5e] px-5 py-3 text-[11px] font-semibold uppercase leading-tight tracking-[0.14em] text-center text-[#f7f8f3] shadow-[0_20px_60px_rgba(82,96,66,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#7b8a6a] hover:shadow-[0_24px_70px_rgba(109,124,94,0.35)] sm:px-7 sm:py-4 sm:text-[13px] sm:tracking-[0.18em] ${className}`}
-    >
+    <button type="button" onClick={onClick} className={`${buttonBase} ${buttonTones[tone]} ${className}`}>
       {children}
     </button>
   );
 }
 
-function SecondaryButton({ children, href, className = "" }) {
+function SecondaryButton({ children, href, className = "", tone = "dark" }) {
+  const toneClass =
+    tone === "dark"
+      ? "border border-white/20 text-white hover:border-white/35 hover:bg-white/5"
+      : "border border-tinta/20 text-tinta hover:border-tinta/35 hover:bg-tinta/5";
   return (
-    <a
-      href={href}
-      className={`inline-flex items-center justify-center rounded-full border border-white/12 bg-white/4 px-5 py-3 text-[11px] font-semibold uppercase leading-tight tracking-[0.14em] text-center text-[#d7ddd0] backdrop-blur-xl transition-all duration-300 hover:border-[#6d7c5e]/40 hover:bg-white/8 hover:text-white sm:px-7 sm:py-4 sm:text-[13px] sm:tracking-[0.18em] ${className}`}
-    >
+    <a href={href} className={`${buttonBase} ${toneClass} ${className}`}>
       {children}
     </a>
   );
 }
 
-function SectionCTA({ onStart, text = "Agendá tu llamada gratis", subtext = "Sin costo · Diagnóstico estratégico de 30 min" }) {
+function SectionCTA({ onStart, text, subtext, tone = "light" }) {
   return (
-    <motion.div
-      variants={reveal}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      className="mt-12 flex flex-col items-center justify-center text-center"
-    >
-      <PrimaryButton onClick={onStart} className="px-8 py-4 sm:px-10 sm:py-4 sm:text-[13px]">
-        {text} →
+    <div className="mt-14 flex flex-col items-center justify-center text-center">
+      <PrimaryButton onClick={onStart} className="px-8">
+        {text}
       </PrimaryButton>
       {subtext && (
-        <p className="mt-3 text-xs tracking-wide text-[#8e9c82]">{subtext}</p>
+        <p className={`mt-3 text-sm ${tone === "dark" ? "text-gris-claro" : "text-gris"}`}>{subtext}</p>
       )}
-    </motion.div>
+    </div>
   );
 }
 
-function ProjectTags({ tags = [] }) {
+function CheckIcon({ className = "" }) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {tags.map((tag) => (
-        <span
-          key={tag}
-          className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${
-            tag === "Destacado"
-              ? "border-[#7d8d6a]/30 bg-[#6f7d61]/16 text-[#edf1e8]"
-              : "border-white/10 bg-white/5 text-[#b9c2af]"
-          }`}
-        >
-          {tag}
-        </span>
-      ))}
-    </div>
+    <svg viewBox="0 0 16 16" className={`h-4 w-4 ${className}`} fill="none" aria-hidden="true">
+      <path d="M3.5 8.5l3 3 6-7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
@@ -130,14 +154,6 @@ function SocialIcon({ label }) {
     return (
       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-      </svg>
-    );
-  }
-
-  if (label === "Email") {
-    return (
-      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
       </svg>
     );
   }
@@ -165,10 +181,188 @@ function SocialIcon({ label }) {
   );
 }
 
+/* ========================================================================== */
+/* Hero: de la idea al sistema                                                 */
+/* ========================================================================== */
+
+const heroModules = [
+  { name: "Stock", fromIdea: true },
+  { name: "Ventas por vendedor", fromIdea: true },
+  { name: "Presupuestos", fromIdea: true },
+  { name: "Clientes", fromIdea: false },
+  { name: "Finanzas", fromIdea: false },
+  { name: "Reportes", fromIdea: false },
+];
+
+const heroBars = [38, 52, 45, 70, 62, 84, 76];
+
+function Highlight({ children }) {
+  return (
+    <span className="bg-[linear-gradient(transparent_58%,rgba(157,187,162,0.75)_58%)] px-0.5">{children}</span>
+  );
+}
+
+function HeroSystem() {
+  const reduce = useReducedMotion();
+  const enter = (delay, y = 12) =>
+    reduce
+      ? {}
+      : {
+          initial: { opacity: 0, y },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.55, delay, ease: EASE_OUT },
+        };
+
+  return (
+    <figure className="relative mx-auto w-full max-w-[580px] lg:max-w-none">
+      <div aria-hidden="true">
+        {/* La idea, como llega */}
+        <motion.div
+          {...enter(0.2)}
+          className="note-paper relative z-10 w-[92%] -rotate-[1.4deg] rounded-md px-5 pb-4 pt-3.5 text-tinta shadow-[0_22px_44px_-20px_rgba(0,0,0,0.75)] sm:w-[80%]"
+        >
+          <p className="text-[13px] font-medium text-gris">La idea</p>
+          <p className="mt-1 text-[16px] font-medium leading-[28px] sm:text-[17px]">
+            “Necesito <Highlight>controlar el stock</Highlight>, que <Highlight>cada vendedor cargue sus ventas</Highlight> y
+            dejar de hacer <Highlight>presupuestos en papel</Highlight>.”
+          </p>
+        </motion.div>
+
+        {/* Conector */}
+        <motion.div
+          initial={reduce ? false : { scaleY: 0 }}
+          animate={{ scaleY: 1 }}
+          transition={{ duration: 0.4, delay: 0.55, ease: EASE_OUT }}
+          className="ml-[22%] h-9 w-px origin-top bg-[repeating-linear-gradient(180deg,#9dbba2_0_4px,transparent_4px_8px)]"
+        />
+
+        {/* El sistema */}
+        <motion.div
+          {...enter(0.7, 16)}
+          className="overflow-hidden rounded-xl border border-white/10 bg-grafito-800 shadow-[0_40px_80px_-32px_rgba(0,0,0,0.85)]"
+        >
+          <div className="flex items-center justify-between border-b border-white/8 px-4 py-3">
+            <div className="flex items-center gap-2.5">
+              <span className="font-display flex h-6 w-6 items-center justify-center rounded-[5px] bg-verde text-[12px] text-white">
+                A
+              </span>
+              <span className="text-[13px] font-semibold text-white">Sistema de gestión</span>
+            </div>
+            <span className="flex items-center gap-1.5 text-[12px] text-gris-claro">
+              <span className="h-1.5 w-1.5 rounded-full bg-verde-300" />
+              En línea
+            </span>
+          </div>
+
+          <div className="grid sm:grid-cols-[158px_1fr]">
+            <ul className="hidden border-r border-white/8 p-2.5 sm:block">
+              {heroModules.map((module, index) => (
+                <motion.li
+                  key={module.name}
+                  {...enter(0.95 + index * 0.08, 4)}
+                  className={`flex items-center justify-between rounded-md px-2.5 py-2 text-[12.5px] ${
+                    module.fromIdea ? "bg-white/[0.06] font-semibold text-white" : "text-gris-claro"
+                  }`}
+                >
+                  {module.name}
+                  {module.fromIdea && <span className="h-1.5 w-1.5 rounded-full bg-verde-300" />}
+                </motion.li>
+              ))}
+            </ul>
+
+            <div className="p-3.5 sm:p-4">
+              <div className="flex flex-wrap gap-1.5 sm:hidden">
+                {heroModules.slice(0, 4).map((module) => (
+                  <span
+                    key={module.name}
+                    className={`rounded-md px-2 py-1 text-[11.5px] ${
+                      module.fromIdea ? "bg-white/[0.07] font-semibold text-white" : "text-gris-claro"
+                    }`}
+                  >
+                    {module.name}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-0 sm:grid-cols-3">
+                {[
+                  { label: "Stock valorizado", value: "USD 48.320" },
+                  { label: "Ventas del mes", value: "312" },
+                  { label: "Presupuestos hoy", value: "14" },
+                ].map((kpi, index) => (
+                  <motion.div
+                    key={kpi.label}
+                    {...enter(1.25 + index * 0.08, 6)}
+                    className={`rounded-lg border border-white/8 bg-white/[0.03] px-3 py-2.5 ${index === 2 ? "hidden sm:block" : ""}`}
+                  >
+                    <p className="text-[11px] text-gris-claro">{kpi.label}</p>
+                    <p className="tabular mt-1 text-[15px] font-semibold text-white">{kpi.value}</p>
+                  </motion.div>
+                ))}
+              </div>
+
+              <motion.div {...enter(1.5, 6)} className="mt-2 rounded-lg border border-white/8 bg-white/[0.03] p-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-[11px] text-gris-claro">Ventas por semana</p>
+                  <p className="tabular text-[11px] font-semibold text-verde-300">+18%</p>
+                </div>
+                <div className="mt-3 flex h-16 items-end gap-1.5">
+                  {heroBars.map((height, index) => (
+                    <motion.span
+                      key={index}
+                      initial={reduce ? false : { scaleY: 0 }}
+                      animate={{ scaleY: 1 }}
+                      transition={{ duration: 0.5, delay: 1.6 + index * 0.05, ease: EASE_OUT }}
+                      style={{ height: `${height}%` }}
+                      className={`flex-1 origin-bottom rounded-[3px] ${
+                        index === heroBars.length - 2 ? "bg-verde-300" : "bg-verde"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.ul {...enter(1.7, 6)} className="mt-2 hidden divide-y divide-white/6 text-[12px] sm:block">
+                {[
+                  ["M. Gómez", "Kit de embrague", "USD 186"],
+                  ["L. Pereyra", "Juego de pastillas", "USD 74"],
+                ].map(([seller, item, total]) => (
+                  <li key={seller} className="flex items-center justify-between gap-3 py-2">
+                    <span className="text-white">{seller}</span>
+                    <span className="flex-1 truncate text-gris-claro">{item}</span>
+                    <span className="tabular text-white">{total}</span>
+                  </li>
+                ))}
+              </motion.ul>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+      <figcaption className="mt-3 text-right text-[12px] text-gris-claro/80">
+        Ilustración: una idea convertida en un sistema a medida.
+      </figcaption>
+    </figure>
+  );
+}
+
+/* ========================================================================== */
+/* Landing                                                                     */
+/* ========================================================================== */
+
+const navLinks = [
+  { href: "#casos-exito", label: "Casos de éxito", mobileLabel: "Casos de éxito" },
+  { href: "#testimonios", label: "Testimonios", mobileLabel: "Testimonios" },
+  { href: "#equipo", label: "Equipo", mobileLabel: "Equipo dedicado" },
+  { href: "#planes", label: "Planes", mobileLabel: "Formas de contratación" },
+  { href: "#calculadora-ahorro", label: "Calculadora", mobileLabel: "Calculadora de ahorro" },
+  { href: "#contacto", label: "Contacto", mobileLabel: "Contacto directo" },
+];
+
 export default function Landing({ onStart }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [urgencySlots, setUrgencySlots] = useState(urgencyConfig.fallbackSlots || 3);
   const [showUrgencyBanner, setShowUrgencyBanner] = useState(false);
+  const reduce = useReducedMotion();
 
   const [calculatorInputs, setCalculatorInputs] = useState({
     people: 2,
@@ -176,8 +370,6 @@ export default function Landing({ onStart }) {
     monthlyCost: 1200,
     automatablePercent: 60,
   });
-
-  const plansSectionRef = useRef(null);
 
   // Consulta dinámica de cupos restantes desde el ERP de APOC en tiempo real
   useEffect(() => {
@@ -190,7 +382,7 @@ export default function Landing({ onStart }) {
         if (isNaN(count)) {
           try {
             const parsed = JSON.parse(trimmed);
-            count = typeof parsed === "number" ? parsed : (typeof parsed?.count === "number" ? parsed.count : 0);
+            count = typeof parsed === "number" ? parsed : typeof parsed?.count === "number" ? parsed.count : 0;
           } catch {
             count = 0;
           }
@@ -205,7 +397,7 @@ export default function Landing({ onStart }) {
       });
   }, []);
 
-  // Banner estático/sticky que aparece cuando el usuario scrollea hacia abajo
+  // Banner sticky que aparece cuando el usuario scrollea hacia abajo
   useEffect(() => {
     const handleScroll = () => {
       setShowUrgencyBanner(window.scrollY > 340);
@@ -214,36 +406,11 @@ export default function Landing({ onStart }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Animación sutil de planes con GSAP
-  useGSAP(
-    () => {
-      const cards = gsap.utils.toArray(".gsap-plan-card");
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reducedMotion || !cards.length) return;
-
-      gsap.from(cards, {
-        autoAlpha: 0,
-        y: 45,
-        duration: 0.75,
-        stagger: 0.14,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: plansSectionRef.current,
-          start: "top 75%",
-          once: true,
-        },
-      });
-    },
-    { scope: plansSectionRef }
-  );
-
   // Lógica de cálculo de ahorro operativo
-  const monthlyHoursLost =
-    calculatorInputs.people * calculatorInputs.hoursPerWeek * 4.33;
+  const monthlyHoursLost = calculatorInputs.people * calculatorInputs.hoursPerWeek * 4.33;
   const hourlyCost = calculatorInputs.monthlyCost / 160;
   const monthlyCostOfManualWork = monthlyHoursLost * hourlyCost;
-  const estimatedMonthlySaving =
-    monthlyCostOfManualWork * (calculatorInputs.automatablePercent / 100);
+  const estimatedMonthlySaving = monthlyCostOfManualWork * (calculatorInputs.automatablePercent / 100);
   const estimatedAnnualSaving = estimatedMonthlySaving * 12;
 
   const formatCurrency = (value) =>
@@ -268,63 +435,61 @@ export default function Landing({ onStart }) {
 
   const heroVideoEmbedUrl = `https://www.youtube-nocookie.com/embed/${heroVideo.youtubeId}?rel=0&modestbranding=1&playsinline=1`;
 
-  return (
-    <div className="apoc-shell selection:bg-[#83926f] selection:text-[#0a0d0b]">
-      <div className="apoc-noise" />
-      <div className="hero-orb hero-orb-top" />
-      <div className="hero-orb hero-orb-bottom" />
+  const heroEnter = (delay) =>
+    reduce
+      ? {}
+      : {
+          initial: { opacity: 0, y: 14 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.6, delay, ease: EASE_OUT },
+        };
 
+  const calculatorInputClass =
+    "tabular mt-2 w-full rounded-md border border-linea bg-white px-3 py-2.5 text-xl font-semibold text-tinta outline-none transition-[border-color,box-shadow] duration-150 focus:border-verde focus:shadow-[0_0_0_3px_rgba(67,91,71,0.15)]";
+
+  return (
+    <div className="apoc-shell selection:bg-verde-300 selection:text-tinta">
       {/* ========================================================================= */}
       {/* 1. NAVEGACIÓN FIJA & BANNER DE URGENCIA                                   */}
       {/* ========================================================================= */}
       <header className="fixed inset-x-0 top-0 z-50">
-        <nav className="border-b border-white/8 bg-[#090b0a]/90 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 md:px-10 md:py-4">
-            <a href="#inicio" className="flex min-w-0 items-center gap-2 md:gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/6 md:h-11 md:w-11">
-                <img
-                  src="/logo-sin-fondo-apoc.webp"
-                  alt="APOC Automation"
-                  className="h-7 w-7 object-contain md:h-8 md:w-8"
-                />
-              </div>
-              <div className="min-w-0">
-                <p className="text-[10px] uppercase tracking-[0.28em] text-[#95a286] md:text-xs md:tracking-[0.35em]">
-                  APOC AUTOMATION
-                </p>
-                <p className="hidden text-[11px] leading-tight text-[#c6cdbe] min-[360px]:block md:text-sm">
-                  Software, IA y automatización
-                </p>
-              </div>
+        <nav className="border-b border-white/8 bg-grafito/95 backdrop-blur-xl">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 md:px-10">
+            <a href="#inicio" className="flex min-w-0 items-center gap-3" aria-label="APOC Automation, ir al inicio">
+              <Wordmark compact />
+              <span className="hidden h-7 w-px bg-white/12 min-[400px]:block" aria-hidden="true" />
+              <span className="hidden text-[13px] leading-tight text-gris-claro min-[400px]:block">
+                Software factory
+                <br />
+                ERP, CRM y automatización
+              </span>
             </a>
 
-            <div className="hidden items-center gap-7 text-xs uppercase tracking-[0.2em] text-[#9aa491] lg:flex">
-              <a href="#casos-exito" className="transition hover:text-white">Casos de éxito</a>
-              <a href="#testimonios" className="transition hover:text-white">Testimonios</a>
-              <a href="#equipo" className="transition hover:text-white">Equipo</a>
-              <a href="#planes" className="transition hover:text-white">Planes</a>
-              <a href="#calculadora-ahorro" className="transition hover:text-white">Calculadora</a>
-              <a href="#contacto" className="transition hover:text-white">Contacto</a>
+            <div className="hidden items-center gap-7 text-[14px] text-gris-claro lg:flex">
+              {navLinks.map((link) => (
+                <a key={link.href} href={link.href} className="transition-colors duration-150 hover:text-white">
+                  {link.label}
+                </a>
+              ))}
             </div>
 
             <div className="flex items-center gap-2">
-              <PrimaryButton
-                onClick={onStart}
-                className="shrink-0 rounded-[1.15rem] px-4 py-2 !text-[9px] leading-none tracking-[0.06em] shadow-none sm:px-5 sm:py-2.5 sm:text-[10px] sm:tracking-[0.12em] md:rounded-full md:px-6 md:py-3 md:text-[11px] md:tracking-[0.16em]"
-              >
+              <PrimaryButton onClick={onStart} className="min-h-10 px-4 py-2 text-[13.5px] md:min-h-11 md:px-5 md:text-[14px]">
                 <span className="sm:hidden">Agendar</span>
                 <span className="hidden sm:inline">Agendá tu llamada gratis</span>
               </PrimaryButton>
               <button
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#f2f4ee] lg:hidden"
+                type="button"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/12 text-white lg:hidden"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label="Abrir menú"
+                aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={isMobileMenuOpen}
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
                   {isMobileMenuOpen ? (
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
                   )}
                 </svg>
               </button>
@@ -332,22 +497,27 @@ export default function Landing({ onStart }) {
           </div>
         </nav>
 
-        {/* Menú Mobile Drawer */}
-        <AnimatePresence>
+        {/* Menú Mobile */}
+        <AnimatePresence initial={false}>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="border-b border-white/8 bg-[#090b0a]/95 px-5 py-6 backdrop-blur-2xl lg:hidden"
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.18, ease: EASE_OUT }}
+              className="border-b border-white/8 bg-grafito-900/98 px-4 py-3 backdrop-blur-2xl lg:hidden"
             >
-              <div className="flex flex-col gap-4 text-xs uppercase tracking-[0.2em] text-[#9aa491]">
-                <a href="#casos-exito" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Casos de éxito</a>
-                <a href="#testimonios" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Testimonios</a>
-                <a href="#equipo" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Equipo dedicado</a>
-                <a href="#planes" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Formas de contratación</a>
-                <a href="#calculadora-ahorro" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Calculadora de ahorro</a>
-                <a href="#contacto" onClick={() => setIsMobileMenuOpen(false)} className="transition hover:text-white">Contacto directo</a>
+              <div className="flex flex-col">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="border-b border-white/6 py-3 text-[15px] text-gris-claro last:border-b-0 hover:text-white"
+                  >
+                    {link.mobileLabel}
+                  </a>
+                ))}
               </div>
             </motion.div>
           )}
@@ -355,146 +525,139 @@ export default function Landing({ onStart }) {
 
         {/* Banner Sticky de Urgencia */}
         <div
-          className={`border-b border-[#7d8d6a]/30 bg-[#0e1310]/98 backdrop-blur-xl transition-all duration-300 ${
+          className={`bg-verde-700 transition-[max-height,opacity,padding] duration-300 ${
             showUrgencyBanner
-              ? "max-h-24 opacity-100 py-2.5 shadow-[0_12px_36px_rgba(0,0,0,0.6)]"
-              : "max-h-0 opacity-0 py-0 pointer-events-none overflow-hidden border-transparent"
+              ? "max-h-24 py-2 opacity-100"
+              : "pointer-events-none max-h-0 overflow-hidden py-0 opacity-0"
           }`}
         >
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-8">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <span className="relative flex h-2.5 w-2.5 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8ea279] opacity-75" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#758863]" />
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 md:px-10">
+            <div className="flex min-w-0 items-center gap-2.5">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-verde-300 opacity-75 motion-safe:animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-verde-300" />
               </span>
-              <p className="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c9d4bf] sm:text-xs sm:tracking-[0.18em]">
+              <p className="truncate text-[12.5px] text-white/85 sm:text-[13.5px]">
                 {urgencySlots === 1 ? "Solo queda" : "Solo quedan"}{" "}
-                <span className="font-bold text-[#f2f6ee]">
+                <strong className="font-semibold text-white">
                   {urgencySlots} {urgencySlots === 1 ? "lugar disponible" : "lugares disponibles"}
-                </span>{" "}
+                </strong>{" "}
                 este mes para nuevos desarrollos
               </p>
             </div>
             <button
+              type="button"
               onClick={onStart}
-              className="shrink-0 text-[10px] font-bold uppercase tracking-[0.15em] text-[#a4b892] underline underline-offset-4 hover:text-[#d3dfc7] sm:text-xs"
+              className="shrink-0 py-1 text-[12.5px] font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white sm:text-[13.5px]"
             >
-              Asegurar lugar →
+              Asegurar lugar
             </button>
           </div>
         </div>
       </header>
 
-      <main className="relative z-10 pb-24 md:pb-0">
+      <main className="relative z-10 pb-20 md:pb-0">
         {/* ========================================================================= */}
-        {/* 2. GANCHO / HERO (Compacto, directo, sin relleno innecesario)              */}
+        {/* 2. HERO                                                                   */}
         {/* ========================================================================= */}
-        <section id="inicio" className="relative overflow-hidden px-4 pb-14 pt-28 md:px-10 md:pb-20 md:pt-36">
-          <div className="mx-auto max-w-5xl text-center">
-            <motion.div
-              variants={reveal}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              <SectionTag>
+        <section id="inicio" className="relative overflow-hidden bg-grafito px-4 pb-16 pt-28 md:px-10 md:pb-24 md:pt-36">
+          <div className="blueprint pointer-events-none absolute inset-0" aria-hidden="true" />
+          <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+            <div>
+              <motion.p {...heroEnter(0)} className="flex items-center gap-2.5 text-sm font-medium text-verde-300">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-verde-300 opacity-60 motion-safe:animate-ping" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-verde-300" />
+                </span>
                 {urgencySlots === 1
                   ? "Solo tomamos 1 proyecto por mes"
                   : `Solo tomamos ${urgencySlots} proyectos por mes`}
-              </SectionTag>
+              </motion.p>
 
-              <h1 className="mt-6 text-[2.35rem] font-semibold uppercase leading-[0.92] tracking-[-0.07em] text-[#f7f8f4] min-[360px]:text-[2.7rem] md:text-[4.2rem] xl:text-[5rem]">
-                <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">Tu empresa necesita</span>
-                <span className="block bg-[linear-gradient(180deg,#cfe0bf_0%,#8ea47b_100%)] bg-clip-text text-transparent drop-shadow-[0_10px_36px_rgba(120,141,95,0.26)]">
-                  un sistema que pueda
-                </span>
-                <span className="block drop-shadow-[0_8px_30px_rgba(0,0,0,0.38)]">crecer con ella.</span>
-              </h1>
+              <motion.h1
+                {...heroEnter(0.06)}
+                className="font-display mt-6 text-[2.55rem] leading-[1.02] text-white min-[400px]:text-[2.9rem] md:text-[3.9rem] xl:text-[4.5rem]"
+              >
+                Lo que tenés en la cabeza, lo ponemos en un sistema.
+              </motion.h1>
 
-              <div className="mx-auto mt-4 h-px w-20 bg-[linear-gradient(90deg,rgba(164,184,140,0.9),rgba(164,184,140,0))]" />
+              <motion.p {...heroEnter(0.12)} className="mt-6 max-w-xl text-[17px] leading-[1.65] text-gris-claro md:text-lg">
+                Somos una software factory. Desarrollamos ERP, CRM y automatizaciones a medida para empresas que buscan
+                optimizar su operación y contar con un socio tecnológico dedicado.
+              </motion.p>
 
-              <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-[#c7d0bd] md:text-lg md:leading-8">
-                Desarrollamos ERP, CRM y automatizaciones a medida para empresas que buscan optimizar su operación y contar con un socio tecnológico dedicado.
-              </p>
-
-              {/* Botones de acción principales del Hero */}
-              <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <PrimaryButton onClick={onStart} className="w-full sm:w-auto px-8 py-4 text-xs sm:text-sm">
+              <motion.div {...heroEnter(0.18)} className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <PrimaryButton onClick={onStart} className="w-full px-8 sm:w-auto">
                   Agendá tu llamada gratis
                 </PrimaryButton>
                 <SecondaryButton href="#casos-exito" className="w-full sm:w-auto">
-                  Ver casos y testimonios ↓
+                  Ver casos y testimonios
                 </SecondaryButton>
-              </div>
+              </motion.div>
 
               {/* Métricas rápidas de impacto */}
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-5 border-y border-white/8 py-4 text-xs uppercase tracking-[0.16em] text-[#9ba691] md:gap-10 md:text-sm">
-                {heroStats.map((stat, idx) => (
-                  <div key={stat.label} className="flex items-center gap-2">
-                    <span className="text-base font-bold text-[#eef2e8] md:text-xl">{stat.value}</span>
-                    <span>{stat.label}</span>
-                    {idx < heroStats.length - 1 && <span className="hidden text-white/20 sm:inline">·</span>}
+              <motion.dl
+                {...heroEnter(0.24)}
+                className="mt-12 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/10 pt-7 sm:grid-cols-4"
+              >
+                {heroStats.map((stat) => (
+                  <div key={stat.label} className="flex flex-col-reverse">
+                    <dt className="mt-1 text-[13.5px] text-gris-claro">{stat.label}</dt>
+                    <dd className="font-display tabular text-[1.85rem] leading-none text-white">{stat.value}</dd>
                   </div>
                 ))}
-              </div>
+              </motion.dl>
+            </div>
 
-              {/* Video demostrativo horizontal */}
-              <div className="mx-auto mt-8 max-w-2xl sm:max-w-3xl overflow-hidden rounded-[24px] border border-white/10 bg-[#0e1210]/90 p-2.5 shadow-[0_25px_70px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-                <div className="overflow-hidden rounded-[18px] border border-white/10 bg-black">
-                  <div className="aspect-[16/9] w-full">
-                    <iframe
-                      className="h-full w-full"
-                      src={heroVideoEmbedUrl}
-                      title={heroVideo.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    />
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center justify-between px-2 text-left">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#8ea07e]">Enfoque de trabajo</p>
-                    <p className="text-sm font-medium text-[#edf1e8]">{heroVideo.heading}</p>
-                  </div>
-                  <span className="hidden rounded-full border border-[#6c7a5d]/35 bg-[#6c7a5d]/15 px-3 py-1 text-[9px] uppercase tracking-[0.2em] text-[#d3dbc9] sm:inline">
-                    {heroVideo.badge}
-                  </span>
-                </div>
-              </div>
-            </motion.div>
+            <HeroSystem />
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* 3. CASOS DE ÉXITO Y TESTIMONIOS (INMEDIATAMENTE DEBAJO DEL GANCHO)        */}
+        {/* 2b. VIDEO DE ENFOQUE                                                      */}
         {/* ========================================================================= */}
-        <section id="casos-exito" className="px-4 py-14 md:px-10 md:py-20 border-t border-white/6">
+        <section className="bg-grafito-900 px-4 py-16 md:px-10 md:py-24">
+          <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+            <div>
+              <SectionHeading
+                tone="dark"
+                align="stack"
+                eyebrow="Enfoque de trabajo"
+                title="Tu empresa necesita un sistema que pueda crecer con ella."
+                description={heroVideo.heading}
+              />
+            </div>
+            <div className="overflow-hidden rounded-xl border border-white/10 bg-black shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)]">
+              <div className="aspect-[16/9] w-full">
+                <iframe
+                  className="h-full w-full"
+                  src={heroVideoEmbedUrl}
+                  title={heroVideo.title}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* 3. CASOS DE ÉXITO Y TESTIMONIOS                                           */}
+        {/* ========================================================================= */}
+        <section id="casos-exito" className="on-light bg-niebla px-4 py-16 text-tinta md:px-10 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionHeading
               eyebrow="Mirá, ellos ya lo han hecho"
               title="Resultados reales y testimonios de nuestros clientes."
               description="Empresas de Argentina y Latinoamérica que ya dejaron atrás procesos manuales y escalaron con software a medida de APOC."
-              align="center"
             />
 
-            {/* Testimonios en Video Destacados (Beyond Fit con voz real + Testimonio YouTube) */}
-            <div className="mt-12 grid gap-6 md:grid-cols-2">
-              {/* Testimonio 1: Beyond Fit (Video directo con voz de la clienta) */}
-              <motion.div
-                variants={reveal}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                className="glass-card flex flex-col rounded-[26px] p-4 md:rounded-[30px] md:p-6"
-              >
-                <div className="flex items-center justify-between pb-3">
-                  <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/20 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-[#dce3d3]">
-                    Voz real de la clienta
-                  </span>
-                  <span className="text-xs uppercase tracking-[0.2em] text-[#93a084]">Beyond Fit</span>
-                </div>
-                <div className="overflow-hidden rounded-[20px] border border-white/10 bg-black/40">
+            {/* Testimonios en video */}
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
+              <article className="card-light flex flex-col rounded-xl p-3">
+                <div className="img-outline overflow-hidden rounded-lg bg-black">
                   <video
                     controls
                     playsInline
@@ -505,149 +668,141 @@ export default function Landing({ onStart }) {
                     Tu navegador no soporta el video.
                   </video>
                 </div>
-                <div className="mt-4 flex-1">
-                  <h4 className="text-base font-semibold text-[#f5f6f2]">{bfitTestimonial.title}</h4>
-                  <p className="mt-2 text-sm leading-6 text-[#b0baa7]">{bfitTestimonial.caption}</p>
+                <div className="flex flex-1 flex-col px-3 pb-3 pt-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="text-[17px] font-semibold text-tinta">{bfitTestimonial.title}</h3>
+                    <span className="shrink-0 rounded-md bg-verde-100 px-2 py-1 text-[12px] font-medium text-verde-700">
+                      Voz real de la clienta
+                    </span>
+                  </div>
+                  <p className="mt-2 text-[15px] leading-6 text-gris">{bfitTestimonial.caption}</p>
                 </div>
-              </motion.div>
+              </article>
 
-              {/* Testimonio 2: Video Testimonial General */}
-              <motion.div
-                variants={reveal}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                className="glass-card flex flex-col rounded-[26px] p-4 md:rounded-[30px] md:p-6"
-              >
-                <div className="flex items-center justify-between pb-3">
-                  <span className="rounded-full border border-[#7d8d6a]/30 bg-[#6f7d61]/20 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-[#dce3d3]">
-                    Caso en producción
-                  </span>
-                  <span className="text-xs uppercase tracking-[0.2em] text-[#93a084]">Feedback operativo</span>
-                </div>
-                <div className="overflow-hidden rounded-[20px] border border-white/10 bg-black/40">
+              <article className="card-light flex flex-col rounded-xl p-3">
+                <div className="img-outline overflow-hidden rounded-lg bg-black">
                   <div className="aspect-[16/9] w-full">
                     <iframe
                       className="h-full w-full"
                       src={`https://www.youtube-nocookie.com/embed/${videoTestimonial.youtubeId}?rel=0&modestbranding=1&playsinline=1`}
                       title={videoTestimonial.title}
+                      loading="lazy"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       referrerPolicy="strict-origin-when-cross-origin"
                       allowFullScreen
                     />
                   </div>
                 </div>
-                <div className="mt-4 flex-1">
-                  <h4 className="text-base font-semibold text-[#f5f6f2]">{videoTestimonial.title}</h4>
-                  <p className="mt-2 text-sm leading-6 text-[#b0baa7]">
-                    Experiencia directa de clientes operando con nuestras soluciones en su día a día.
+                <div className="flex flex-1 flex-col px-3 pb-3 pt-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="text-[17px] font-semibold text-tinta">{videoTestimonial.title}</h3>
+                    <span className="shrink-0 rounded-md bg-verde-100 px-2 py-1 text-[12px] font-medium text-verde-700">
+                      Caso en producción
+                    </span>
+                  </div>
+                  <p className="mt-2 text-[15px] leading-6 text-gris">
+                    Feedback operativo: experiencia directa de clientes operando con nuestras soluciones en su día a día.
                   </p>
                 </div>
-              </motion.div>
+              </article>
             </div>
 
-            {/* Testimonios Escritos Clave (Feedback concreto de clientes) */}
-            <div id="testimonios" className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {/* Testimonios escritos */}
+            <div id="testimonios" className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {featuredTestimonials.slice(0, 6).map((item, index) => (
-                <motion.div
+                <figure
                   key={item.company}
-                  variants={reveal}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.15 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="glass-card flex flex-col justify-between rounded-[24px] p-5 md:rounded-[28px] md:p-6"
+                  className={`card-light flex flex-col justify-between rounded-xl p-6 ${
+                    index === 0 ? "md:col-span-2 lg:col-span-2" : ""
+                  } ${index === 3 ? "lg:col-span-2" : ""}`}
                 >
-                  <div>
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#7a9172] text-sm font-semibold text-[#111913]">
-                          {item.initials}
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-[#f2f4ee]">{item.company}</p>
-                          <p className="text-[11px] text-[#909c85]">{item.source}</p>
-                        </div>
+                  <blockquote
+                    className={`text-tinta ${
+                      index === 0 ? "font-display text-[1.35rem] leading-[1.4] md:text-[1.6rem]" : "text-[15.5px] leading-7"
+                    }`}
+                  >
+                    “{item.quote}”
+                  </blockquote>
+                  <figcaption className="mt-6 flex items-center justify-between gap-4 border-t border-linea pt-4">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-verde text-[13px] font-semibold text-white">
+                        {item.initials}
+                      </span>
+                      <div>
+                        <p className="text-[15px] font-semibold text-tinta">{item.company}</p>
+                        <p className="text-[13px] text-gris">{item.source}</p>
                       </div>
                     </div>
-                    <p className="mt-4 text-sm leading-6 text-[#dee5d8]">
-                      “{item.quote}”
-                    </p>
-                  </div>
-
-                  {item.projectId && (
-                    <div className="mt-5 border-t border-white/8 pt-3">
+                    {item.projectId && (
                       <Link
                         to={`/proyectos/${item.projectId}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#9bb08a] transition hover:text-[#e4edd9]"
+                        className="shrink-0 py-2 text-[14px] font-semibold text-verde underline decoration-verde/30 underline-offset-4 transition-colors hover:decoration-verde"
                       >
-                        {item.proof} →
+                        {item.proof}
                       </Link>
-                    </div>
-                  )}
-                </motion.div>
+                    )}
+                  </figcaption>
+                </figure>
               ))}
             </div>
 
-            {/* Grid compacto de Casos de Éxito con enlaces */}
-            <div className="mt-12">
-              <div className="flex items-center justify-between pb-4">
-                <h3 className="text-lg font-semibold uppercase tracking-[0.12em] text-[#f2f5ee]">
-                  Casos de Estudio Destacados
-                </h3>
+            {/* Casos de estudio destacados */}
+            <div className="mt-16">
+              <div className="flex flex-col gap-2 border-b border-linea pb-4 sm:flex-row sm:items-end sm:justify-between">
+                <h3 className="font-display text-[1.5rem] text-tinta">Casos de estudio destacados</h3>
                 <Link
                   to="/casos-de-éxito"
-                  className="text-xs uppercase tracking-[0.18em] text-[#98aa86] underline underline-offset-4 hover:text-white"
+                  className="py-1 text-[14px] font-semibold text-verde underline decoration-verde/30 underline-offset-4 hover:decoration-verde"
                 >
-                  Ver todos los casos ({caseStudies.length}) →
+                  Ver todos los casos ({caseStudies.length})
                 </Link>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {featuredCaseStudies.slice(0, 3).map((study) => (
                   <Link
                     key={study.id}
                     to={`/proyectos/${study.id}`}
-                    className="glass-card group flex flex-col rounded-[24px] p-4 text-left transition hover:border-[#7d8d6a]/40 md:p-5"
+                    className="card-light group flex flex-col rounded-xl p-3 text-left transition-shadow duration-200 hover:shadow-[0_0_0_1px_rgba(67,91,71,0.35),0_18px_40px_-20px_rgba(27,33,29,0.35)]"
                   >
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-[18px] border border-white/8 bg-[#050706]">
+                    <div className="img-outline relative aspect-[16/10] overflow-hidden rounded-lg bg-niebla">
                       {study.image ? (
                         <img
                           src={study.image}
                           alt={study.client}
                           loading="lazy"
-                          className="h-full w-full object-contain p-2 transition duration-500 group-hover:scale-105"
+                          className="h-full w-full object-contain p-2"
                         />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-[#68775e]">
+                        <div className="font-display flex h-full w-full items-center justify-center text-3xl text-verde">
                           {study.client.substring(0, 2).toUpperCase()}
                         </div>
                       )}
                     </div>
-                    <div className="mt-4 flex items-center justify-between">
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-[#93a084]">{study.industry.split(" - ")[0]}</p>
-                      <span className="text-xs text-[#9bb08a] group-hover:translate-x-1 transition-transform">→</span>
+                    <div className="px-3 pb-3 pt-4">
+                      <p className="text-[13px] font-medium text-verde">{study.industry.split(" - ")[0]}</p>
+                      <h4 className="mt-1 text-[18px] font-semibold text-tinta group-hover:underline group-hover:decoration-verde/40 group-hover:underline-offset-4">
+                        {study.client}
+                      </h4>
+                      <p className="mt-2 line-clamp-2 text-[14.5px] leading-6 text-gris">{study.result}</p>
                     </div>
-                    <h4 className="mt-1 text-lg font-semibold text-[#f5f7f2]">{study.client}</h4>
-                    <p className="mt-2 text-xs leading-5 text-[#b0baa7] line-clamp-2">{study.result}</p>
                   </Link>
                 ))}
               </div>
             </div>
 
-            {/* Tira de logos de empresas que confían en nosotros */}
-            <div className="mt-12 rounded-[22px] border border-white/8 bg-black/20 p-5 text-center">
-              <p className="text-[10px] uppercase tracking-[0.26em] text-[#808d76]">Empresas y proyectos respaldados por APOC</p>
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-6 md:gap-12">
+            {/* Empresas que confían en nosotros */}
+            <div className="mt-14 flex flex-col items-center gap-5 border-y border-linea py-7 lg:flex-row lg:justify-between">
+              <p className="text-[14px] text-gris">Empresas y proyectos respaldados por APOC</p>
+              <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
                 {clientLogos.map((logo) => (
-                  <span key={logo} className="text-xs uppercase tracking-[0.2em] text-[#9aa78e] md:text-sm font-medium">
+                  <li key={logo} className="font-display text-[17px] text-tinta/55">
                     {logo}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
-            {/* CTA después de Casos de Éxito */}
             <SectionCTA
               onStart={onStart}
               text="Quiero resultados como estos para mi empresa"
@@ -657,140 +812,105 @@ export default function Landing({ onStart }) {
         </section>
 
         {/* ========================================================================= */}
-        {/* 4. EQUIPO PERSONAL Y ABOCADO PARA VOS                                     */}
+        {/* 4. EQUIPO                                                                 */}
         {/* ========================================================================= */}
-        <section id="equipo" className="px-4 py-14 md:px-10 md:py-20 border-t border-white/6">
+        <section id="equipo" className="on-light bg-white px-4 py-16 text-tinta md:px-10 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionHeading
               eyebrow="Trato directo con los especialistas"
               title="Tenemos un equipo personal y abocado para vos."
               description="No tercerizamos ni dejamos proyectos abandonados. Este es el equipo real que diseña, programa, acompaña y atiende cada detalle de tu sistema."
-              align="center"
             />
 
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-              {team.map((member, index) => (
-                <motion.div
-                  key={member.name}
-                  variants={reveal}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.15 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="glass-card flex flex-col rounded-[26px] p-5 text-center md:rounded-[30px]"
-                >
-                  <div className="mx-auto flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-[#7c8d69]/25 bg-[radial-gradient(circle_at_top,rgba(111,126,96,0.25),rgba(15,20,16,0.9))] shadow-[0_15px_40px_rgba(0,0,0,0.3)] md:h-28 md:w-28">
+            <div className="mt-12 grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+              {team.map((member) => (
+                <article key={member.name} className="flex flex-col">
+                  <div className="img-outline relative aspect-[5/4] overflow-hidden rounded-xl bg-grafito">
                     {member.image ? (
                       <img
                         src={member.image}
-                        alt={member.name}
+                        alt={member.fullName || member.name}
                         loading="lazy"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover object-[50%_22%] grayscale"
                       />
                     ) : (
-                      <span className="text-3xl font-bold tracking-tight text-[#b9c5b0] md:text-4xl">
-                        {member.initials}
-                      </span>
+                      <div className="blueprint-static flex h-full w-full items-center justify-center">
+                        <span className="font-display text-[3.5rem] text-verde-300">{member.initials}</span>
+                      </div>
                     )}
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold uppercase tracking-tight text-[#f4f6f1] md:text-xl">
-                    {member.name}
-                  </h3>
-                  <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#93a682]">
-                    {member.role}
-                  </p>
-                  <p className="mt-4 text-xs leading-5 text-[#b0baa6] flex-1">
-                    {member.detail}
-                  </p>
-                </motion.div>
+                  <h3 className="font-display mt-5 text-[1.35rem] text-tinta">{member.name}</h3>
+                  <p className="mt-1 text-[14.5px] font-semibold text-verde">{member.role}</p>
+                  <p className="mt-3 max-w-[38ch] text-[15px] leading-6 text-gris">{member.detail}</p>
+                </article>
               ))}
             </div>
 
-            {/* CTA después de Equipo */}
             <SectionCTA
               onStart={onStart}
               text="Conocenos en una llamada estratégica"
-              subtext="Sin intermediarios · Te atiende directamente el equipo técnico"
+              subtext="Sin intermediarios. Te atiende directamente el equipo técnico."
             />
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* 5. TIPOS DE CONTRATACIÓN (Adaptados para cerrar o financiar)             */}
+        {/* 5. TIPOS DE CONTRATACIÓN                                                  */}
         {/* ========================================================================= */}
-        <section ref={plansSectionRef} id="planes" className="px-4 py-14 md:px-10 md:py-20 border-t border-white/6">
+        <section id="planes" className="bg-grafito px-4 py-16 md:px-10 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionHeading
+              tone="dark"
               eyebrow="Flexibilidad comercial"
               title="Tres formas de contratar APOC, según tu empresa."
               description="Si no agendaste antes, mirá cómo podés financiar tu sistema en cuotas, pagar por hitos cerrados o incorporarnos como departamento de tecnología continuo."
-              align="center"
             />
 
-            <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {commercialOptions.map((option, index) => (
-                <div key={option.id} className="gsap-plan-card h-full">
-                  <article className="glass-card group flex h-full flex-col justify-between rounded-[28px] p-6 transition duration-400 hover:border-[#8ea278]/40 md:rounded-[34px] md:p-7">
-                    <div>
-                      <div className="flex items-center justify-between gap-4">
-                        <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-full border border-[#91a27c]/25 bg-[#849570]/15 px-3 text-[11px] font-bold tracking-[0.16em] text-[#dfe8d6]">
-                          0{index + 1}
-                        </span>
-                        <p className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9ba990]">
-                          {option.model}
-                        </p>
+            <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {commercialOptions.map((option) => (
+                <article key={option.id} className="glass-card flex h-full flex-col justify-between rounded-xl p-6 md:p-7">
+                  <div>
+                    <p className="text-[13.5px] font-medium text-verde-300">{option.model}</p>
+                    <h3 className="font-display mt-2 text-[1.75rem] leading-tight text-white">{option.name}</h3>
+                    <p className="mt-3 text-[16px] font-medium leading-6 text-white/90">{option.tagline}</p>
+                    <p className="mt-3 text-[14.5px] leading-6 text-gris-claro">{option.summary}</p>
+
+                    <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/8 bg-white/8">
+                      <div className="bg-grafito-800 p-3.5">
+                        <dt className="text-[12.5px] text-gris-claro">Pago</dt>
+                        <dd className="mt-1 text-[14.5px] font-semibold text-white">{option.payment}</dd>
                       </div>
-
-                      <h3 className="mt-5 text-2xl font-bold tracking-tight text-[#f5f7f1] md:text-[1.75rem]">
-                        {option.name}
-                      </h3>
-                      <p className="mt-2 text-sm font-medium text-[#e4eadf]">
-                        {option.tagline}
-                      </p>
-                      <p className="mt-3 text-xs leading-6 text-[#abb7a2]">
-                        {option.summary}
-                      </p>
-
-                      <div className="mt-5 grid grid-cols-2 gap-2 overflow-hidden rounded-[18px] border border-white/8 bg-black/25 p-3 text-left">
-                        <div>
-                          <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#87947e]">Pago</p>
-                          <p className="mt-1 text-xs font-semibold text-[#edf1e8]">{option.payment}</p>
-                        </div>
-                        <div>
-                          <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#87947e]">Propiedad</p>
-                          <p className="mt-1 text-xs font-semibold text-[#edf1e8]">{option.ownership}</p>
-                        </div>
+                      <div className="bg-grafito-800 p-3.5">
+                        <dt className="text-[12.5px] text-gris-claro">Propiedad</dt>
+                        <dd className="mt-1 text-[14.5px] font-semibold text-white">{option.ownership}</dd>
                       </div>
+                    </dl>
 
-                      <div className="mt-5 space-y-2.5 border-t border-white/8 pt-5">
-                        {option.items.slice(0, 4).map((item) => (
-                          <div key={item} className="flex items-start gap-2.5">
-                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#849570]/20 text-[9px] text-[#cbd8bf]">
-                              ✓
-                            </span>
-                            <p className="text-xs leading-5 text-[#d5dccf]">{item}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                    <ul className="mt-6 space-y-3">
+                      {option.items.slice(0, 4).map((item) => (
+                        <li key={item} className="flex items-start gap-3">
+                          <CheckIcon className="mt-[3px] shrink-0 text-verde-300" />
+                          <span className="text-[14.5px] leading-6 text-white/85">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                    <div className="mt-7 pt-2">
-                      <a
-                        href={getOptionWhatsAppHref(option)}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="magnetic-button inline-flex w-full items-center justify-center rounded-full border border-[#9aaa84]/35 bg-[linear-gradient(180deg,#829270,#6d7c5e)] px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-[#f7f8f3] shadow-[0_15px_40px_rgba(82,96,66,0.25)] transition hover:bg-[#7b8a6a]"
-                      >
-                        Consultar plan por WhatsApp
-                      </a>
-                    </div>
-                  </article>
-                </div>
+                  <a
+                    href={getOptionWhatsAppHref(option)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`${buttonBase} mt-8 w-full border border-verde-300/40 text-white hover:border-verde-300/70 hover:bg-verde/40`}
+                  >
+                    <SocialIcon label="WhatsApp" />
+                    Consultar plan por WhatsApp
+                  </a>
+                </article>
               ))}
             </div>
 
-            {/* CTA después de Planes */}
             <SectionCTA
+              tone="dark"
               onStart={onStart}
               text="¿No sabés cuál elegir? Te asesoramos en una llamada"
               subtext="Evaluamos el plan ideal según tu flujo de caja y prioridad técnica"
@@ -799,160 +919,155 @@ export default function Landing({ onStart }) {
         </section>
 
         {/* ========================================================================= */}
-        {/* 6. CALCULADORA DE AHORRO Y PÉRDIDA OPERATIVA                              */}
+        {/* 6. CALCULADORA DE AHORRO                                                  */}
         {/* ========================================================================= */}
-        <section id="calculadora-ahorro" className="px-4 py-14 md:px-10 md:py-20 border-t border-white/6">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-              <SectionHeading
-                eyebrow="Calculadora de impacto"
-                title="Calculá cuánto dinero estás perdiendo en procesos manuales."
-                description="Ingresá datos estimados de tu operación para dimensionar las horas perdidas y el ahorro real que recuperás automatizando."
-              />
+        <section id="calculadora-ahorro" className="on-light bg-niebla px-4 py-16 text-tinta md:px-10 md:py-24">
+          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-16">
+            <SectionHeading
+              align="stack"
+              eyebrow="Calculadora de impacto"
+              title="Calculá cuánto dinero estás perdiendo en procesos manuales."
+              description="Ingresá datos estimados de tu operación para dimensionar las horas perdidas y el ahorro real que recuperás automatizando."
+            />
 
-              <motion.div
-                variants={reveal}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                className="glass-card rounded-[26px] p-5 sm:p-6 md:rounded-[32px] md:p-8"
-              >
-                <div className="grid gap-3.5 sm:grid-cols-2">
-                  <label className="rounded-[20px] border border-white/8 bg-black/20 p-3.5 text-left">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#8f9a84]">Personas en el proceso</p>
-                    <input
-                      type="number"
-                      min="1"
-                      value={calculatorInputs.people}
-                      onChange={(e) => handleCalculatorChange("people", e.target.value)}
-                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/6 px-3 py-2 text-xl font-bold text-[#f6f7f2] outline-none focus:border-[#7b8a6a]"
-                    />
-                    <p className="mt-1.5 text-[11px] text-[#9ea797]">Cantidad de empleados involucrados.</p>
-                  </label>
+            <div className="card-light rounded-xl p-5 sm:p-7">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="block">
+                  <span className="text-[14px] font-semibold text-tinta">Personas en el proceso</span>
+                  <input
+                    type="number"
+                    min="1"
+                    value={calculatorInputs.people}
+                    onChange={(e) => handleCalculatorChange("people", e.target.value)}
+                    className={calculatorInputClass}
+                  />
+                  <span className="mt-1.5 block text-[13px] text-gris">Cantidad de empleados involucrados.</span>
+                </label>
 
-                  <label className="rounded-[20px] border border-white/8 bg-black/20 p-3.5 text-left">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#8f9a84]">Horas/sem por persona</p>
-                    <input
-                      type="number"
-                      min="1"
-                      value={calculatorInputs.hoursPerWeek}
-                      onChange={(e) => handleCalculatorChange("hoursPerWeek", e.target.value)}
-                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/6 px-3 py-2 text-xl font-bold text-[#f6f7f2] outline-none focus:border-[#7b8a6a]"
-                    />
-                    <p className="mt-1.5 text-[11px] text-[#9ea797]">Horas manuales semanales en tareas repetitivas.</p>
-                  </label>
+                <label className="block">
+                  <span className="text-[14px] font-semibold text-tinta">Horas/sem por persona</span>
+                  <input
+                    type="number"
+                    min="1"
+                    value={calculatorInputs.hoursPerWeek}
+                    onChange={(e) => handleCalculatorChange("hoursPerWeek", e.target.value)}
+                    className={calculatorInputClass}
+                  />
+                  <span className="mt-1.5 block text-[13px] text-gris">Horas manuales semanales en tareas repetitivas.</span>
+                </label>
 
-                  <label className="rounded-[20px] border border-white/8 bg-black/20 p-3.5 text-left">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#8f9a84]">Costo mensual/persona (USD)</p>
-                    <input
-                      type="number"
-                      min="1"
-                      step="50"
-                      value={calculatorInputs.monthlyCost}
-                      onChange={(e) => handleCalculatorChange("monthlyCost", e.target.value)}
-                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/6 px-3 py-2 text-xl font-bold text-[#f6f7f2] outline-none focus:border-[#7b8a6a]"
-                    />
-                    <p className="mt-1.5 text-[11px] text-[#9ea797]">Salario promedio mensual para costo por hora.</p>
-                  </label>
+                <label className="block">
+                  <span className="text-[14px] font-semibold text-tinta">Costo mensual/persona (USD)</span>
+                  <input
+                    type="number"
+                    min="1"
+                    step="50"
+                    value={calculatorInputs.monthlyCost}
+                    onChange={(e) => handleCalculatorChange("monthlyCost", e.target.value)}
+                    className={calculatorInputClass}
+                  />
+                  <span className="mt-1.5 block text-[13px] text-gris">Salario promedio mensual para costo por hora.</span>
+                </label>
 
-                  <label className="rounded-[20px] border border-white/8 bg-black/20 p-3.5 text-left">
-                    <div className="flex items-center justify-between">
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-[#8f9a84]">Automatizable</p>
-                      <span className="text-sm font-bold text-[#eef2e8]">{calculatorInputs.automatablePercent}%</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="10"
-                      max="90"
-                      step="5"
-                      value={calculatorInputs.automatablePercent}
-                      onChange={(e) => handleCalculatorChange("automatablePercent", e.target.value)}
-                      className="mt-4 w-full accent-[#7b8a6a]"
-                    />
-                    <p className="mt-1.5 text-[11px] text-[#9ea797]">Porcentaje de tareas que un sistema puede asumir.</p>
-                  </label>
+                <label className="block">
+                  <span className="flex items-center justify-between">
+                    <span className="text-[14px] font-semibold text-tinta">Automatizable</span>
+                    <span className="tabular text-[15px] font-semibold text-verde">{calculatorInputs.automatablePercent}%</span>
+                  </span>
+                  <input
+                    type="range"
+                    min="10"
+                    max="90"
+                    step="5"
+                    value={calculatorInputs.automatablePercent}
+                    onChange={(e) => handleCalculatorChange("automatablePercent", e.target.value)}
+                    className="mt-5 w-full"
+                  />
+                  <span className="mt-2.5 block text-[13px] text-gris">Porcentaje de tareas que un sistema puede asumir.</span>
+                </label>
+              </div>
+
+              <div className="mt-7 grid gap-px overflow-hidden rounded-lg border border-linea bg-linea sm:grid-cols-2">
+                <div className="bg-white p-5">
+                  <p className="text-[13.5px] text-gris">Pérdida operativa actual</p>
+                  <p className="tabular mt-1.5 text-[1.75rem] font-semibold text-alerta">
+                    {formatCurrency(monthlyCostOfManualWork)} <span className="text-[14px] font-normal text-gris">/ mes</span>
+                  </p>
+                  <p className="mt-1 text-[13.5px] text-gris">
+                    Equivale a <strong className="tabular font-semibold text-tinta">{Math.round(monthlyHoursLost)} horas</strong> de trabajo manual al mes.
+                  </p>
                 </div>
 
-                <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-[20px] border border-white/8 bg-black/25 p-4">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#8f9a84]">Pérdida operativa actual</p>
-                    <p className="mt-2 text-2xl font-bold text-[#f47272]">
-                      {formatCurrency(monthlyCostOfManualWork)} <span className="text-xs text-[#b8c2af]">/ mes</span>
-                    </p>
-                    <p className="mt-1 text-xs text-[#aab4a1]">
-                      Equivale a <strong>{Math.round(monthlyHoursLost)} horas</strong> de trabajo manual al mes.
-                    </p>
-                  </div>
-
-                  <div className="rounded-[20px] border border-[#7d8d6a]/30 bg-[linear-gradient(180deg,rgba(111,126,96,0.18),rgba(255,255,255,0.04))] p-4">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#a4b892]">Ahorro recuperable estimado</p>
-                    <p className="mt-2 text-2xl font-bold text-[#b4cca0]">
-                      {formatCurrency(estimatedMonthlySaving)} <span className="text-xs text-[#dfe7d7]">/ mes</span>
-                    </p>
-                    <p className="mt-1 text-xs text-[#d5decb]">
-                      Proyección anual: <strong className="text-white">{formatCurrency(estimatedAnnualSaving)}</strong>
-                    </p>
-                  </div>
+                <div className="bg-verde-100/70 p-5">
+                  <p className="text-[13.5px] text-verde-700">Ahorro recuperable estimado</p>
+                  <p className="tabular mt-1.5 text-[1.75rem] font-semibold text-verde">
+                    {formatCurrency(estimatedMonthlySaving)} <span className="text-[14px] font-normal text-verde-700">/ mes</span>
+                  </p>
+                  <p className="mt-1 text-[13.5px] text-verde-700">
+                    Proyección anual: <strong className="tabular font-semibold text-tinta">{formatCurrency(estimatedAnnualSaving)}</strong>
+                  </p>
                 </div>
+              </div>
 
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
-                  <PrimaryButton onClick={onStart} className="w-full sm:w-auto">
-                    Quiero recuperar este dinero → Agendar llamada
-                  </PrimaryButton>
-                  <a
-                    href={contactInfo.whatsappHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/4 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#d6ddce] transition hover:border-white/20 hover:text-white"
-                  >
-                    Hablar por WhatsApp
-                  </a>
-                </div>
-              </motion.div>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <PrimaryButton onClick={onStart} className="w-full sm:flex-1">
+                  Quiero recuperar este dinero: agendar llamada
+                </PrimaryButton>
+                <a
+                  href={contactInfo.whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`${buttonBase} border border-tinta/20 text-tinta hover:border-tinta/35 hover:bg-tinta/5`}
+                >
+                  <SocialIcon label="WhatsApp" />
+                  Hablar por WhatsApp
+                </a>
+              </div>
             </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* 7. CONTACTO (Llamado final claro y directo)                                */}
+        {/* 7. CONTACTO                                                               */}
         {/* ========================================================================= */}
-        <section id="contacto" className="px-4 py-16 md:px-10 md:py-24 border-t border-white/6">
-          <div className="mx-auto max-w-4xl text-center">
-            <SectionTag>Hablemos de tu proyecto</SectionTag>
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-[#f6f7f3] md:text-5xl">
+        <section id="contacto" className="relative overflow-hidden bg-verde px-4 py-20 md:px-10 md:py-28">
+          <div className="blueprint pointer-events-none absolute inset-0 opacity-70" aria-hidden="true" />
+          <div className="relative mx-auto max-w-4xl text-center">
+            <p className="text-sm font-semibold text-verde-100">Hablemos de tu proyecto</p>
+            <h2 className="font-display mt-4 text-[2.1rem] leading-[1.06] text-white md:text-[3.2rem]">
               Si tu empresa está lista para evolucionar, agendemos hoy.
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#abb5a2] md:text-lg">
-              Evaluamos tus cuellos de botella, te mostramos qué arquitectura conviene y cómo resolverlo con software seguro y escalable.
+            <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-7 text-white/80 md:text-lg md:leading-8">
+              Evaluamos tus cuellos de botella, te mostramos qué arquitectura conviene y cómo resolverlo con software
+              seguro y escalable.
             </p>
 
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <PrimaryButton onClick={onStart} className="w-full sm:w-auto px-10 py-4 text-sm">
+            <div className="mt-9 flex justify-center">
+              <PrimaryButton tone="white" onClick={onStart} className="w-full px-9 sm:w-auto">
                 Agendar tu llamada estratégica gratuita
               </PrimaryButton>
             </div>
 
-            {/* Accesos rápidos de contacto directo */}
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4 text-xs text-[#cdd5c6] md:gap-8">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3 text-[14px] text-white">
               <a
                 href={contactInfo.whatsappHref}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/8 bg-white/4 px-4 py-2.5 transition hover:border-white/20"
+                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/20 px-4 transition-colors hover:bg-white/10"
               >
                 <SocialIcon label="WhatsApp" />
-                <span>{contactInfo.whatsapp}</span>
+                <span className="tabular">{contactInfo.whatsapp}</span>
               </a>
               <a
                 href={contactInfo.phoneHref}
-                className="inline-flex items-center gap-2 rounded-xl border border-white/8 bg-white/4 px-4 py-2.5 text-[#d7ddd0] transition hover:border-white/20 hover:text-white"
+                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/20 px-4 transition-colors hover:bg-white/10"
               >
                 <SocialIcon label="Phone" />
-                <span>{contactInfo.phone}</span>
+                <span className="tabular">{contactInfo.phone}</span>
               </a>
               <a
                 href={contactInfo.emailHref}
-                className="inline-flex items-center gap-2 rounded-xl border border-white/8 bg-white/4 px-4 py-2.5 text-[#d7ddd0] transition hover:border-white/20 hover:text-white"
+                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/20 px-4 transition-colors hover:bg-white/10"
               >
                 <SocialIcon label="Email" />
                 <span>{contactInfo.email}</span>
@@ -965,33 +1080,21 @@ export default function Landing({ onStart }) {
       {/* ========================================================================= */}
       {/* 8. FOOTER                                                                 */}
       {/* ========================================================================= */}
-      <footer className="relative z-10 border-t border-white/8 bg-black/30 px-4 py-10 md:px-10 md:py-14">
-        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-4 md:gap-10">
+      <footer className="relative z-10 bg-grafito-900 px-4 pb-28 pt-14 md:px-10 md:pb-12">
+        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/6">
-                <img
-                  src="/logo-sin-fondo-apoc.webp"
-                  alt="APOC Automation"
-                  loading="lazy"
-                  className="h-7 w-7 object-contain"
-                />
-              </div>
-              <p className="text-base font-semibold text-[#f4f6f1]">
-                APOC <span className="text-[#8ea27a]">AUTOMATION</span>
-              </p>
-            </div>
-            <p className="mt-3 text-xs leading-6 text-[#9da694]">
+            <Wordmark />
+            <p className="mt-5 max-w-xs text-[14px] leading-6 text-gris-claro">
               Desarrollo de software a medida, automatización e IA para empresas de Argentina y Latinoamérica.
             </p>
-            <div className="mt-4 flex gap-4">
+            <div className="-ml-2.5 mt-4 flex">
               {socialLinks.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs text-[#a1ac98] transition hover:text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg text-gris-claro transition-colors hover:bg-white/5 hover:text-white"
                   aria-label={item.label}
                 >
                   <SocialIcon label={item.label} />
@@ -1001,37 +1104,41 @@ export default function Landing({ onStart }) {
           </div>
 
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-[#dfe5d8] font-semibold">Secciones</p>
-            <div className="mt-3 space-y-2 text-xs text-[#9da694]">
-              <a href="#casos-exito" className="block transition hover:text-white">Casos de éxito</a>
-              <a href="#testimonios" className="block transition hover:text-white">Testimonios</a>
-              <a href="#equipo" className="block transition hover:text-white">Equipo dedicado</a>
-              <a href="#planes" className="block transition hover:text-white">Planes de contratación</a>
-              <a href="#calculadora-ahorro" className="block transition hover:text-white">Calculadora</a>
+            <p className="text-[14px] font-semibold text-white">Secciones</p>
+            <div className="mt-4 space-y-2.5 text-[14px] text-gris-claro">
+              <a href="#casos-exito" className="block hover:text-white">Casos de éxito</a>
+              <a href="#testimonios" className="block hover:text-white">Testimonios</a>
+              <a href="#equipo" className="block hover:text-white">Equipo dedicado</a>
+              <a href="#planes" className="block hover:text-white">Planes de contratación</a>
+              <a href="#calculadora-ahorro" className="block hover:text-white">Calculadora</a>
             </div>
           </div>
 
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-[#dfe5d8] font-semibold">Empresa</p>
-            <div className="mt-3 space-y-2 text-xs text-[#9da694]">
-              <Link to="/casos-de-éxito" className="block transition hover:text-white">Portfolio completo</Link>
-              <button onClick={onStart} className="block text-left transition hover:text-white">Agendar llamada</button>
-              <a href={contactInfo.whatsappHref} target="_blank" rel="noreferrer" className="block transition hover:text-white">Atención comercial</a>
+            <p className="text-[14px] font-semibold text-white">Empresa</p>
+            <div className="mt-4 space-y-2.5 text-[14px] text-gris-claro">
+              <Link to="/casos-de-éxito" className="block hover:text-white">Portfolio completo</Link>
+              <button type="button" onClick={onStart} className="block text-left hover:text-white">Agendar llamada</button>
+              <a href={contactInfo.whatsappHref} target="_blank" rel="noreferrer" className="block hover:text-white">
+                Atención comercial
+              </a>
             </div>
           </div>
 
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-[#dfe5d8] font-semibold">Contacto</p>
-            <div className="mt-3 space-y-2 text-xs text-[#9da694]">
-              <a href={contactInfo.whatsappHref} target="_blank" rel="noreferrer" className="block transition hover:text-white">WhatsApp: {contactInfo.whatsapp}</a>
-              <a href={contactInfo.phoneHref} className="block transition hover:text-white">Tel: {contactInfo.phone}</a>
-              <a href={contactInfo.emailHref} className="block transition hover:text-white">{contactInfo.email}</a>
+            <p className="text-[14px] font-semibold text-white">Contacto</p>
+            <div className="mt-4 space-y-2.5 text-[14px] text-gris-claro">
+              <a href={contactInfo.whatsappHref} target="_blank" rel="noreferrer" className="block hover:text-white">
+                WhatsApp: {contactInfo.whatsapp}
+              </a>
+              <a href={contactInfo.phoneHref} className="block hover:text-white">Tel: {contactInfo.phone}</a>
+              <a href={contactInfo.emailHref} className="block hover:text-white">{contactInfo.email}</a>
             </div>
           </div>
         </div>
 
-        <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-3 border-t border-white/8 pt-6 text-xs text-[#7c8574] md:flex-row md:items-center md:justify-between">
-          <span>© 2025 APOC Automation. Todos los derechos reservados.</span>
+        <div className="mx-auto mt-12 flex max-w-7xl flex-col gap-2 border-t border-white/8 pt-6 text-[13px] text-gris-claro/80 md:flex-row md:items-center md:justify-between">
+          <span>© {new Date().getFullYear()} APOC Automation. Todos los derechos reservados.</span>
           <span>Hecho con dedicación en Argentina</span>
         </div>
       </footer>
@@ -1039,18 +1146,18 @@ export default function Landing({ onStart }) {
       {/* ========================================================================= */}
       {/* 9. BARRA MÓVIL INFERIOR FIJA                                              */}
       {/* ========================================================================= */}
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#090b0a]/92 p-2.5 backdrop-blur-xl md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-grafito-900/95 p-2.5 backdrop-blur-xl md:hidden">
         <div className="mx-auto flex max-w-7xl items-center gap-2">
           <a
             href={contactInfo.whatsappHref}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d7ddd0]"
+            className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-white/12 text-white"
             aria-label="WhatsApp"
           >
             <SocialIcon label="WhatsApp" />
           </a>
-          <PrimaryButton onClick={onStart} className="flex-1 rounded-[1.05rem] px-3 py-2.5 text-[9px] tracking-[0.05em]">
+          <PrimaryButton onClick={onStart} className="flex-1">
             Agendá tu llamada gratis
           </PrimaryButton>
         </div>
