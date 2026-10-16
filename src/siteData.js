@@ -226,6 +226,15 @@ export const team = [
       "Construye cada sistema de punta a punta: interfaces, lógica de negocio, bases de datos e integraciones, con código prolijo y fácil de mantener.",
   },
   {
+    name: "Matías",
+    initials: "MB",
+    image: "/matias-bongiovanni.webp",
+    fullName: "Matías Bongiovanni",
+    role: "Desarrollador Full Stack",
+    detail:
+      "Desarrolla funcionalidades de punta a punta, desde la interfaz hasta la base de datos, y se ocupa de que cada sistema funcione estable y rápido en el día a día.",
+  },
+  {
     name: "Elian",
     initials: "EL",
     image: "/elian.webp",

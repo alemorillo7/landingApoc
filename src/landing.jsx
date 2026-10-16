@@ -823,8 +823,13 @@ export default function Landing({ onStart }) {
             />
 
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {team.map((member) => (
-                <article key={member.name} className="card-light flex items-start gap-4 rounded-xl p-5">
+              {team.map((member, index) => (
+                <article
+                  key={member.name}
+                  className={`card-light flex items-start gap-4 rounded-xl p-5 ${
+                    index === team.length - 1 && team.length % 3 === 1 ? "lg:col-start-2" : ""
+                  }`}
+                >
                   <div className="h-[72px] w-[72px] shrink-0 overflow-hidden rounded-full bg-grafito ring-2 ring-verde-100 ring-offset-2 ring-offset-white">
                     {member.image ? (
                       <img
