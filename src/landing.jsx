@@ -822,26 +822,28 @@ export default function Landing({ onStart }) {
               description="No tercerizamos ni dejamos proyectos abandonados. Este es el equipo real que diseña, programa, acompaña y atiende cada detalle de tu sistema."
             />
 
-            <div className="mt-12 grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {team.map((member) => (
-                <article key={member.name} className="flex flex-col">
-                  <div className="img-outline relative aspect-[5/4] overflow-hidden rounded-xl bg-grafito">
+                <article key={member.name} className="card-light flex items-start gap-4 rounded-xl p-5">
+                  <div className="h-[72px] w-[72px] shrink-0 overflow-hidden rounded-full bg-grafito ring-2 ring-verde-100 ring-offset-2 ring-offset-white">
                     {member.image ? (
                       <img
                         src={member.image}
                         alt={member.fullName || member.name}
                         loading="lazy"
-                        className="h-full w-full object-cover object-[50%_22%] grayscale"
+                        className="h-full w-full object-cover object-[50%_20%] grayscale"
                       />
                     ) : (
-                      <div className="blueprint-static flex h-full w-full items-center justify-center">
-                        <span className="font-display text-[3.5rem] text-verde-300">{member.initials}</span>
+                      <div className="flex h-full w-full items-center justify-center">
+                        <span className="font-display text-[1.35rem] text-verde-300">{member.initials}</span>
                       </div>
                     )}
                   </div>
-                  <h3 className="font-display mt-5 text-[1.35rem] text-tinta">{member.name}</h3>
-                  <p className="mt-1 text-[14.5px] font-semibold text-verde">{member.role}</p>
-                  <p className="mt-3 max-w-[38ch] text-[15px] leading-6 text-gris">{member.detail}</p>
+                  <div className="min-w-0">
+                    <h3 className="font-display text-[1.15rem] text-tinta">{member.name}</h3>
+                    <p className="mt-0.5 text-[13.5px] font-semibold leading-5 text-verde">{member.role}</p>
+                    <p className="mt-2.5 text-[14px] leading-[1.55] text-gris">{member.detail}</p>
+                  </div>
                 </article>
               ))}
             </div>
