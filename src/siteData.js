@@ -252,6 +252,7 @@ export const team = [
   {
     name: "Florencia",
     initials: "FL",
+    image: "/florencia.webp",
     role: "Asistente Administrativa",
     detail:
       "Acompaña la organización interna, el seguimiento operativo y la coordinación administrativa para que cada proyecto avance con orden y continuidad.",
