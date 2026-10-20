@@ -245,6 +245,8 @@ export const team = [
   {
     name: "Milagros",
     initials: "MI",
+    image: "/milagros-contrera.webp",
+    fullName: "Milagros Contrera",
     role: "Referente de Marketing y Comunicación",
     detail:
       "Lidera la comunicación de marca, la estrategia comercial y la claridad del mensaje para conectar tecnología con negocio real.",
@@ -252,6 +254,7 @@ export const team = [
   {
     name: "Florencia",
     initials: "FL",
+    image: "/florencia.webp",
     role: "Asistente Administrativa",
     detail:
       "Acompaña la organización interna, el seguimiento operativo y la coordinación administrativa para que cada proyecto avance con orden y continuidad.",
