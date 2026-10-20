@@ -245,6 +245,8 @@ export const team = [
   {
     name: "Milagros",
     initials: "MI",
+    image: "/milagros-contrera.webp",
+    fullName: "Milagros Contrera",
     role: "Referente de Marketing y Comunicación",
     detail:
       "Lidera la comunicación de marca, la estrategia comercial y la claridad del mensaje para conectar tecnología con negocio real.",
