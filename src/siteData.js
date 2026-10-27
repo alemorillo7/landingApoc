@@ -1,7 +1,7 @@
 // Urgency banner configuration connected to APOC ERP
 export const urgencyConfig = {
   maxSlots: 3,
-  endpoint: "https://erp.apocautomation.site/api/finance/projects/count",
+  endpoint: "https://erp.apocautomation.com/api/finance/projects/count",
   fallbackSlots: 3,
   minDisplay: 1, // Never show 0, always show at least 1
 };
@@ -525,8 +525,8 @@ export const contactInfo = {
   phoneHref: "tel:5493572526971",
   instagramHref: "https://www.instagram.com/apoc.automation/",
   linkedinHref: "https://linkedin.com/company/109078079/",
-  email: "apoc@apocautomation.site",
-  emailHref: "mailto:apoc@apocautomation.site",
+  email: "administracion@apocautomation.com",
+  emailHref: "mailto:administracion@apocautomation.com",
 };
 
 export const socialLinks = [
@@ -541,7 +541,7 @@ export const seoConfig = {
   baseTitle: "APOC Automation | Software seguro, escalable y estable",
   baseDescription:
     "APOC Automation desarrolla automatización, agentes IA y software a medida para empresas de Argentina, Perú, Ecuador, Bolivia y México, con foco en problemas reales y resultados concretos.",
-  baseUrl: "https://apocautomation.site",
+  baseUrl: "https://apocautomation.com",
 };
 
 export function getCaseStudyById(id) {
