@@ -1,9 +1,8 @@
-// Urgency banner configuration connected to APOC ERP
+// Horarios libres para reuniones de diagnóstico, en vivo desde el calendario del ERP
 export const urgencyConfig = {
-  maxSlots: 3,
-  endpoint: "https://erp.apocautomation.com/api/finance/projects/count",
-  fallbackSlots: 3,
-  minDisplay: 1, // Never show 0, always show at least 1
+  endpoint: "https://erp.apocautomation.com/api/calendar/slots",
+  days: 7, // se cuentan los horarios libres de los próximos 7 días
+  fallbackSlots: null, // si el ERP no responde, no se muestra un número inventado
 };
 
 export const bfitTestimonial = {
