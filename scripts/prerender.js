@@ -75,7 +75,7 @@ const routes = [
     `,
   },
   {
-    path: "/casos-de-éxito",
+    path: "/casos-de-exito",
     title: "Casos de éxito | APOC Automation",
     description:
       "Portfolio completo de APOC Automation con proyectos reales de automatización, agentes IA y software a medida en Argentina, Perú, México, España y Latam.",
@@ -85,7 +85,7 @@ const routes = [
       "@type": "CollectionPage",
       name: "Casos de éxito | APOC Automation",
       description: "Portfolio completo de proyectos de APOC Automation.",
-      url: `${seoConfig.baseUrl}/casos-de-éxito`,
+      url: `${seoConfig.baseUrl}/casos-de-exito`,
     },
     contentHtml: `
       <main>

@@ -360,7 +360,7 @@ const navLinks = [
 
 export default function Landing({ onStart }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [urgencySlots, setUrgencySlots] = useState(urgencyConfig.fallbackSlots || 3);
+  const [urgencySlots, setUrgencySlots] = useState(urgencyConfig.fallbackSlots);
   const [showUrgencyBanner, setShowUrgencyBanner] = useState(false);
   const reduce = useReducedMotion();
 
@@ -371,29 +371,29 @@ export default function Landing({ onStart }) {
     automatablePercent: 60,
   });
 
-  // Consulta dinámica de cupos restantes desde el ERP de APOC en tiempo real
+  // Horarios libres para reuniones en los próximos días, en vivo desde el calendario del ERP
   useEffect(() => {
     if (!urgencyConfig.endpoint) return;
-    fetch(urgencyConfig.endpoint)
-      .then((res) => res.text())
-      .then((text) => {
-        const trimmed = text.trim();
-        let count = Number(trimmed);
-        if (isNaN(count)) {
-          try {
-            const parsed = JSON.parse(trimmed);
-            count = typeof parsed === "number" ? parsed : typeof parsed?.count === "number" ? parsed.count : 0;
-          } catch {
-            count = 0;
-          }
-        }
-        if (!isNaN(count)) {
-          const remaining = Math.max(urgencyConfig.minDisplay, urgencyConfig.maxSlots - count);
-          setUrgencySlots(remaining);
-        }
+    const today = new Date();
+    const from = today.toISOString().slice(0, 10);
+    const until = new Date(today.getTime() + urgencyConfig.days * 864e5).toISOString().slice(0, 10);
+    fetch(`${urgencyConfig.endpoint}?start_date=${from}`)
+      .then((res) => res.json())
+      .then((res) => {
+        const slots = res?.data?.available_slots || {};
+        const now = Date.now();
+        let count = 0;
+        Object.entries(slots).forEach(([day, times]) => {
+          if (day < from || day > until) return;
+          (times || []).forEach((t) => {
+            // Solo los que todavía no pasaron (hora argentina)
+            if (new Date(`${day}T${t}:00-03:00`).getTime() > now + 2 * 3600 * 1000) count += 1;
+          });
+        });
+        setUrgencySlots(count);
       })
       .catch(() => {
-        // Mantiene fallback predeterminado ante cualquier error de red
+        // Sin dato del ERP no se muestra un número inventado
       });
   }, []);
 
@@ -538,11 +538,19 @@ export default function Landing({ onStart }) {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-verde-300" />
               </span>
               <p className="truncate text-[12.5px] text-white/85 sm:text-[13.5px]">
-                {urgencySlots === 1 ? "Solo queda" : "Solo quedan"}{" "}
-                <strong className="font-semibold text-white">
-                  {urgencySlots} {urgencySlots === 1 ? "lugar disponible" : "lugares disponibles"}
-                </strong>{" "}
-                este mes para nuevos desarrollos
+                {urgencySlots == null ? (
+                  <>Agendá tu <strong className="font-semibold text-white">diagnóstico gratuito</strong> de 30 minutos</>
+                ) : urgencySlots === 0 ? (
+                  <>Esta semana no quedan horarios: <strong className="font-semibold text-white">reservá para la próxima</strong></>
+                ) : (
+                  <>
+                    {urgencySlots === 1 ? "Queda" : "Quedan"}{" "}
+                    <strong className="font-semibold text-white">
+                      {urgencySlots} {urgencySlots === 1 ? "horario" : "horarios"}
+                    </strong>{" "}
+                    para reuniones esta semana
+                  </>
+                )}
               </p>
             </div>
             <button
@@ -569,9 +577,11 @@ export default function Landing({ onStart }) {
                   <span className="absolute inline-flex h-full w-full rounded-full bg-verde-300 opacity-60 motion-safe:animate-ping" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-verde-300" />
                 </span>
-                {urgencySlots === 1
-                  ? "Solo tomamos 1 proyecto por mes"
-                  : `Solo tomamos ${urgencySlots} proyectos por mes`}
+                {urgencySlots == null
+                  ? "Diagnóstico gratuito de 30 minutos"
+                  : urgencySlots === 0
+                    ? "Agenda completa esta semana"
+                    : `${urgencySlots} ${urgencySlots === 1 ? "horario libre" : "horarios libres"} para reuniones esta semana`}
               </motion.p>
 
               <motion.h1
@@ -751,7 +761,7 @@ export default function Landing({ onStart }) {
               <div className="flex flex-col gap-2 border-b border-linea pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <h3 className="font-display text-[1.5rem] text-tinta">Casos de estudio destacados</h3>
                 <Link
-                  to="/casos-de-éxito"
+                  to="/casos-de-exito"
                   className="py-1 text-[14px] font-semibold text-verde underline decoration-verde/30 underline-offset-4 hover:decoration-verde"
                 >
                   Ver todos los casos ({caseStudies.length})
@@ -1124,7 +1134,7 @@ export default function Landing({ onStart }) {
           <div>
             <p className="text-[14px] font-semibold text-white">Empresa</p>
             <div className="mt-4 space-y-2.5 text-[14px] text-gris-claro">
-              <Link to="/casos-de-éxito" className="block hover:text-white">Portfolio completo</Link>
+              <Link to="/casos-de-exito" className="block hover:text-white">Portfolio completo</Link>
               <button type="button" onClick={onStart} className="block text-left hover:text-white">Agendar llamada</button>
               <a href={contactInfo.whatsappHref} target="_blank" rel="noreferrer" className="block hover:text-white">
                 Atención comercial

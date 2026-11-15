@@ -506,7 +506,7 @@ function PortfolioPage({ onStart }) {
   const title = "Casos de éxito | APOC Automation";
   const description =
     "Portfolio completo de APOC Automation con proyectos reales de automatización, agentes IA y software a medida para múltiples industrias y países.";
-  const pathname = "/casos-de-éxito";
+  const pathname = "/casos-de-exito";
   const schema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -651,35 +651,8 @@ function AppRoutes() {
         body: JSON.stringify(data),
       });
 
-      if (data.date && data.time) {
-        const [hoursStr, minutesStr] = data.time.split(":");
-        const hours = parseInt(hoursStr, 10);
-        const minutes = parseInt(minutesStr, 10);
-        const endHour = minutes === 30 ? hours + 1 : hours;
-        const endMinute = minutes === 30 ? "00" : "30";
-        const endTime = `${endHour.toString().padStart(2, "0")}:${endMinute}`;
-
-        await fetch("https://apocrm-one.vercel.app/api/calendar/schedule", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: `Diagnóstico APOC - ${data.industry || "Cliente"}`,
-            date: data.date,
-            start_time: data.time,
-            end_time: endTime,
-            description: `Reunión de diagnóstico agendada automáticamente desde la landing page.
-
-Detalles del lead:
-- Rubro / Industria: ${data.industry || "No especificado"}
-- Proceso crítico: ${data.problem || "No especificado"}
-- Urgencia: ${data.urgency || "No especificada"}
-- Facturación: ${data.revenue || "No especificada"}
-- Presupuesto: ${data.budget || "No especificado"}
-- WhatsApp: ${data.phone || "No especificado"}`,
-            guests: data.email,
-          }),
-        }).catch((error) => console.error("Error agendando cita en CRM:", error));
-      }
+      // La reunión la agenda n8n en el calendario del ERP (con lo que recibe del webhook).
+      // La landing ya no habla directo con el ERP para agendar.
 
       if (typeof window.fbq === "function") {
         window.fbq("track", "Lead", {
@@ -724,7 +697,7 @@ Detalles del lead:
             </>
           }
         />
-        <Route path="/casos-de-éxito" element={<PortfolioPage onStart={handleStartForm} />} />
+        <Route path="/casos-de-éxito" element={<Navigate to="/casos-de-exito" replace />} />
         <Route path="/casos-de-exito" element={<PortfolioPage onStart={handleStartForm} />} />
         <Route path="/proyectos/:id" element={<CaseStudyPage onStart={handleStartForm} />} />
         <Route
