@@ -1,5 +1,19 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "rewrites": [
+    {
+      "source": "/agenda",
+      "destination": "/agenda/index.html"
+    },
+    {
+      "source": "/casos-de-exito",
+      "destination": "/casos-de-exito/index.html"
+    },
+    {
+      "source": "/proyectos/:id",
+      "destination": "/proyectos/:id/index.html"
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
