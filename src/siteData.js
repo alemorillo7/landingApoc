@@ -35,14 +35,18 @@ export const heroStats = [
   },
 ];
 
+// Con logo se muestra la imagen; sin logo, el nombre
 export const clientLogos = [
-  "Taller Lucero",
-  "Ramayo",
-  "Beyond Fit",
-  "RC Autopartes",
-  "Realt IA",
-  "Krokanticas",
-  "HABA",
+  { name: "Trip Brasil", logo: "/logos/trip-brasil.webp" },
+  { name: "STARCK Carpintería Boutique", logo: "/logos/starck.webp" },
+  { name: "Taller Lucero", logo: "/logos/taller-lucero.webp" },
+  { name: "GHM Contenidos", logo: "/logos/ghm.webp" },
+  { name: "Beyond Fit", logo: "/logos/beyond-fit.webp" },
+  { name: "Realt IA", logo: "/logos/realt-ia.webp" },
+  { name: "Krokanticas", logo: "/logos/krokanticas.webp" },
+  { name: "Ramayo" },
+  { name: "RC Autopartes" },
+  { name: "HABA" },
 ];
 
 export const differentiators = [
@@ -65,6 +69,44 @@ export const differentiators = [
 ];
 
 export const caseStudies = [
+  {
+    id: "trip-brasil",
+    client: "Trip Brasil",
+    industry: "Turismo / Viajes grupales a Brasil - Argentina",
+    image: "/trip-brasil.webp",
+    tags: ["Destacado", "Agente IA", "Software a medida"],
+    problem:
+      "Con más de 9.000 pasajeros desde 2012 y ventas por WhatsApp, Instagram, agencias y oficinas, la operación dependía de planillas de Excel y sistemas separados para contratos, cupos, cuotas y cobranzas.",
+    solution:
+      "Estamos desarrollando un sistema a medida con bandeja omnicanal y agente de IA para WhatsApp e Instagram, CRM con reparto de consultas entre vendedores, contratos, cupos de butacas y habitaciones por salida, planes de cuotas, vouchers y una web de venta con calculadora de cuotas.",
+    result:
+      "Contratos, cupos y cobranzas pasan a una sola base: cada modificación de contrato queda versionada e impresa, las butacas y habitaciones se descuentan en tiempo real y los informes muestran las cuotas a cobrar por mes.",
+    impact:
+      "Ventas, agencias, operaciones y finanzas trabajan sobre el mismo sistema, y el agente de IA da la primera respuesta para que los vendedores se concentren en cerrar.",
+    metrics: ["Agente IA en WhatsApp e Instagram", "Contratos versionados", "Cupos en tiempo real", "Planes de cuotas"],
+    technologies: ["React", "Node.js", "WhatsApp API", "Meta (Instagram y Messenger)", "OpenAI", "Servidor propio"],
+    clientSummary:
+      "Agencia especializada en viajes grupales a Florianópolis, Camboriú y Búzios (egresados, jóvenes, estudiantes y familias), con venta online, presencial y por agencias.",
+  },
+  {
+    id: "starck",
+    client: "STARCK Carpintería Boutique",
+    industry: "Carpintería / Muebles a medida - Argentina",
+    image: "/starck.webp",
+    tags: ["Destacado", "Software a medida"],
+    problem:
+      "Fabricar muebles a medida de alta gama exige seguir cada obra desde la consulta hasta la instalación, con presupuestos, compras, producción en el taller, despacho y cobros repartidos entre planillas y papeles.",
+    solution:
+      "Desarrollamos un ERP industrial que sigue cada proyecto en 14 etapas: clientes, presupuesto con lista gremio y público, relevamiento en obra, orden de trabajo, compras, producción con tablet en el taller, control de carga con remito digital, instalación con acta de conformidad y finanzas del dueño.",
+    result:
+      "Cada obra tiene trazabilidad de punta a punta: los operarios cargan piezas y tiempos desde la tablet del taller, la carga no sale si no coincide al 100% con el remito y el dueño ve cajas, cheques, márgenes y punto de equilibrio en un solo lugar.",
+    impact:
+      "Cada rol ve lo suyo: la dirección los números, el taller solo piezas y metas sin montos, y el cliente sigue el avance de su obra desde un portal propio.",
+    metrics: ["14 etapas conectadas", "Tablet en el taller", "Remito digital al 100%", "Portal del cliente"],
+    technologies: ["Next.js", "TypeScript", "Postgres", "Drizzle ORM", "Docker"],
+    clientSummary:
+      "Carpintería boutique que diseña, fabrica e instala cocinas, vestidores y mobiliario a medida para residencias y estudios de arquitectura.",
+  },
   {
     id: "taller-german-lucero",
     client: "Taller Lucero",
@@ -183,6 +225,8 @@ export const caseStudies = [
 
 export const featuredCaseStudyIds = [
   "taller-german-lucero",
+  "trip-brasil",
+  "starck",
   "ramayo-propiedades",
   "krokanticas",
   "realt-ia",

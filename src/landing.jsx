@@ -805,9 +805,19 @@ export default function Landing({ onStart }) {
             <div className="mt-14 flex flex-col items-center gap-5 border-y border-linea py-7 lg:flex-row lg:justify-between">
               <p className="text-[14px] text-gris">Empresas y proyectos respaldados por APOC</p>
               <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-                {clientLogos.map((logo) => (
-                  <li key={logo} className="font-display text-[17px] text-tinta/55">
-                    {logo}
+                {clientLogos.map((c) => (
+                  <li key={c.name} className="font-display text-[17px] text-tinta/55">
+                    {c.logo ? (
+                      <img
+                        src={c.logo}
+                        alt={c.name}
+                        title={c.name}
+                        loading="lazy"
+                        className="h-11 w-auto max-w-[132px] rounded-md object-contain"
+                      />
+                    ) : (
+                      c.name
+                    )}
                   </li>
                 ))}
               </ul>
