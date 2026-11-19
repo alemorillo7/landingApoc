@@ -368,6 +368,7 @@ function monthName(ym, offset = 0) {
 function ClientLogo({ c }) {
   return (
     <li
+      style={c.bg ? { backgroundColor: c.bg } : undefined}
       className={`mr-4 flex h-[92px] w-[176px] shrink-0 items-center justify-center rounded-2xl border px-3 py-2.5 ${
         c.logo
           ? c.dark
