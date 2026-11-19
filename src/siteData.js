@@ -38,15 +38,14 @@ export const heroStats = [
 export const clientLogos = [
   { name: "Trip Brasil", logo: "/logos/trip-brasil.webp", dark: true },
   { name: "STARCK Carpintería Boutique", logo: "/logos/starck.webp", dark: true },
-  { name: "GHM Contenidos", logo: "/logos/ghm.webp" },
   { name: "Taller Lucero", logo: "/logos/taller-lucero.webp", dark: true },
   { name: "Beyond Fit", logo: "/logos/beyond-fit.webp" },
   { name: "Krokanticas", logo: "/logos/krokanticas.webp", dark: true },
   { name: "Via Vinilo", logo: "/logos/via-vinilo.svg" },
   { name: "Realt IA", logo: "/logos/realt-ia.webp", dark: true },
   { name: "HABA", logo: "/logos/haba.webp" },
-  { name: "Ramayo Propiedades" },
-  { name: "RC Autopartes" },
+  { name: "Ramayo Propiedades", logo: "/logos/ramayo.webp", bg: "#c51d1d" },
+  { name: "RC Autopartes", logo: "/logos/rc-autopartes.webp", dark: true },
 ];
 
 export const differentiators = [
@@ -247,7 +246,7 @@ export const team = [
     name: "Ezequiel",
     initials: "EZ",
     image: "/eze-contrera.webp",
-    role: "Socio Fundador & Referente de Automatización",
+    role: "CEO / CTO & Founder",
     detail:
       "Especialista en automatización, IA y optimización de procesos. Se asegura de que la tecnología realmente resuelva problemas de negocio de forma eficiente.",
   },
@@ -255,7 +254,7 @@ export const team = [
     name: "Alejandro",
     initials: "AL",
     image: "/ale2.webp",
-    role: "Socio Fundador & Referente de Arquitectura",
+    role: "CTO & Co-founder",
     detail:
       "Programador experto en sistemas escalables. Su enfoque principal es garantizar que cada pieza de código sea sólida y segura desde el principio.",
   },

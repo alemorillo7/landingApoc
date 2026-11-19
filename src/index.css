@@ -231,6 +231,6 @@ input[type="range"] {
 @keyframes clients-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) {
   .clients-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
-  .clients-track > li:nth-child(n + 12) { display: none; }
+  .clients-track > li:nth-child(n + 11) { display: none; }
   .clients-marquee { mask-image: none; }
 }
