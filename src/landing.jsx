@@ -358,9 +358,56 @@ const navLinks = [
   { href: "#contacto", label: "Contacto", mobileLabel: "Contacto directo" },
 ];
 
+// "noviembre" a partir de "2026-11" (offset 1 = mes siguiente)
+function monthName(ym, offset = 0) {
+  const base = ym ? new Date(`${ym}-15T12:00:00`) : new Date();
+  base.setMonth(base.getMonth() + offset);
+  return base.toLocaleDateString("es-AR", { month: "long" });
+}
+
+function ClientLogo({ c }) {
+  return (
+    <li
+      className={`mr-4 flex h-[92px] w-[176px] shrink-0 items-center justify-center rounded-2xl border px-3 py-2.5 ${
+        c.logo
+          ? c.dark
+            ? "border-white/10 bg-[#080808]"
+            : "border-white/10 bg-white"
+          : "border-white/10 bg-white/[0.04]"
+      }`}
+    >
+      {c.logo ? (
+        <img src={c.logo} alt={c.name} title={c.name} loading="lazy" className="max-h-full max-w-full object-contain" />
+      ) : (
+        <span className="font-display text-center text-[15px] leading-tight text-white/75">{c.name}</span>
+      )}
+    </li>
+  );
+}
+
+// Clientes que ya trabajan con sistemas de APOC. Se desplaza solo; con movimiento reducido queda fija.
+function ClientsBand() {
+  return (
+    <section aria-labelledby="clientes-title" className="border-y border-white/5 bg-grafito-900 py-10 md:py-12">
+      <div className="mx-auto max-w-7xl px-4 md:px-10">
+        <h2 id="clientes-title" className="text-[14px] text-gris-claro">
+          Empresas que ya trabajan con sistemas de APOC
+        </h2>
+      </div>
+      <div className="clients-marquee group relative mt-6 overflow-hidden">
+        <ul className="clients-track flex w-max">
+          {clientLogos.map((c) => <ClientLogo key={c.name} c={c} />)}
+          {clientLogos.map((c) => <ClientLogo key={`${c.name}-2`} c={c} />)}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 export default function Landing({ onStart }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [urgencySlots, setUrgencySlots] = useState(urgencyConfig.fallbackSlots);
+  const [cuposMonth, setCuposMonth] = useState(null);
   const [showUrgencyBanner, setShowUrgencyBanner] = useState(false);
   const reduce = useReducedMotion();
 
@@ -371,26 +418,15 @@ export default function Landing({ onStart }) {
     automatablePercent: 60,
   });
 
-  // Horarios libres para reuniones en los próximos días, en vivo desde el calendario del ERP
+  // Cupos libres del mes para nuevos proyectos, en vivo desde Preparación de proyectos del ERP
   useEffect(() => {
     if (!urgencyConfig.endpoint) return;
-    const today = new Date();
-    const from = today.toISOString().slice(0, 10);
-    const until = new Date(today.getTime() + urgencyConfig.days * 864e5).toISOString().slice(0, 10);
-    fetch(`${urgencyConfig.endpoint}?start_date=${from}`)
+    fetch(urgencyConfig.endpoint)
       .then((res) => res.json())
       .then((res) => {
-        const slots = res?.data?.available_slots || {};
-        const now = Date.now();
-        let count = 0;
-        Object.entries(slots).forEach(([day, times]) => {
-          if (day < from || day > until) return;
-          (times || []).forEach((t) => {
-            // Solo los que todavía no pasaron (hora argentina)
-            if (new Date(`${day}T${t}:00-03:00`).getTime() > now + 2 * 3600 * 1000) count += 1;
-          });
-        });
-        setUrgencySlots(count);
+        if (!res?.success || typeof res.free !== "number") return;
+        setUrgencySlots(res.free);
+        setCuposMonth(res.month);
       })
       .catch(() => {
         // Sin dato del ERP no se muestra un número inventado
@@ -541,14 +577,14 @@ export default function Landing({ onStart }) {
                 {urgencySlots == null ? (
                   <>Agendá tu <strong className="font-semibold text-white">diagnóstico gratuito</strong> de 30 minutos</>
                 ) : urgencySlots === 0 ? (
-                  <>Esta semana no quedan horarios: <strong className="font-semibold text-white">reservá para la próxima</strong></>
+                  <>Los cupos de {monthName(cuposMonth)} están completos: <strong className="font-semibold text-white">reservá para {monthName(cuposMonth, 1)}</strong></>
                 ) : (
                   <>
                     {urgencySlots === 1 ? "Queda" : "Quedan"}{" "}
                     <strong className="font-semibold text-white">
-                      {urgencySlots} {urgencySlots === 1 ? "horario" : "horarios"}
+                      {urgencySlots} {urgencySlots === 1 ? "cupo" : "cupos"}
                     </strong>{" "}
-                    para reuniones esta semana
+                    para nuevos proyectos en {monthName(cuposMonth)}
                   </>
                 )}
               </p>
@@ -580,8 +616,8 @@ export default function Landing({ onStart }) {
                 {urgencySlots == null
                   ? "Diagnóstico gratuito de 30 minutos"
                   : urgencySlots === 0
-                    ? "Agenda completa esta semana"
-                    : `${urgencySlots} ${urgencySlots === 1 ? "horario libre" : "horarios libres"} para reuniones esta semana`}
+                    ? `Cupos de ${monthName(cuposMonth)} completos · reservá para ${monthName(cuposMonth, 1)}`
+                    : `${urgencySlots === 1 ? "Queda 1 cupo" : `Quedan ${urgencySlots} cupos`} para nuevos proyectos en ${monthName(cuposMonth)}`}
               </motion.p>
 
               <motion.h1
@@ -622,6 +658,9 @@ export default function Landing({ onStart }) {
             <HeroSystem />
           </div>
         </section>
+
+        {/* Clientes: franja de logos */}
+        <ClientsBand />
 
         {/* ========================================================================= */}
         {/* 2b. VIDEO DE ENFOQUE                                                      */}
@@ -801,27 +840,7 @@ export default function Landing({ onStart }) {
               </div>
             </div>
 
-            {/* Empresas que confían en nosotros */}
-            <div className="mt-14 flex flex-col items-center gap-5 border-y border-linea py-7 lg:flex-row lg:justify-between">
-              <p className="text-[14px] text-gris">Empresas y proyectos respaldados por APOC</p>
-              <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-                {clientLogos.map((c) => (
-                  <li key={c.name} className="font-display text-[17px] text-tinta/55">
-                    {c.logo ? (
-                      <img
-                        src={c.logo}
-                        alt={c.name}
-                        title={c.name}
-                        loading="lazy"
-                        className="h-11 w-auto max-w-[132px] rounded-md object-contain"
-                      />
-                    ) : (
-                      c.name
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <div className="mt-14" />
 
             <SectionCTA
               onStart={onStart}
