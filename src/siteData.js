@@ -1,7 +1,6 @@
-// Horarios libres para reuniones de diagnóstico, en vivo desde el calendario del ERP
+// Cupos libres del mes para nuevos proyectos, en vivo desde Preparación de proyectos del ERP
 export const urgencyConfig = {
-  endpoint: "https://erp.apocautomation.com/api/calendar/slots",
-  days: 7, // se cuentan los horarios libres de los próximos 7 días
+  endpoint: "https://erp.apocautomation.com/api/public/cupos",
   fallbackSlots: null, // si el ERP no responde, no se muestra un número inventado
 };
 
@@ -35,18 +34,19 @@ export const heroStats = [
   },
 ];
 
-// Con logo se muestra la imagen; sin logo, el nombre
+// Franja de clientes debajo del hero. dark: logo pensado para fondo oscuro.
 export const clientLogos = [
-  { name: "Trip Brasil", logo: "/logos/trip-brasil.webp" },
-  { name: "STARCK Carpintería Boutique", logo: "/logos/starck.webp" },
-  { name: "Taller Lucero", logo: "/logos/taller-lucero.webp" },
+  { name: "Trip Brasil", logo: "/logos/trip-brasil.webp", dark: true },
+  { name: "STARCK Carpintería Boutique", logo: "/logos/starck.webp", dark: true },
   { name: "GHM Contenidos", logo: "/logos/ghm.webp" },
+  { name: "Taller Lucero", logo: "/logos/taller-lucero.webp", dark: true },
   { name: "Beyond Fit", logo: "/logos/beyond-fit.webp" },
-  { name: "Realt IA", logo: "/logos/realt-ia.webp" },
-  { name: "Krokanticas", logo: "/logos/krokanticas.webp" },
-  { name: "Ramayo" },
+  { name: "Krokanticas", logo: "/logos/krokanticas.webp", dark: true },
+  { name: "Via Vinilo", logo: "/logos/via-vinilo.svg" },
+  { name: "Realt IA", logo: "/logos/realt-ia.webp", dark: true },
+  { name: "HABA", logo: "/logos/haba.webp" },
+  { name: "Ramayo Propiedades" },
   { name: "RC Autopartes" },
-  { name: "HABA" },
 ];
 
 export const differentiators = [
@@ -73,7 +73,7 @@ export const caseStudies = [
     id: "trip-brasil",
     client: "Trip Brasil",
     industry: "Turismo / Viajes grupales a Brasil - Argentina",
-    image: "/trip-brasil.webp",
+    image: "/trip-brasil-sistema.webp",
     tags: ["Destacado", "Agente IA", "Software a medida"],
     problem:
       "Con más de 9.000 pasajeros desde 2012 y ventas por WhatsApp, Instagram, agencias y oficinas, la operación dependía de planillas de Excel y sistemas separados para contratos, cupos, cuotas y cobranzas.",
@@ -92,7 +92,7 @@ export const caseStudies = [
     id: "starck",
     client: "STARCK Carpintería Boutique",
     industry: "Carpintería / Muebles a medida - Argentina",
-    image: "/starck.webp",
+    image: "/starck-sistema.webp",
     tags: ["Destacado", "Software a medida"],
     problem:
       "Fabricar muebles a medida de alta gama exige seguir cada obra desde la consulta hasta la instalación, con presupuestos, compras, producción en el taller, despacho y cobros repartidos entre planillas y papeles.",

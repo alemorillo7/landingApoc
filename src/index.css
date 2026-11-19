@@ -223,3 +223,14 @@ input[type="range"] {
     scale: 1;
   }
 }
+
+/* Franja de clientes: desplazamiento continuo, pausa al pasar el mouse */
+.clients-track { animation: clients-scroll 45s linear infinite; }
+.clients-marquee:hover .clients-track { animation-play-state: paused; }
+.clients-marquee { mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); }
+@keyframes clients-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .clients-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+  .clients-track > li:nth-child(n + 12) { display: none; }
+  .clients-marquee { mask-image: none; }
+}
