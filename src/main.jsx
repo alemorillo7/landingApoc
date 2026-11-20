@@ -623,6 +623,22 @@ function HomePage({ onStart }) {
   );
 }
 
+// De dónde vino la visita (anuncio de Meta, campaña): se guarda al entrar y viaja con el formulario
+const ATTR_KEYS = ["fbclid", "utm_source", "utm_medium", "utm_campaign", "utm_content"];
+function readAttribution() {
+  try {
+    const q = new URLSearchParams(window.location.search);
+    const saved = JSON.parse(sessionStorage.getItem("apoc_attr") || "{}");
+    const now = Object.fromEntries(ATTR_KEYS.map((k) => [k, q.get(k)]).filter(([, v]) => v));
+    const merged = { ...saved, ...now };
+    sessionStorage.setItem("apoc_attr", JSON.stringify(merged));
+    return merged;
+  } catch {
+    return {};
+  }
+}
+if (typeof window !== "undefined") readAttribution();
+
 function AppRoutes() {
   const [leadData, setLeadData] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -648,11 +664,11 @@ function AppRoutes() {
       await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, ...readAttribution() }),
       });
 
-      // La reunión la agenda n8n en el calendario del ERP (con lo que recibe del webhook).
-      // La landing ya no habla directo con el ERP para agendar.
+      // n8n crea el lead en el pipeline del ERP y, si eligió horario, la reunión en Reuniones.
+      // La landing no habla directo con el ERP.
 
       if (typeof window.fbq === "function") {
         window.fbq("track", "Lead", {
